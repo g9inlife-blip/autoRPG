@@ -7,8 +7,9 @@
 <body><main class="app">
 <header><h1>autoRPG Dungeon Workbench</h1><p>던전 탐험 · 전투 · 누적 DPS · Loot 테스트</p><small id="status">준비</small></header>
 <section class="toolbar">
+<label>던전 <select id="dungeonSelect"></select></label>
 <label>Seed <input id="seed" type="number" value="12345"></label>
-<button id="startDungeon">던전 탐험 시작</button><button id="stepDungeon">다음 진행</button><button id="run100">100회 전투</button><button id="reset">초기화</button>
+<button id="startDungeon">던전 탐험 시작</button><button id="stepDungeon" disabled>다음 진행</button><button id="run100">100회 전투</button><button id="reset">초기화</button>
 </section>
 <section class="grid">
 <article class="panel"><h2>던전</h2><div id="dungeon"></div></article>
