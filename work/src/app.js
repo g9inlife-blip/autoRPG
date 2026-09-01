@@ -1,43 +1,11 @@
 const $ = id => document.getElementById(id);
-let state;
-
-function createBattle(seed) {
-  const rng = new SeededRandom(seed);
-  const party = [
-    new Character({ id:'hero', name:'기사', hp:420, attack:62, defense:35, speed:12, team:'player' }),
-    new Character({ id:'mage', name:'마법사', hp:260, attack:88, defense:18, speed:16, team:'player' })
-  ];
-  const enemies = [
-    new Character({ id:'goblin-a', name:'고블린 A', hp:240, attack:48, defense:20, speed:10, team:'enemy' }),
-    new Character({ id:'goblin-b', name:'고블린 B', hp:220, attack:44, defense:18, speed:9, team:'enemy' })
-  ];
-  const events=[];
-  const engine=new BattleEngine({rng,damageCalculator:new DamageCalculator(rng),onEvent:e=>events.push(e)});
-  return {party,enemies,events,result:engine.run(party,enemies)};
-}
-function dps(c){ return (c.stats.damageDealt / Math.max(1,c.stats.attacks)).toFixed(1); }
-function formatEvent(e){
-  if(e.type==='DAMAGE') return `${e.data.attacker} → ${e.data.defender} ${e.data.damage} 피해${e.data.critical?' CRITICAL':''}`;
-  if(e.type==='MISS') return `${e.data.attacker} → ${e.data.defender} 빗나감`;
-  return e.type;
-}
-function render(battle,seed){
-  $('party').innerHTML=battle.party.map(c=>`<div class="row"><b>${c.name}</b><span>HP ${c.hp}/${c.maxHp}</span><span>DPS ${dps(c)}</span></div>`).join('');
-  $('battle').innerHTML=`<p>Seed: <b>${seed}</b></p><p>결과: <b>${battle.result.result}</b> / ${battle.result.round} Round</p><p>같은 Seed는 같은 전투를 재현합니다.</p>`;
-  const total=battle.party.reduce((n,c)=>n+c.stats.damageDealt,0);
-  $('stats').innerHTML=`<p>파티 총 피해: <b>${total}</b></p><p>처치: <b>${battle.party.reduce((n,c)=>n+c.stats.kills,0)}</b></p>`+battle.party.map(c=>`<div>${c.name}: ${c.stats.damageDealt} damage / ${c.stats.hits} hits / ${c.stats.criticals} critical</div>`).join('');
-  $('log').textContent=battle.events.map(e=>`[R${e.round}] ${formatEvent(e)}`).join('\n');
-  $('status').textContent='엔진 정상 동작 · 버튼으로 재실행 가능';
-}
-function run(seed=Number($('seed').value)||12345){
-  state=createInitialGameState(seed); const battle=createBattle(seed);
-  state.battle={active:false,state:battle.result}; state.logs=battle.events; render(battle,seed);
-}
-$('runBattle').addEventListener('click',()=>run());
-$('run100').addEventListener('click',()=>{
-  const seed=Number($('seed').value)||12345; let wins=0;
-  for(let i=0;i<100;i++) if(createBattle(seed+i).result.result==='WIN') wins++;
-  $('battle').innerHTML=`<p>100회 시뮬레이션 완료</p><p>승리 <b>${wins}</b> / 100</p><p>패배 <b>${100-wins}</b> / 100</p>`;
-});
-$('reset').addEventListener('click',()=>run(12345));
-try { run(); } catch(error) { $('status').textContent='오류: '+error.message; $('log').textContent=error.stack||String(error); console.error(error); }
+let state = createInitialGameState(12345);
+let run = null;
+let lastBattle = null;
+function makeParty(){return [new Character({id:'hero',name:'기사',hp:420,attack:62,defense:35,speed:12,team:'player'}),new Character({id:'mage',name:'마법사',hp:260,attack:88,defense:18,speed:16,team:'player'})];}
+function battleFactory(rng,party,enemies){const events=[];const engine=new BattleEngine({rng,damageCalculator:new DamageCalculator(rng),onEvent:e=>events.push(e)});return {party,enemies,events,result:engine.run(party,enemies)};}
+function formatEvent(e){if(e.type==='DAMAGE')return `${e.data.attacker} → ${e.data.defender} ${e.data.damage} 피해${e.data.critical?' CRITICAL':''}`;if(e.type==='MISS')return `${e.data.attacker} → ${e.data.defender} 빗나감`;if(e.type==='DEATH')return `${e.data.character||e.data.target||''} 쓰러짐`;return e.type;}
+function render(){const d=run?.dungeon;$('dungeon').innerHTML=d?`<h3>${d.name}</h3><p>층 <b>${run.floor}</b> / ${d.floors}</p><p>${run.complete?'탐험 완료':run.active?'탐험 중':'탐험 종료'}</p><p>Seed: ${state.seed}</p>`:'<p>던전을 선택하고 탐험을 시작하세요.</p>';const party=run?.party||[];$('party').innerHTML=party.map(c=>`<div class="row"><b>${c.name}</b><span>HP ${Math.max(0,c.hp)}/${c.maxHp}</span><span>누적 DPS ${(c.stats.damageDealt/Math.max(1,run?.floor||1)).toFixed(1)}</span><span>피해 ${c.stats.damageDealt}</span></div>`).join('')||'<p>대기 중</p>';$('battle').innerHTML=lastBattle?`<p>결과: <b>${lastBattle.result.result}</b> / ${lastBattle.result.round} Round</p><p>상세 로그 ${lastBattle.events.length}건</p>`:'<p>아직 전투가 없습니다.</p>';$('stats').innerHTML=run?`<p>골드 <b>${run.gold}</b> · 경험치 <b>${run.exp}</b></p>`+party.map(c=>`<div>${c.name}: ${c.stats.damageDealt} 피해 / ${c.stats.hits} 적중 / ${c.stats.criticals} 치명타 / ${c.stats.kills} 처치</div>`).join(''):'<p>-</p>';$('loot').innerHTML=run?.loot.length?run.loot.map(x=>`<div>${x.itemName} ×${x.quantity} <small>(층 ${x.floor})</small></div>`).join(''):'<p>획득 아이템 없음</p>';$('log').textContent=run?run.events.map((e,i)=>{if(e.type==='BATTLE')return `[${i+1}] ${e.floor}층 전투: ${e.result.result}\n`+e.events.map(x=>`  ${formatEvent(x)}`).join('\n');if(e.type==='LOOT')return `[${i+1}] ${e.floor}층 획득: ${e.itemName} ×${e.quantity}`;if(e.type==='FLOOR')return `[${i+1}] ${e.floor}층 진입`;if(e.type==='RUN_START')return '[1] 탐험 시작';return `[${i+1}] 탐험 완료`;}).join('\n'):'탐험 로그가 없습니다.';$('status').textContent=run?.complete?'탐험 완료':run?.active?'탐험 진행 중 · 다음 진행 버튼으로 한 단계 진행':'준비';}
+function startDungeon(){const seed=Number($('seed').value)||12345;state=createInitialGameState(seed);state.seed=seed;const dungeon=DUNGEONS['dungeon.ancient_forest'];run=new DungeonRun({dungeon,party:makeParty(),rng:new SeededRandom(seed),battleFactory});run.start();run.nextFloor();lastBattle=null;render();}
+function stepDungeon(){if(!run)startDungeon();if(run.complete)return;lastBattle=run.step();state.adventure={active:run.active,currentEvent:run.events.at(-1)?.type||null};render();}
+$('startDungeon').addEventListener('click',startDungeon);$('stepDungeon').addEventListener('click',stepDungeon);$('run100').addEventListener('click',()=>{const seed=Number($('seed').value)||12345;let wins=0;for(let i=0;i<100;i++){const b=battleFactory(new SeededRandom(seed+i),makeParty(),[new Character({id:'test-enemy',name:'훈련용 고블린',hp:220,attack:44,defense:18,speed:9,team:'enemy'})]);if(b.result.result==='WIN')wins++;}$('battle').innerHTML=`<p>100회 전투 완료</p><p>승리 <b>${wins}</b> / 100 · 승률 <b>${wins}%</b></p>`;});$('reset').addEventListener('click',()=>{run=null;lastBattle=null;state=createInitialGameState(12345);$('seed').value=12345;render();});try{render();}catch(error){$('status').textContent='오류: '+error.message;$('log').textContent=error.stack||String(error);console.error(error);}
