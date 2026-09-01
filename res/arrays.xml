@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="clazz">
+        <item>@string/res_class_fighter</item>
+        <item>@string/res_class_thief</item>
+        <item>@string/res_class_priest</item>
+        <item>@string/res_class_magician</item>
+    </string-array>
+    <string-array name="language_labels">
+        <item>@string/lbl_language_value_default</item>
+        <item>@string/lbl_language_value_ja</item>
+        <item>@string/lbl_language_value_en</item>
+        <item>@string/lbl_language_value_zh_rcn</item>
+        <item>@string/lbl_language_value_zh_rtw</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>@string/res_language_value_default</item>
+        <item>@string/res_language_value_ja</item>
+        <item>@string/res_language_value_en</item>
+        <item>@string/res_language_value_zh_rcn</item>
+        <item>@string/res_language_value_zh_rtw</item>
+    </string-array>
+    <string-array name="log_history_labels">
+        <item>@string/lbl_log_history_number_value_3</item>
+        <item>@string/lbl_log_history_number_value_5</item>
+        <item>@string/lbl_log_history_number_value_10</item>
+        <item>@string/lbl_log_history_number_value_20</item>
+    </string-array>
+    <string-array name="log_history_values">
+        <item>@string/res_log_history_number_value_3</item>
+        <item>@string/res_log_history_number_value_5</item>
+        <item>@string/res_log_history_number_value_10</item>
+        <item>@string/res_log_history_number_value_20</item>
+    </string-array>
+    <string-array name="ntp_hosts">
+        <item>@string/res_ntp_host_1</item>
+        <item>@string/res_ntp_host_2</item>
+    </string-array>
+    <string-array name="race">
+        <item>@string/lbl_human</item>
+        <item>@string/lbl_dwarf</item>
+        <item>@string/lbl_elf</item>
+        <item>@string/lbl_halfling</item>
+    </string-array>
+    <string-array name="tactics_abort">
+        <item>@string/lbl_tactics_abort_none</item>
+        <item>@string/lbl_tactics_abort_conservative</item>
+        <item>@string/lbl_tactics_abort_moderate</item>
+        <item>@string/lbl_tactics_abort_aggressive</item>
+    </string-array>
+    <string-array name="tactics_full_inventory">
+        <item>@string/lbl_tactics_full_inventory_drop_cheapest</item>
+        <item>@string/lbl_tactics_full_inventory_return</item>
+        <item>@string/lbl_tactics_full_inventory_drop_consumable</item>
+        <item>@string/lbl_tactics_full_inventory_hold_enchanted</item>
+    </string-array>
+    <string-array name="tactics_item">
+        <item>@string/lbl_tactics_item_none</item>
+        <item>@string/lbl_tactics_item_conservative</item>
+        <item>@string/lbl_tactics_item_moderate</item>
+        <item>@string/lbl_tactics_item_aggressive</item>
+    </string-array>
+    <string-array name="tactics_rest">
+        <item>@string/lbl_tactics_rest_none</item>
+        <item>@string/lbl_tactics_rest_conservative</item>
+        <item>@string/lbl_tactics_rest_moderate</item>
+        <item>@string/lbl_tactics_rest_aggressive</item>
+    </string-array>
+    <string-array name="tactics_running">
+        <item>@string/lbl_tactics_running_none</item>
+        <item>@string/lbl_tactics_running_conservative</item>
+        <item>@string/lbl_tactics_running_moderate</item>
+        <item>@string/lbl_tactics_running_aggressive</item>
+    </string-array>
+    <string-array name="tactics_skill">
+        <item>@string/lbl_tactics_skill_none</item>
+        <item>@string/lbl_tactics_skill_conservative</item>
+        <item>@string/lbl_tactics_skill_moderate</item>
+        <item>@string/lbl_tactics_skill_aggressive</item>
+    </string-array>
+</resources>
