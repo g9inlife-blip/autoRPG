@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>autoRPG Workbench</title>
+  <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>autoRPG Workbench</h1>
+      <p>새 게임 기반 엔진 테스트 화면</p>
+    </header>
+
+    <section class="toolbar">
+      <label>Seed <input id="seed" type="number" value="12345"></label>
+      <button id="runBattle">전투 실행</button>
+      <button id="run100">100회 시뮬레이션</button>
+      <button id="reset">초기화</button>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>파티</h2>
+        <div id="party"></div>
+      </article>
+      <article class="panel">
+        <h2>전투</h2>
+        <div id="battle"></div>
+      </article>
+      <article class="panel">
+        <h2>통계</h2>
+        <div id="stats"></div>
+      </article>
+      <article class="panel log-panel">
+        <h2>로그</h2>
+        <pre id="log"></pre>
+      </article>
+    </section>
+  </main>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
