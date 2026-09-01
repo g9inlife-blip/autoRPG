@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>Battle Test</title></head>
+<body>
+<h1>Battle deterministic test</h1>
+<pre id="out"></pre>
+<script type="module">
+import { SeededRandom } from '../src/core/SeededRandom.js';
+import { Character } from '../src/battle/Character.js';
+import { DamageCalculator } from '../src/battle/DamageCalculator.js';
+import { BattleEngine } from '../src/battle/BattleEngine.js';
+
+function battle(seed) {
+  const rng = new SeededRandom(seed);
+  const p = [new Character({id:'p',name:'P',hp:100,attack:40,defense:10,speed:10,team:'player'})];
+  const e = [new Character({id:'e',name:'E',hp:100,attack:20,defense:10,speed:5,team:'enemy'})];
+  return new BattleEngine({rng, damageCalculator:new DamageCalculator(rng)}).run(p,e);
+}
+
+const a = battle(12345);
+const b = battle(12345);
+const same = JSON.stringify(a) === JSON.stringify(b);
+document.querySelector('#out').textContent = JSON.stringify({ deterministic: same, result: a.result, rounds: a.round, damage: a.players[0].stats.damageDealt }, null, 2);
+</script>
+</body>
+</html>
