@@ -10,35 +10,28 @@
   <main class="app">
     <header>
       <h1>autoRPG Workbench</h1>
-      <p>새 게임 기반 엔진 테스트 화면</p>
+      <p>브라우저에서 바로 실행 가능한 기반 엔진 테스트</p>
+      <small id="status">초기화 중...</small>
     </header>
-
     <section class="toolbar">
       <label>Seed <input id="seed" type="number" value="12345"></label>
       <button id="runBattle">전투 실행</button>
       <button id="run100">100회 시뮬레이션</button>
       <button id="reset">초기화</button>
     </section>
-
     <section class="grid">
-      <article class="panel">
-        <h2>파티</h2>
-        <div id="party"></div>
-      </article>
-      <article class="panel">
-        <h2>전투</h2>
-        <div id="battle"></div>
-      </article>
-      <article class="panel">
-        <h2>통계</h2>
-        <div id="stats"></div>
-      </article>
-      <article class="panel log-panel">
-        <h2>로그</h2>
-        <pre id="log"></pre>
-      </article>
+      <article class="panel"><h2>파티</h2><div id="party"></div></article>
+      <article class="panel"><h2>전투</h2><div id="battle"></div></article>
+      <article class="panel"><h2>통계</h2><div id="stats"></div></article>
+      <article class="panel log-panel"><h2>로그</h2><pre id="log"></pre></article>
     </section>
   </main>
-  <script type="module" src="src/app.js"></script>
+  <!-- file:// 로 index.html을 직접 열어도 동작하도록 모듈 import를 사용하지 않는다. -->
+  <script src="src/core/SeededRandom.js"></script>
+  <script src="src/core/GameState.js"></script>
+  <script src="src/battle/Character.js"></script>
+  <script src="src/battle/DamageCalculator.js"></script>
+  <script src="src/battle/BattleEngine.js"></script>
+  <script src="src/app.js"></script>
 </body>
 </html>
