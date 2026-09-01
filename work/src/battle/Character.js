@@ -1,17 +1,27 @@
 class Character {
-  constructor({ id, name, hp, maxHp, attack, defense, speed = 10, team }) {
+  constructor({ id, name, hp, maxHp, attack, defense, speed = 10, team, classId=null, stats=null, attributes=null }) {
     this.id=id; this.name=name; this.maxHp=maxHp ?? hp; this.hp=hp;
-    this.baseStats={hp:this.maxHp,attack,defense,speed}; this.attack=attack; this.defense=defense; this.speed=speed; this.team=team;
+    this.classId=classId; this.baseStats={hp:this.maxHp,attack,defense,speed};
+    this.attributes={STR:Number(attributes?.STR??attributes?.str??10),INT:Number(attributes?.INT??attributes?.int??10),AGI:Number(attributes?.AGI??attributes?.agi??10),VIT:Number(attributes?.VIT??attributes?.vit??10)};
+    this.attack=attack; this.defense=defense; this.speed=speed; this.team=team;
     this.equipment={weapon:null,armor:null,accessory:null};
-    this.stats={damageDealt:0,damageTaken:0,attacks:0,hits:0,criticals:0,misses:0,kills:0};
+    this.stats=stats||{damageDealt:0,damageTaken:0,attacks:0,hits:0,criticals:0,misses:0,kills:0};
     this.level=1; this.exp=0;
   }
   get alive(){return this.hp>0;}
-  equip(item){if(!item||!item.slot)return false;this.equipment[item.slot]=item;this.recalculateStats();return true;}
+  canEquip(item){
+    if(!item||!item.slot)return {ok:false,reason:'장비 정보가 없습니다.'};
+    const classes=item.requirements?.classes||item.classes;
+    if(Array.isArray(classes)&&classes.length&&!classes.includes(this.classId))return {ok:false,reason:'직업 제한'};
+    const req=item.requirements?.stats||{};
+    for(const key of ['STR','INT','AGI','VIT'])if(Number(req[key]||0)>Number(this.attributes[key]||0))return {ok:false,reason:`${key} ${req[key]} 필요`};
+    return {ok:true};
+  }
+  equip(item){const check=this.canEquip(item);if(!check.ok)return false;this.equipment[item.slot]=item;this.recalculateStats();return true;}
   unequip(slot){const old=this.equipment[slot];if(!old)return null;this.equipment[slot]=null;this.recalculateStats();return old;}
   recalculateStats(){const oldMax=this.maxHp;const bonus=Object.values(this.equipment).filter(Boolean).reduce((a,x)=>({hp:a.hp+(x.hp||0),attack:a.attack+(x.attack||0),defense:a.defense+(x.defense||0),speed:a.speed+(x.speed||0)}),{hp:0,attack:0,defense:0,speed:0});this.maxHp=this.baseStats.hp+bonus.hp;this.attack=this.baseStats.attack+bonus.attack;this.defense=this.baseStats.defense+bonus.defense;this.speed=Math.max(1,this.baseStats.speed+bonus.speed);if(oldMax!==this.maxHp)this.hp=Math.min(this.maxHp,this.hp+(this.maxHp-oldMax));}
   expToNextLevel(){return Math.max(100,this.level*100);}
   gainExp(amount){let gained=Math.max(0,Number(amount)||0),levels=0;this.exp+=gained;while(this.exp>=this.expToNextLevel()){this.exp-=this.expToNextLevel();this.level++;levels++;this.baseStats.hp+=25;this.baseStats.attack+=4;this.baseStats.defense+=2;this.baseStats.speed+=0.25;this.recalculateStats();this.hp=this.maxHp;}return {gained,levels};}
 }
-function cloneCharacter(character){const c=new Character({id:character.id,name:character.name,hp:character.maxHp,maxHp:character.maxHp,attack:character.baseStats?.attack??character.attack,defense:character.baseStats?.defense??character.defense,speed:character.baseStats?.speed??character.speed,team:character.team});c.classId=character.classId;c.level=character.level;c.exp=character.exp;c.personality=character.personality;c.bonds={...(character.bonds||{})};c.skills=[...(character.skills||[])];c.appearance={...(character.appearance||{})};Object.entries(character.equipment||{}).forEach(([slot,item])=>{if(item)c.equip(item);});return c;}
+function cloneCharacter(character){const c=new Character({id:character.id,name:character.name,hp:character.maxHp,maxHp:character.maxHp,attack:character.baseStats?.attack??character.attack,defense:character.baseStats?.defense??character.defense,speed:character.baseStats?.speed??character.speed,team:character.team,classId:character.classId,attributes:{...(character.attributes||{})}});c.level=character.level;c.exp=character.exp;c.personality=character.personality;c.bonds={...(character.bonds||{})};c.skills=[...(character.skills||[])];c.appearance={...(character.appearance||{})};Object.entries(character.equipment||{}).forEach(([slot,item])=>{if(item)c.equip(item);});return c;}
 window.Character=Character;window.cloneCharacter=cloneCharacter;
