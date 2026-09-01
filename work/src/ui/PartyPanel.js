@@ -5,3 +5,16 @@ class PartyPanel {
 }
 window.equipCharacterItem=function(characterId,slot,itemId){const p=window.activePartyPanel,c=p?.party?.find(x=>x.id===characterId);if(!c)return;if(itemId&&window.EQUIPMENT?.[itemId])c.equip(window.EQUIPMENT[itemId]);else c.unequip(slot);p.render();p.showDetail(characterId);};
 window.PartyPanel=PartyPanel;
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const buttons=[...document.querySelectorAll('.tabs button[data-tab]')];
+  const activate=id=>{
+    buttons.forEach(b=>{const active=b.dataset.tab===id;b.classList.toggle('active',active);b.setAttribute('aria-selected',active?'true':'false');const panel=document.getElementById(b.dataset.tab);if(panel)panel.classList.toggle('active',active);});
+    if(id==='innTab'&&typeof window.renderQuests==='function')window.renderQuests();
+  };
+  buttons.forEach(b=>b.addEventListener('click',e=>{e.preventDefault();activate(b.dataset.tab);}));
+  const main=document.getElementById('mainQuestTab'),repeat=document.getElementById('repeatQuestTab');
+  if(main)main.addEventListener('click',()=>{window.questUISetMode?.('main');window.renderQuests?.();});
+  if(repeat)repeat.addEventListener('click',()=>{window.questUISetMode?.('repeat');window.renderQuests?.();});
+  activate('dungeonTab');
+});
