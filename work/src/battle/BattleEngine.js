@@ -9,7 +9,7 @@ class BattleEngine {
       for (const actor of actors) {
         if (!actor.alive || state.result !== 'ONGOING') continue;
         const targets = actor.team === 'player' ? enemies : players;
-        const target = targets.filter(t => t.alive).sort((a,b => a.hp-b.hp)[0];
+        const target = targets.filter(t => t.alive).sort((a,b) => a.hp-b.hp)[0];
         if (!target) break;
         this.resolveAttack(actor, target, state);
         this.checkResult(state);
