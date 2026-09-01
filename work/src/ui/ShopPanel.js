@@ -6,10 +6,9 @@
   for (const id of starter) owned.set(id, 1);
   function getItems(){return Object.values(window.EQUIPMENT||{}).filter(x=>SHOP_PRICES[x.id]!=null);}
   function getInventory(){return [...owned.entries()].map(([id,quantity])=>({...window.EQUIPMENT?.[id],quantity})).filter(x=>x.id);}
-  function currentRun(){return window.run||null;}
-  function getGold(){return Number(currentRun()?.gold??window.gameState?.player?.gold??0);}
-  function setGold(value){const v=Math.max(0,Math.floor(value));if(currentRun())currentRun().gold=v;if(window.gameState?.player)window.gameState.player.gold=v;}
-  function syncInventory(){window.playerInventory=getInventory();if(window.gameState?.player)window.gameState.player.inventory=getInventory().map(x=>({itemId:x.id,quantity:x.quantity}));}
+  function currentRun(){const r=window.run||window.activePartyPanel?.run||null;if(r&&!r.__shopGoldInitialized){if(Number(r.gold)===0)r.gold=100;r.__shopGoldInitialized=true;}return r;}
+  function getGold(){return Number(currentRun()?.gold??0);}
+  function syncInventory(){window.playerInventory=getInventory();}
   function isEquipped(id){return !!currentRun()?.party?.some(c=>Object.values(c.equipment||{}).some(item=>item?.id===id));}
   function renderShop(){
     const root=document.getElementById('shop');if(!root)return;syncInventory();const gold=getGold();
@@ -18,8 +17,8 @@
     root.innerHTML=`<div class="currency-line">보유 골드 <b>${gold.toLocaleString()} G</b></div><h3>장비 구매</h3>${shopHtml||'<p>판매할 장비가 없습니다.</p>'}<h3>보유 장비 · 매각</h3>${invHtml}`;
     root.querySelectorAll('[data-buy-item]').forEach(btn=>btn.addEventListener('click',()=>buyItem(btn.dataset.buyItem)));root.querySelectorAll('[data-sell-item]').forEach(btn=>btn.addEventListener('click',()=>sellItem(btn.dataset.sellItem)));
   }
-  function buyItem(id){const item=window.EQUIPMENT?.[id],price=SHOP_PRICES[id],gold=getGold();if(!item||price==null||gold<price)return;setGold(gold-price);owned.set(id,(owned.get(id)||0)+1);syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 구매 완료 · ${price}G`;}
-  function sellItem(id){const item=window.EQUIPMENT?.[id],qty=owned.get(id)||0,price=Math.floor((SHOP_PRICES[id]||0)*SELL_RATE);if(!item||qty<=0||price<=0||isEquipped(id))return;owned.set(id,qty-1);if(owned.get(id)<=0)owned.delete(id);setGold(getGold()+price);syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 매각 완료 · +${price}G`;}
+  function buyItem(id){const item=window.EQUIPMENT?.[id],price=SHOP_PRICES[id],run=currentRun(),gold=getGold();if(!item||price==null||!run||gold<price)return;run.gold=gold-price;owned.set(id,(owned.get(id)||0)+1);syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 구매 완료 · ${price}G`;}
+  function sellItem(id){const item=window.EQUIPMENT?.[id],qty=owned.get(id)||0,price=Math.floor((SHOP_PRICES[id]||0)*SELL_RATE),run=currentRun();if(!item||qty<=0||price<=0||!run||isEquipped(id))return;owned.set(id,qty-1);if(owned.get(id)<=0)owned.delete(id);run.gold=getGold()+price;syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 매각 완료 · +${price}G`;}
   window.shopRender=renderShop;window.shopInventory=()=>getInventory();window.shopBuy=buyItem;window.shopSell=sellItem;window.isEquipmentOwned=id=>(owned.get(id)||0)>0;window.getEquipmentQuantity=id=>owned.get(id)||0;
   window.addEventListener('DOMContentLoaded',()=>{syncInventory();renderShop();});
 })();
