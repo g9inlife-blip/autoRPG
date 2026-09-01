@@ -1,8 +1,5 @@
-export class DamageCalculator {
-  constructor(rng) {
-    this.rng = rng;
-  }
-
+class DamageCalculator {
+  constructor(rng) { this.rng = rng; }
   resolve(attacker, defender) {
     const roll = this.rng.int(1, 6) + this.rng.int(1, 6);
     const critical = roll === 12;
@@ -13,3 +10,4 @@ export class DamageCalculator {
     return { hit, critical, fumble, roll, damage };
   }
 }
+window.DamageCalculator = DamageCalculator;
