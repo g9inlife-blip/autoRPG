@@ -5,17 +5,27 @@ header { margin-bottom: 20px; }
 header h1 { margin: 0 0 6px; }
 header p { margin: 0; opacity: .7; }
 .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
-input, select, button { padding: 9px 12px; border-radius: 6px; border: 1px solid #3a4252; background: #181d27; color: inherit; }
+input, select, button { padding: 9px 12px; border-radius: 6px; border: 1px solid #3a4252; background: #181d27; color: #e9edf5; }
 button { cursor: pointer; }
 button:disabled { opacity: .45; cursor: not-allowed; }
+button:not([disabled]) { color: #e9edf5; }
+button:hover:not([disabled]) { background: #222938; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #8ab4ff; outline-offset: 1px; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .panel { border: 1px solid #303746; border-radius: 10px; padding: 16px; background: #151922; min-height: 150px; }
 .panel h2 { margin-top: 0; font-size: 17px; }
 .row { display: flex; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid #282e3a; flex-wrap: wrap; }
 .log-panel { grid-column: 1 / -1; }
 .battle-panel { min-height: 220px; }
-.dialogue { margin-top: 14px; padding: 10px 12px; border: 1px solid #39475b; border-radius: 8px; background: #111620; min-height: 66px; }
+.dialogue { margin-top: 14px; padding: 10px 12px; border: 1px solid #39475b; border-radius: 8px; background: #111620; min-height: 66px; color: #e9edf5; }
 .dialogue div { height: 24px; line-height: 24px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .loot { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #282e3a; }
 pre { white-space: pre-wrap; max-height: 360px; overflow: auto; line-height: 1.5; }
+
+/* Dark-mode safe defaults for transparent/custom controls. */
+.tabs button, .exploration-log-row, .quest-tabs button { background: transparent; color: #e9edf5; border-color: #3a4252; }
+.tabs button:hover, .exploration-log-row:hover, .quest-tabs button:hover { background: #222938; color: #ffffff; }
+.tabs button.active { background: #2b3445; color: #ffffff; }
+.exploration-log-row:focus-visible, .quest-tabs button:focus-visible { outline: 2px solid #8ab4ff; outline-offset: -1px; }
+
 @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .log-panel { grid-column: auto; } }
