@@ -1,7 +1,7 @@
 class BattleEngine {
   constructor({ rng, damageCalculator, maxRounds = 100, onEvent = () => {} }) { this.rng = rng; this.damageCalculator = damageCalculator; this.maxRounds = maxRounds; this.onEvent = onEvent; }
   run(players, enemies) {
-    const state = { round: 0, result: 'ONGOING', players, enemies, startedAt: Date.now(), endedAt: null };
+    const state = { round: 0, result: 'ONGOING', players, enemies, events: [], startedAt: Date.now(), endedAt: null };
     this.emit(state, 'BATTLE_START');
     while (state.round < this.maxRounds && state.result === 'ONGOING') {
       state.round++;
@@ -16,7 +16,7 @@ class BattleEngine {
       }
     }
     if (state.result === 'ONGOING') state.result = 'DRAW';
-    state.endedAt = Date.now(); this.emit(state, 'BATTLE_END'); return state;
+    state.endedAt = Date.now(); this.emit(state, 'BATTLE_END', {result:state.result}); return state;
   }
   resolveAttack(attacker, defender, state) {
     attacker.stats.attacks++;
@@ -26,14 +26,11 @@ class BattleEngine {
       const beforeHp = defender.hp;
       defender.hp = Math.max(0, defender.hp-result.damage);
       attacker.stats.damageDealt += result.damage; defender.stats.damageTaken += result.damage;
-      this.emit(state, 'DAMAGE', { attacker: attacker.name, defender: defender.name, beforeHp, afterHp: defender.hp, ...result });
-      if (!defender.alive) { attacker.stats.kills++; this.emit(state, 'DEFEAT', { characterId:defender.id, character:defender.name, defeatedBy:attacker.name }); }
-    } else { attacker.stats.misses++; this.emit(state, 'MISS', { attacker: attacker.name, defender: defender.name, ...result }); }
+      this.emit(state, 'DAMAGE', {attackerId:attacker.id,attacker:attacker.name,defenderId:defender.id,defender:defender.name,beforeHp,afterHp:defender.hp,critical:!!result.critical,damage:result.damage,result});
+      if (!defender.alive) { attacker.stats.kills++; this.emit(state, 'DEFEAT', {characterId:defender.id,character:defender.name,defeatedId:defender.id,defeatedTarget:defender.id,defeatedName:defender.name,side:defender.team,defeatedBy:attacker.name}); }
+    } else { attacker.stats.misses++; this.emit(state, 'MISS', {attackerId:attacker.id,attacker:attacker.name,defenderId:defender.id,defender:defender.name,result}); }
   }
-  checkResult(state) {
-    const playersAlive = state.players.some(p=>p.alive), enemiesAlive = state.enemies.some(e=>e.alive);
-    if (!enemiesAlive) state.result='WIN'; else if (!playersAlive) state.result='LOSE';
-  }
-  emit(state,type,data={}) { this.onEvent({type,round:state.round,data}); }
+  checkResult(state) { const playersAlive=state.players.some(p=>p.alive),enemiesAlive=state.enemies.some(e=>e.alive);if(!enemiesAlive)state.result='WIN';else if(!playersAlive)state.result='LOSE'; }
+  emit(state,type,data={}) { const event={type,round:state.round,data};state.events.push(event);this.onEvent(event); }
 }
 window.BattleEngine = BattleEngine;
