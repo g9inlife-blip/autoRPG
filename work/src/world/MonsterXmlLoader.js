@@ -1,0 +1,10 @@
+(() => {
+  const state={loaded:false,items:[],byDungeon:new Map(),byLevel:new Map(),errors:[]};
+  const text=e=>e?.textContent?.trim()||'';
+  function parse(xml){const doc=new DOMParser().parseFromString(xml,'application/xml');if(doc.querySelector('parsererror'))throw new Error('monster.xml 파싱 실패');const out=[];doc.querySelectorAll('DungeonMonstersDatabase Dungeon').forEach(d=>{const dungeonId=Number(d.getAttribute('id'));const dungeonName=d.getAttribute('name')||'';d.querySelectorAll(':scope > Monster').forEach(m=>{const s=m.querySelector('Stats'),t=m.querySelector('Traits');const item={id:m.getAttribute('id'),name:text(m.querySelector('Name')),type:(m.getAttribute('type')||'Normal').toLowerCase(),level:Number(text(m.querySelector('Level')))||1,hp:Number(text(s?.querySelector('HP')))||1,maxHp:Number(text(s?.querySelector('HP')))||1,attack:Number(text(s?.querySelector('ATK')))||1,defense:Number(text(s?.querySelector('DEF')))||0,attackType:text(t?.querySelector('AttackType')),specialSkill:text(t?.querySelector('SpecialSkill')),dungeonId,dungeonName,source:'monster.xml'};out.push(item);});});return out;}
+  async function load(path='data/monsters/monster.xml'){try{const r=await fetch(path,{cache:'no-store'});if(!r.ok)throw new Error(`${r.status} ${r.statusText}: ${path}`);state.items=parse(await r.text());state.byDungeon=new Map();state.byLevel=new Map();state.items.forEach(m=>{if(!state.byDungeon.has(m.dungeonId))state.byDungeon.set(m.dungeonId,[]);state.byDungeon.get(m.dungeonId).push(m);if(!state.byLevel.has(m.level))state.byLevel.set(m.level,[]);state.byLevel.get(m.level).push(m);});state.loaded=true;window.MONSTER_DATABASE=state.items;window.MONSTERS_BY_DUNGEON=state.byDungeon;window.MONSTERS_BY_LEVEL=state.byLevel;return state;}catch(e){state.errors.push(e.message);return state;}}
+  function getForDungeon(id){return state.byDungeon.get(Number(id))||[];}
+  function getByLevel(level){return state.byLevel.get(Number(level))||[];}
+  function create(id){const m=state.items.find(x=>x.id===id);return m?{...m}:null;}
+  window.MonsterXmlLoader={state,load,getForDungeon,getByLevel,create};
+})();
