@@ -9,7 +9,7 @@ class BattleEngine {
       for (const actor of actors) {
         if (!actor.alive || state.result !== 'ONGOING') continue;
         const targets = actor.team === 'player' ? enemies : players;
-        const target = targets.filter(t => t.alive).sort((a,b) => a.hp-b.hp)[0];
+        const target = targets.filter(t => t.alive).sort((a,b => a.hp-b.hp)[0];
         if (!target) break;
         this.resolveAttack(actor, target, state);
         this.checkResult(state);
@@ -23,10 +23,11 @@ class BattleEngine {
     const result = this.damageCalculator.resolve(attacker, defender);
     if (result.hit) {
       attacker.stats.hits++; if (result.critical) attacker.stats.criticals++;
+      const beforeHp = defender.hp;
       defender.hp = Math.max(0, defender.hp-result.damage);
       attacker.stats.damageDealt += result.damage; defender.stats.damageTaken += result.damage;
-      this.emit(state, 'DAMAGE', { attacker: attacker.name, defender: defender.name, ...result });
-      if (!defender.alive) attacker.stats.kills++;
+      this.emit(state, 'DAMAGE', { attacker: attacker.name, defender: defender.name, beforeHp, afterHp: defender.hp, ...result });
+      if (!defender.alive) { attacker.stats.kills++; this.emit(state, 'DEFEAT', { characterId:defender.id, character:defender.name, defeatedBy:attacker.name }); }
     } else { attacker.stats.misses++; this.emit(state, 'MISS', { attacker: attacker.name, defender: defender.name, ...result }); }
   }
   checkResult(state) {
