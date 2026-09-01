@@ -21,11 +21,10 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 .dialogue div { height: 24px; line-height: 24px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .loot { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #282e3a; }
 pre { white-space: pre-wrap; max-height: 360px; overflow: auto; line-height: 1.5; }
-
-/* Dark-mode safe defaults for transparent/custom controls. */
 .tabs button, .exploration-log-row, .quest-tabs button { background: transparent; color: #e9edf5; border-color: #3a4252; }
 .tabs button:hover, .exploration-log-row:hover, .quest-tabs button:hover { background: #222938; color: #ffffff; }
 .tabs button.active { background: #2b3445; color: #ffffff; }
 .exploration-log-row:focus-visible, .quest-tabs button:focus-visible { outline: 2px solid #8ab4ff; outline-offset: -1px; }
-
-@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .log-panel { grid-column: auto; } }
+.inn-xp { display:block; height:4px; border-radius:3px; background:#303746; overflow:hidden; }
+.inn-xp i { display:block; height:100%; background:#8ab4ff; }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .log-panel { grid-column: auto; } .app { padding: 8px; } .panel { padding: 10px; } }
