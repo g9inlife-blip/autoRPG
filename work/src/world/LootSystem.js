@@ -26,7 +26,7 @@
     const options=[],used=new Set(),count=CONFIG.optionCount[rarity]||0;for(let i=0;i<count&&used.size<CONFIG.options.length;i++){const candidates=CONFIG.options.filter(x=>!used.has(x.id));const option=rng.pick(candidates);if(!option)break;used.add(option.id);options.push({...option,value:rng.int(option.min,option.max)});}
     const round=n=>Math.round(Number(n||0)*mult), bonuses={attack:0,defense:0,speed:0,hp:0};for(const o of options)bonuses[o.stat]=(bonuses[o.stat]||0)+o.value;
     Object.keys(bonuses).forEach(k=>bonuses[k]=round(bonuses[k]));
-    const baseIdValue=base.id;const uniqueName=rarity==='unique'?`유니크 ${base.name}`:rarity==='legendary'?`전설 ${base.name}`:base.name;
+    const baseIdValue=base.id;const customName=window.UNIQUE_EQUIPMENT_NAMES?.[baseIdValue];const uniqueName=rarity==='unique'?(customName||`유니크 ${base.name}`):rarity==='legendary'?`전설 ${base.name}`:base.name;
     const item={...base,id:`${baseIdValue}-${rarity}`,baseId:baseIdValue,instanceId:`loot_${baseIdValue}_${Date.now().toString(36)}_${rng.int(100000,999999)}`,name:uniqueName,rarity,rarityName:LABELS[rarity],enhancement:Number(enhancement),options,attack:round(base.attack)+bonuses.attack,defense:round(base.defense)+bonuses.defense,speed:round(base.speed)+bonuses.speed,hp:round(base.hp)+bonuses.hp,generated:true,requirements:base.requirements?JSON.parse(JSON.stringify(base.requirements)):undefined};
     return item;
   }
