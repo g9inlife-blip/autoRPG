@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MonsterDatabase>
+  <!-- Dungeon 01. 시작의 초원 (Lv.1 ~ Lv.5) -->
+  <Monster id="2001">
+    <Name>초원 슬라임</Name>
+    <Dungeon>시작의 초원</Dungeon>
+    <Level>1</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>50</HP>
+    <Attack>10</Attack>
+    <Defense>5</Defense>
+    <Exp>15</Exp>
+  </Monster>
+  <Monster id="2002">
+    <Name>도적단 파수꾼</Name>
+    <Dungeon>시작의 초원</Dungeon>
+    <Level>2</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>141</HP>
+    <Attack>18</Attack>
+    <Defense>12</Defense>
+    <Exp>41</Exp>
+  </Monster>
+  <Monster id="2003">
+    <Name>변종 왕슬라임</Name>
+    <Dungeon>시작의 초원</Dungeon>
+    <Level>3</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>779</HP>
+    <Attack>34</Attack>
+    <Defense>23</Defense>
+    <Exp>200</Exp>
+  </Monster>
+  <Monster id="2004">
+    <Name>거대 숲곰</Name>
+    <Dungeon>시작의 초원</Dungeon>
+    <Level>4</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>1800</HP>
+    <Attack>58</Attack>
+    <Defense>35</Defense>
+    <Exp>450</Exp>
+  </Monster>
+  <Monster id="2005">
+    <Name>도적두목 칼날손</Name>
+    <Dungeon>시작의 초원</Dungeon>
+    <Level>5</Level>
+    <Grade>Boss</Grade>
+    <Form>Standard</Form>
+    <HP>6700</HP>
+    <Attack>110</Attack>
+    <Defense>63</Defense>
+    <Exp>1750</Exp>
+  </Monster>
+
+  <!-- Dungeon 02. 음산한 숲 (Lv.6 ~ Lv.10) -->
+  <Monster id="2006">
+    <Name>숲 늑대</Name>
+    <Dungeon>음산한 숲</Dungeon>
+    <Level>6</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>220</HP>
+    <Attack>25</Attack>
+    <Defense>18</Defense>
+    <Exp>70</Exp>
+  </Monster>
+  <Monster id="2007">
+    <Name>독거미</Name>
+    <Dungeon>음산한 숲</Dungeon>
+    <Level>7</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>416</HP>
+    <Attack>40</Attack>
+    <Defense>25</Defense>
+    <Exp>157</Exp>
+  </Monster>
+  <Monster id="2008">
+    <Name>광기의 늑대장</Name>
+    <Dungeon>음산한 숲</Dungeon>
+    <Level>8</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>1038</HP>
+    <Attack>69</Attack>
+    <Defense>36</Defense>
+    <Exp>392</Exp>
+  </Monster>
+  <Monster id="2009">
+    <Name>핏빛 거미여왕</Name>
+    <Dungeon>음산한 숲</Dungeon>
+    <Level>9</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>4050</HP>
+    <Attack>114</Attack>
+    <Defense>49</Defense>
+    <Exp>1040</Exp>
+  </Monster>
+  <Monster id="2010">
+    <Name>타락한 숲의 수호자</Name>
+    <Dungeon>음산한 숲</Dungeon>
+    <Level>10</Level>
+    <Grade>Boss</Grade>
+    <Form>Enhanced</Form>
+    <HP>31600</HP>
+    <Attack>280</Attack>
+    <Defense>96</Defense>
+    <Exp>6900</Exp>
+  </Monster>
+
+  <!-- Dungeon 03. 버려진 광산 (Lv.11 ~ Lv.15) -->
+  <Monster id="2011">
+    <Name>광산 코볼트</Name>
+    <Dungeon>버려진 광산</Dungeon>
+    <Level>11</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>547</HP>
+    <Attack>46</Attack>
+    <Defense>33</Defense>
+    <Exp>170</Exp>
+  </Monster>
+  <Monster id="2012">
+    <Name>광기 어린 코볼트 투사</Name>
+    <Dungeon>버려진 광산</Dungeon>
+    <Level>12</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>936</HP>
+    <Attack>73</Attack>
+    <Defense>43</Defense>
+    <Exp>365</Exp>
+  </Monster>
+  <Monster id="2013">
+    <Name>흑염의 굴착자</Name>
+    <Dungeon>버려진 광산</Dungeon>
+    <Level>13</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>2111</HP>
+    <Attack>118</Attack>
+    <Defense>59</Defense>
+    <Exp>895</Exp>
+  </Monster>
+  <Monster id="2014">
+    <Name>강철 골렘</Name>
+    <Dungeon>버려진 광산</Dungeon>
+    <Level>14</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>7070</HP>
+    <Attack>192</Attack>
+    <Defense>76</Defense>
+    <Exp>2240</Exp>
+  </Monster>
+  <Monster id="2015">
+    <Name>폐광의 지배자 굴리앗</Name>
+    <Dungeon>버려진 광산</Dungeon>
+    <Level>15</Level>
+    <Grade>Boss</Grade>
+    <Form>Standard</Form>
+    <HP>34800</HP>
+    <Attack>354</Attack>
+    <Defense>113</Defense>
+    <Exp>7600</Exp>
+  </Monster>
+
+  <!-- Dungeon 04. 잊혀진 지하묘지 (Lv.16 ~ Lv.20) -->
+  <Monster id="2016">
+    <Name>해골 병사</Name>
+    <Dungeon>잊혀진 지하묘지</Dungeon>
+    <Level>16</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>960</HP>
+    <Attack>72</Attack>
+    <Defense>48</Defense>
+    <Exp>310</Exp>
+  </Monster>
+  <Monster id="2017">
+    <Name>굶주린 구울</Name>
+    <Dungeon>잊혀진 지하묘지</Dungeon>
+    <Level>17</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>1577</HP>
+    <Attack>111</Attack>
+    <Defense>61</Defense>
+    <Exp>647</Exp>
+  </Monster>
+  <Monster id="2018">
+    <Name>미라 사제</Name>
+    <Dungeon>잊혀진 지하묘지</Dungeon>
+    <Level>18</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>3436</HP>
+    <Attack>176</Attack>
+    <Defense>81</Defense>
+    <Exp>1570</Exp>
+  </Monster>
+  <Monster id="2019">
+    <Name>저주받은 기사</Name>
+    <Dungeon>잊혀진 지하묘지</Dungeon>
+    <Level>19</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>11100</HP>
+    <Attack>280</Attack>
+    <Defense>103</Defense>
+    <Exp>3820</Exp>
+  </Monster>
+  <Monster id="2020">
+    <Name>사령관 레스라크</Name>
+    <Dungeon>잊혀진 지하묘지</Dungeon>
+    <Level>20</Level>
+    <Grade>Boss</Grade>
+    <Form>Enhanced</Form>
+    <HP>89400</HP>
+    <Attack>670</Attack>
+    <Defense>192</Defense>
+    <Exp>23800</Exp>
+  </Monster>
+
+  <!-- Dungeon 05. 통곡의 계곡 (Lv.21 ~ Lv.25) -->
+  <Monster id="2021">
+    <Name>와이번 정찰조</Name>
+    <Dungeon>통곡의 계곡</Dungeon>
+    <Level>21</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>1443</HP>
+    <Attack>100</Attack>
+    <Defense>63</Defense>
+    <Exp>480</Exp>
+  </Monster>
+  <Monster id="2022">
+    <Name>가고일 파수꾼</Name>
+    <Dungeon>통곡의 계곡</Dungeon>
+    <Level>22</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>2330</HP>
+    <Attack>153</Attack>
+    <Defense>79</Defense>
+    <Exp>988</Exp>
+  </Monster>
+  <Monster id="2023">
+    <Name>바람의 정령왕 사냥꾼</Name>
+    <Dungeon>통곡의 계곡</Dungeon>
+    <Level>23</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>4963</HP>
+    <Attack>240</Attack>
+    <Defense>104</Defense>
+    <Exp>2380</Exp>
+  </Monster>
+  <Monster id="2024">
+    <Name>폭풍의 와이번</Name>
+    <Dungeon>통곡의 계곡</Dungeon>
+    <Level>24</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>15800</HP>
+    <Attack>378</Attack>
+    <Defense>130</Defense>
+    <Exp>5750</Exp>
+  </Monster>
+  <Monster id="2025">
+    <Name>폭풍인도자 라돈</Name>
+    <Dungeon>통곡의 계곡</Dungeon>
+    <Level>25</Level>
+    <Grade>Boss</Grade>
+    <Form>Standard</Form>
+    <HP>75000</HP>
+    <Attack>685</Attack>
+    <Defense>188</Defense>
+    <Exp>18750</Exp>
+  </Monster>
+
+  <!-- Dungeon 06. 붉은 용암 동굴 (Lv.26 ~ Lv.30) -->
+  <Monster id="2026">
+    <Name>화염 임프</Name>
+    <Dungeon>붉은 용암 동굴</Dungeon>
+    <Level>26</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>1989</HP>
+    <Attack>130</Attack>
+    <Defense>78</Defense>
+    <Exp>680</Exp>
+  </Monster>
+  <Monster id="2027">
+    <Name>마그마 거인</Name>
+    <Dungeon>붉은 용암 동굴</Dungeon>
+    <Level>27</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>3164</HP>
+    <Attack>197</Attack>
+    <Defense>97</Defense>
+    <Exp>1384</Exp>
+  </Monster>
+  <Monster id="2028">
+    <Name>불꽃 도마뱀</Name>
+    <Dungeon>붉은 용암 동굴</Dungeon>
+    <Level>28</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>6692</HP>
+    <Attack>308</Attack>
+    <Defense>126</Defense>
+    <Exp>3310</Exp>
+  </Monster>
+  <Monster id="2029">
+    <Name>화염 악마</Name>
+    <Dungeon>붉은 용암 동굴</Dungeon>
+    <Level>29</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>21100</HP>
+    <Attack>482</Attack>
+    <Defense>157</Defense>
+    <Exp>7930</Exp>
+  </Monster>
+  <Monster id="2030">
+    <Name>불꽃의 제왕 발록</Name>
+    <Dungeon>붉은 용암 동굴</Dungeon>
+    <Level>30</Level>
+    <Grade>Boss</Grade>
+    <Form>Enhanced</Form>
+    <HP>164300</HP>
+    <Attack>1114</Attack>
+    <Defense>288</Defense>
+    <Exp>47700</Exp>
+  </Monster>
+
+  <!-- Dungeon 07. 얼음의 성채 (Lv.31 ~ Lv.35) -->
+  <Monster id="2031">
+    <Name>빙설 골렘</Name>
+    <Dungeon>얼음의 성채</Dungeon>
+    <Level>31</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>2600</HP>
+    <Attack>161</Attack>
+    <Defense>93</Defense>
+    <Exp>910</Exp>
+  </Monster>
+  <Monster id="2032">
+    <Name>얼음 가고일</Name>
+    <Dungeon>얼음의 성채</Dungeon>
+    <Level>32</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>4098</HP>
+    <Attack>243</Attack>
+    <Defense>115</Defense>
+    <Exp>1840</Exp>
+  </Monster>
+  <Monster id="2033">
+    <Name>설원 야수</Name>
+    <Dungeon>얼음의 성채</Dungeon>
+    <Level>33</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>8623</HP>
+    <Attack>379</Attack>
+    <Defense>149</Defense>
+    <Exp>4370</Exp>
+  </Monster>
+  <Monster id="2034">
+    <Name>서리 거인</Name>
+    <Dungeon>얼음의 성채</Dungeon>
+    <Level>34</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>27000</HP>
+    <Attack>590</Attack>
+    <Defense>184</Defense>
+    <Exp>10400</Exp>
+  </Monster>
+  <Monster id="2035">
+    <Name>얼음 여왕 엘레이나</Name>
+    <Dungeon>얼음의 성채</Dungeon>
+    <Level>35</Level>
+    <Grade>Boss</Grade>
+    <Form>Standard</Form>
+    <HP>124200</HP>
+    <Attack>1040</Attack>
+    <Defense>263</Defense>
+    <Exp>33000</Exp>
+  </Monster>
+
+  <!-- Dungeon 08. 맹독의 늪지 (Lv.36 ~ Lv.40) -->
+  <Monster id="2036">
+    <Name>늪지 나가</Name>
+    <Dungeon>맹독의 늪지</Dungeon>
+    <Level>36</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>3276</HP>
+    <Attack>194</Attack>
+    <Defense>108</Defense>
+    <Exp>1170</Exp>
+  </Monster>
+  <Monster id="2037">
+    <Name>독안개 히드라</Name>
+    <Dungeon>맹독의 늪지</Dungeon>
+    <Level>37</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>5125</HP>
+    <Attack>291</Attack>
+    <Defense>133</Defense>
+    <Exp>2347</Exp>
+  </Monster>
+  <Monster id="2038">
+    <Name>늪지 악어왕</Name>
+    <Dungeon>맹독의 늪지</Dungeon>
+    <Level>38</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>10758</HP>
+    <Attack>453</Attack>
+    <Defense>171</Defense>
+    <Exp>5550</Exp>
+  </Monster>
+  <Monster id="2039">
+    <Name>맹독 바실리스크</Name>
+    <Dungeon>맹독의 늪지</Dungeon>
+    <Level>39</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>33500</HP>
+    <Attack>704</Attack>
+    <Defense>211</Defense>
+    <Exp>13150</Exp>
+  </Monster>
+  <Monster id="2040">
+    <Name>심해의 히드라</Name>
+    <Dungeon>맹독의 늪지</Dungeon>
+    <Level>40</Level>
+    <Grade>Boss</Grade>
+    <Form>Enhanced</Form>
+    <HP>252900</HP>
+    <Attack>1607</Attack>
+    <Defense>384</Defense>
+    <Exp>78000</Exp>
+  </Monster>
+
+  <!-- Dungeon 09. 환영의 탑 (Lv.41 ~ Lv.45) -->
+  <Monster id="2041">
+    <Name>환영 사제</Name>
+    <Dungeon>환영의 탑</Dungeon>
+    <Level>41</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>4019</HP>
+    <Attack>228</Attack>
+    <Defense>123</Defense>
+    <Exp>1460</Exp>
+  </Monster>
+  <Monster id="2042">
+    <Name>환영 기사</Name>
+    <Dungeon>환영의 탑</Dungeon>
+    <Level>42</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>6247</HP>
+    <Attack>342</Attack>
+    <Defense>151</Defense>
+    <Exp>2912</Exp>
+  </Monster>
+  <Monster id="2043">
+    <Name>도플갱어</Name>
+    <Dungeon>환영의 탑</Dungeon>
+    <Level>43</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>13097</HP>
+    <Attack>530</Attack>
+    <Defense>194</Defense>
+    <Exp>6860</Exp>
+  </Monster>
+  <Monster id="2044">
+    <Name>마왕의 환영</Name>
+    <Dungeon>환영의 탑</Dungeon>
+    <Level>44</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>40600</HP>
+    <Attack>823</Attack>
+    <Defense>238</Defense>
+    <Exp>16200</Exp>
+  </Monster>
+  <Monster id="2045">
+    <Name>환영의 마왕 발타자르</Name>
+    <Dungeon>환영의 탑</Dungeon>
+    <Level>45</Level>
+    <Grade>Boss</Grade>
+    <Form>Standard</Form>
+    <HP>180800</HP>
+    <Attack>1440</Attack>
+    <Defense>338</Defense>
+    <Exp>50600</Exp>
+  </Monster>
+
+  <!-- Dungeon 10. 종말의 요새 (Lv.46 ~ Lv.50) -->
+  <Monster id="2046">
+    <Name>파멸의 악마 수호병</Name>
+    <Dungeon>종말의 요새</Dungeon>
+    <Level>46</Level>
+    <Grade>Normal</Grade>
+    <Form>Standard</Form>
+    <HP>4830</HP>
+    <Attack>264</Attack>
+    <Defense>138</Defense>
+    <Exp>1780</Exp>
+  </Monster>
+  <Monster id="2047">
+    <Name>근위 악마 기사</Name>
+    <Dungeon>종말의 요새</Dungeon>
+    <Level>47</Level>
+    <Grade>Normal</Grade>
+    <Form>Enhanced</Form>
+    <HP>7466</HP>
+    <Attack>395</Attack>
+    <Defense>169</Defense>
+    <Exp>3536</Exp>
+  </Monster>
+  <Monster id="2048">
+    <Name>심연의 가고일</Name>
+    <Dungeon>종말의 요새</Dungeon>
+    <Level>48</Level>
+    <Grade>Rare</Grade>
+    <Form>Standard</Form>
+    <HP>15640</HP>
+    <Attack>610</Attack>
+    <Defense>216</Defense>
+    <Exp>8300</Exp>
+  </Monster>
+  <Monster id="2049">
+    <Name>종말의 사도</Name>
+    <Dungeon>종말의 요새</Dungeon>
+    <Level>49</Level>
+    <Grade>Rare</Grade>
+    <Form>Enhanced</Form>
+    <HP>48400</HP>
+    <Attack>946</Attack>
+    <Defense>265</Defense>
+    <Exp>19500</Exp>
+  </Monster>
+  <Monster id="2050">
+    <Name>종말의 멸망룡 아스타로트</Name>
+    <Dungeon>종말의 요새</Dungeon>
+    <Level>50</Level>
+    <Grade>Boss</Grade>
+    <Form>Enhanced</Form>
+    <HP>353500</HP>
+    <Attack>2156</Attack>
+    <Defense>480</Defense>
+    <Exp>115000</Exp>
+  </Monster>
+</MonsterDatabase>

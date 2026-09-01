@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DungeonGameDialogueExtension>
+
+  <!-- CHAPTER 1: 시련의 시작 -->
+  <Chapter number="1" title="시련의 시작">
+
+    <Dungeon id="1">
+      <Name>고블린 통로</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>실버울프 영지 외곽이라... 바위 굴 입구부터 기분 나쁜 악취가 진동하는군[span_0](start_span)[span_0](end_span). 경비대장 베른 씨의 말대로 고블린들이 작정하고 굴을 짓고 입구를 숨겨둔 모양이야[span_1](start_span)[span_1](end_span). 아리아, 첫 입구 탐색인데 무장은 확실히 점검했지[span_2](start_span)[span_2](end_span)?</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>네, 레온. 신성력 매개체와 보조 지팡이 모두 이상 없어요. 비록 미드갈드 왕국 변방의 조그만 영지라 해도, 서민들의 식량 약탈을 방치하면 겨울철 기근으로 이어질 거예요[span_3](start_span)[span_3](end_span). 제 시선이 닿는 한 당신의 뒤는 완벽히 보장할 테니, 망설임 없이 전진하세요.</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>휴, 고블린 족장 타루의 몽둥이를 막아낼 때 식은땀이 흘렀네[span_4](start_span)[span_4](end_span). 그래도 녀석의 산장 깊숙이 남아있던 서민들의 약탈품과 양식은 무사히 건졌어. 첫 임무 치고는 꽤 합이 잘 맞았지[span_5](start_span)[span_5](end_span)?</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>풋, 칼날 끝에 검기(Sword Aura)를 올리려다 오버페이스하신 건 모른 척해 드릴게요. 하지만 경비대에게 귀환 보고를 올리면 마을 전체가 오랜만에 웃을 수 있겠네요[span_6](start_span)[span_6](end_span). 당신과 함께 모험을 시작하길 잘했다는 생각이 들어요, 레온.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="2">
+      <Name>슬라임 습지대</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>안개 젖은 골짜기라니, 발이 푸푹 빠져서 가뜩이나 칼을 휘두르기 힘들겠어[span_7](start_span)[span_7](end_span). 연금술사 엘렌 씨가 말한 그 거대 산성 점액질 괴물이 근처의 생태계를 모조리 부식시키고 있다는 건 사실인 것 같네[span_8](start_span)[span_8](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>조심하세요! 이곳의 산성 웅덩이는 정화의 신술도 쉽게 녹여버릴 정도로 독성이 강해요[span_9](start_span)[span_9](end_span). 왕립 연금술 학회에서도 처리하기 꺼려했던 부식성 원소 변종인데... 마을 환자들을 치료할 해독 시약을 만든다는 엘렌 씨의 청을 외면할 순 없었죠[span_10](start_span)[span_10](end_span). 제가 방어 장장(Barrier)을 유지할 테니 산독의 핵심 핵만 노리세요[span_11](start_span)[span_11](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>자, 지독했던 점액질 보스의 산성 핵(Acid Core) 확보 완료[span_12](start_span)[span_12](end_span)! 아리아, 바짓단에 산성 액체가 조금 튀었는데 괜찮아?</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>제 걱정보다는 레온의 정면 갑옷 정비가 시급해 보여요. 부식 기운이 스며들기 전에 연금술사 엘렌 씨에게 가져다주고 세척해야겠어요[span_13](start_span)[span_13](end_span). 그래도 많은 사람의 목숨을 구할 치료제의 원료가 되었다니 마음이 한결 가벼워요[span_14](start_span)[span_14](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="3">
+      <Name>도적단 아지트</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>붉은 바위 절벽의 버려진 광산이라... 외눈박이 잭 녀석, 제법 기지 배치를 공성 요새처럼 해뒀군[span_15](start_span)[span_15](end_span). 상인 조합의 수레를 통째로 털어갈 배짱이 어디서 나왔나 했더니 믿는 구석이 있었어[span_16](start_span)[span_16](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>단순한 도적단이 아니에요. 녀석들이 사용하는 무기 문양에 귀족 가문의 비공식 문장이刻인되어 있어요. 아마 영지 내 상권을 독점하려는 대상단과 결탁했을 가능성이 높아요. 조심하세요, 카일 씨의 물자 탈환뿐만 아니라 녀석들이 불의의 복수를 해올 수도 있으니까요[span_17](start_span)[span_17](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>외눈박이 잭 녀석도 제압했고 조합의 보물상자는 통째로 확보했어[span_18](start_span)[span_18](end_span). 귀족 가문과의 결탁 장부까지 찾았으니 상인 조합원 카일 씨도 이제 파산 위기에서 벗어나 한시름 놓겠지[span_19](start_span)[span_19](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>인간의 탐욕이 마물보다 무섭다는 걸 다시금 느끼게 되네요. 그렇지만 위험을 무릅쓰고 상단을 구해낸 당신의 정의로움 덕분에 이 인근 무역로가 다시 활기를 띨 거예요[span_20](start_span)[span_20](end_span). 수고 많으셨어요, 레온.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="4">
+      <Name>해골 지하묘지</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>지하 석실 전체에 오싹한 서리가 깔려있어[span_21](start_span)[span_21](end_span). 사제 아리엘 씨의 말대로 단순한 자연 발생 언데드가 아니라, 누군가 고대 기사의 유해에 기괴한 흑마법을 덮어씌운 흔적이 뚜렷해[span_22](start_span)[span_22](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>이 억울하게 사로잡힌 불쌍한 영혼들의 통곡 소리가 들려요[span_23](start_span)[span_23](end_span)... 신성제국의 고대 성기사였던 분의 유골까지 모독하다니 용서할 수 없어요. 성수의 빛으로 이 정화 기도를 올릴 테니, 레온, 저 스켈레톤 나이트의 핵심 룬을 파괴해 안식을 되찾아주세요[span_24](start_span)[span_24](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>스켈레톤 나이트의 저주받은 룬이 부서지면서 석실에 내리쬐던 오염된 사기가 사라졌어[span_25](start_span)[span_25](end_span). 고대 기사의 칼끝이 마지막 순간엔 우리를 향해 감사의 경례를 하는 것 같았지.</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>네, 저주가 풀리고 진정한 신의 품으로 안식을 찾아 떠나셨어요[span_26](start_span)[span_26](end_span). 사제 아리엘 씨에게 승전보를 전하면 교단에서도 이 지하묘지를 거룩한 안식처로 다시 봉인할 수 있을 거예요[span_27](start_span)[span_27](end_span). 당신의 검 끝에 담긴 정성이 영혼을 구원했어요.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="5">
+      <Name>버려진 광산</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>크리스탈 산맥 하부의 폐광이라... 마력 입자가 노출된 미스릴 광맥이라 그런지 공기마저 타오르는 것 같네[span_28](start_span)[span_28](end_span). 드워프 대장장이 바린 씨가 가문의 광산을 빼앗기고 애타할 만도 해[span_29](start_span)[span_29](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>그런데 이상해요. 보통 지능이 낮은 코볼트들이 이렇게 거대한 미스릴 원석을 고도의 제련 장비 근처에 모아둘 리가 없는데[span_30](start_span)[span_30](end_span)... 뒤에서 이들을 조종하며 마력 광석을 집착적으로 수집하게 만든 '무언가'의 음모가 느껴져요. 방심하지 말고 코볼트 킹의 거처로 진입하죠[span_31](start_span)[span_31](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>광기 어린 코볼트 킹을 제압하고 미스릴 원석을 안전하게 수거했어[span_32](start_span)[span_32](end_span). 녀석의 왕좌 밑에서 마왕군의 소환 진식 서식이 발견된 건 찝찝하지만 말이야.</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>단순한 마물의 침범이 아니라 흑마법의 세력이 전 대륙의 마력 자원을 수집하고 있다는 증거네요. 바린 씨에게 미스릴 무기를 보상으로 받아 정비한 뒤[span_33](start_span)[span_33](end_span), 본격적으로 이 어둠의 배후를 추적해봐야겠어요[span_34](start_span)[span_34](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+  </Chapter>
+
+  <!-- CHAPTER 2: 흑마법의 그림자 -->
+  <Chapter number="2" title="흑마법의 그림자">
+
+    <Dungeon id="6">
+      <Name>환영의 숲</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>실렌디아 수림의 보랏빛 안개... 환각 기운 때문에 환영이 자꾸 눈앞에 아지랑이치네[span_35](start_span)[span_35](end_span). 엘프 파수꾼 레골라 씨의 말이 맞았어[span_36](start_span)[span_36](end_span). 숲의 결계가 오염되어 정령들마저 미쳐가고 있어[span_37](start_span)[span_37](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>손을 잡으세요, 레온! 환각 나비 에이라의 파동은 정신을 마비시키지만, 제 세계수 여신의 정신 수호 결계로 환각을 파헤칠 수 있어요[span_38](start_span)[span_38](end_span). 엘프의 신성한 수림까지 흑마법의 사기가 스며들었다니, 전 대륙적인 위기가 시작된 게 분명해요[span_39](start_span)[span_39](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>에이라의 날갯짓이 멈추고 숲의 보랏빛 안개가 마침내 흩어지는군[span_40](start_span)[span_40](end_span). 오염되었던 수호 정령도 정화의 빛 속에서 본래의 고결한 모습을 찾은 것 같아 다행이야[span_41](start_span)[span_41](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>네, 숲이 다시 숨을 쉬기 시작했어요. 레골라 씨와 엘프 부족도 이제 안심할 수 있겠죠[span_42](start_span)[span_42](end_span). 하지만 숲의 정령을 타락시킬 정도의 강력한 흑마법의 근원이 점차 가까워지고 있다는 뜻이기도 해요. 마음을 단단히 먹어야겠어요.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="7">
+      <Name>고블린 비행선 추락지</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>바람노을 언덕 전체에 매캐한 기름 냄새와 화염이 자욱하네[span_43](start_span)[span_43](end_span). 노움 발명가 핍스 씨의 말대로 대형 비행선이 고블린들의 습격으로 추락하면서 자동 방어 기계들이 폭주하고 있어[span_44](start_span)[span_44](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>노움 공학의 정수인 태엽 거인이 연금술 마력 폭주 상태에 빠지면 이 언덕 전체가 연쇄 폭발로 사라질 거예요[span_45](start_span)[span_45](end_span)! 고블린들이 지능적으로 마법 공학 기종을 노렸다는 건 단순한 우연이 아니에요. 빠르게 메인 동력 코어를 정지시켜야 해요[span_46](start_span)[span_46](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>태엽 거인의 내부 톱니바퀴와 동력선 정밀 절단 성공[span_47](start_span)[span_47](end_span)! 휴, 하마터면 코어가 과열돼서 우리까지 언덕과 함께 날아갈 뻔했네[span_48](start_span)[span_48](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>휴, 식은땀이 났네요[span_49](start_span)[span_49](end_span). 핍스 씨의 기술이 마왕군의 손에 넘어가 고블린 비행선 부대가 편성되었다면 끔찍한 비극이 일어났을 거예요[span_50](start_span)[span_50](end_span). 방어에 성공해서 정말 다행이에요, 레온.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="8">
+      <Name>어둠의 신전 지하</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>고대 유적지 지하 신전에 새겨진 룬문자에서 핏빛 마력이 넘쳐흘러[span_51](start_span)[span_51](end_span). 이단심문관 헤드윅 씨의 말처럼 교단 기사단이 오길 기다리기엔 악마 부활 의식이 너무 임박했어[span_52](start_span)[span_52](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>대사제 제로스가 바치려는 제물 의식의 규모가 상상을 초월해요[span_53](start_span)[span_53](end_span). 이 흑마법 신전은 과거 대전쟁 때 봉인된 악마의 혈맥과 연결되어 있군요. 제 성스러운 신성 전개로 피의 제단을 가로막을 테니, 제로스의 강림 주문을 저지해 주세요[span_54](start_span)[span_54](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>광신도 대사제 제로스를 처단하고 부활의 제단을 완전히 파괴했어[span_55](start_span)[span_55](end_span)! 조금만 늦었어도 고대 악마의 일부가 현세에 벼락처럼 강림할 뻔했네[span_56](start_span)[span_56](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>빛의 신성력이 피의 기운을 모두 정화했어요[span_57](start_span)[span_57](end_span). 헤드윅 씨와 신성제국 교단도 당신의 이 결단과 용기에 깊은 빚을 졌다고 인정할 거예요[span_58](start_span)[span_58](end_span). 세상을 멸망의 위기에서 구한 거나 다름없어요.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="9">
+      <Name>얼어붙은 동굴</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>서리발톱 봉우리의 이 칼바람은 칼자루를 쥐기 힘들 정도로 손가락을 마비시키네[span_59](start_span)[span_59](end_span). 생존자 루나 씨의 말대로 상단 사람들이 이 동굴 깊숙한 곳에 사로잡혀 있어[span_60](start_span)[span_60](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>쉿! 설원 서리예티의 울부짖음 소리가 동굴 벽을 타고 울리고 있어요[span_61](start_span)[span_61](end_span). 서리예티는 이 고지대의 마력 냉기를 집어삼키고 더욱 흉포해진 상태예요[span_62](start_span)[span_62](end_span). 제가 온기 보호 마법으로 몸을 녹여드릴 테니, 잡혀간 사람들을 먼저 안전하게 피신시키고 싸워요!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>서리예티를 거대한 고드름 기둥 아래로 유인해서 깔아뭉개버렸어[span_63](start_span)[span_63](end_span). 동굴에 갇혀있던 루나 씨의 상단 사람들도 모두 부상 없이 구조 완료했고[span_64](start_span)[span_64](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>후우... 당신의 재치 있는 기지 덕분에 혹한 속에서도 인명 피해 없이 무사히 마무리할 수 있었네요[span_65](start_span)[span_65](end_span). 루나 씨가 건네준 빙결 저항 가포로 단단히 무장하고 다음 고지로 향하죠[span_66](start_span)[span_66](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="10">
+      <Name>저주받은 성채 외곽</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>흑염의 황무지 위로 검은 벼락이 내리치는 고성의 장관이라니[span_67](start_span)[span_67](end_span)... 망령 기사 로드릭 씨의 한탄이 가슴에 와닿는군[span_68](start_span)[span_68](end_span). 한때 이 영지를 지키던 영웅적인 기사단장이 타락해서 마왕의 수하가 되었다니[span_69](start_span)[span_69](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>데스나이트 카엘의 영혼은 마왕의 흑마법 저주로 앳된 비극 속에 갇혀 고통받고 있어요[span_70](start_span)[span_70](end_span). 기사로서의 명예를 되찾아주는 길은 단 하나, 당신의 검으로 그의 타락한 육신을 파괴하여 영혼을 자유롭게 풀어주는 것뿐이에요[span_71](start_span)[span_71](end_span). 저도 신성한 빛의 축복으로 기사님의 명예로운 구원을 돕겠어요.</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>카엘 단장의 검을 막아내고 그의 가슴에 새겨진 마왕의 흑인장을 베어냈어[span_72](start_span)[span_72](end_span). 쓰러지며 남긴 "고맙다, 후배 기사여"라는 한마디가 여운을 남기는군.</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>로드릭 씨도 눈물을 흘리며 단장님의 명예로운 안식을 지켜보셨어요[span_73](start_span)[span_73](end_span). 그분의 성채 관문을 돌파했으니, 이제 전 대륙의 원소 거점들을 위협하는 마왕군의 최심부로 나아갈 문이 열렸어요[span_74](start_span)[span_74](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+  </Chapter>
+
+  <!-- CHAPTER 3: 원소의 심연 -->
+  <Chapter number="3" title="원소의 심연">
+
+    <Dungeon id="11">
+      <Name>화산 심식지대</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>용암 봉우리 전체가 기분 나쁘게 울리고 있어[span_75](start_span)[span_75](end_span). 화염술사 이그니스 씨의 경고대로 지하의 화염 정령왕 인페르노가 제어력을 완전히 잃고 대규모 분화를 일으키려 해[span_76](start_span)[span_76](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>대지 근원의 원소 균형이 무너지고 있어요! 마왕군이 원소 정령왕들의 핵을 오염시켜 대륙 전체에 대재앙을 일으키려는 속셈이에요[span_77](start_span)[span_77](end_span). 이그니스 씨가 결계로 용암을 누르는 동안[span_78](start_span)[span_78](end_span), 제 수성 신성 마법으로 정령왕의 폭주하는 불길을 진화해 드릴게요[span_79](start_span)[span_79](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>좋았어! 인페르노의 폭주한 불꽃의 핵을 정밀타격해 다시 거대한 순수 정령 결정으로 진정시켰어[span_80](start_span)[span_80](end_span). 용암 분출도 거짓말처럼 수그러드네[span_81](start_span)[span_81](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>하아... 뜨거운 열기 때문에 숨이 턱턱 막혔지만 정말 다행이에요[span_82](start_span)[span_82](end_span). 이그니스 씨의 말대로 화산 분화의 위기는 넘겼고[span_83](start_span)[span_83](end_span), 순수해진 화염의 정수 소인을 얻었으니 다음 원소 거점으로 향해요[span_84](start_span)[span_84](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="12">
+      <Name>해저 신전 심해층</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>푸른 심해 해구 속 고대 유적이라니, 수압 결계 덕분에 숨은 쉬지만 묵직한 중력감이 온몸을 짓누르네[span_85](start_span)[span_85](end_span). 인어 공주 세렌 씨가 눈물로 호소할 만큼 상황이 급박했어[span_86](start_span)[span_86](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>심해 거대 오징어 크라켄이 신전의 물 원소 성물을 휘감고 사기를 내뿜고 있어요[span_87](start_span)[span_87](end_span). 바다의 근원이 오염되면 대륙 전체의 수자원과 생태계가 죽음으로 물들게 돼요[span_88](start_span)[span_88](end_span). 세렌 공주님의 바다 기도를 호위하며 크라켄의 촉수 마디를 끊어내세요[span_89](start_span)[span_89](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>크라켄의 중앙 심장 결계를파쇄하고 녀석을 심해 해구의 아득한 깊은 골짜기로 쫓아냈어[span_90](start_span)[span_90](end_span). 신전에 다시 맑고 깨끗한 푸른 수정 기운이 감도네[span_91](start_span)[span_91](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>세렌 공주님이 바다의 보물인 '심해의 눈물'을 선물하며 깊은 감사를 표하셨어요[span_92](start_span)[span_92](end_span). 바다의 정화 기운이 우리 검과 지팡이에 스며들어 한결 힘이 나는 것 같아요.</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="13">
+      <Name>폭풍의 탑</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>천공의 섬 중앙에 솟은 이 탑은 강풍과 벼락이 미친 듯이 사방에서 내리치는군[span_93](start_span)[span_93](end_span). 바람의 대마법사 제피로스 씨조차 탑 정상에 접근하기 힘들었을만해[span_94](start_span)[span_94](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>뇌전의 와이번이 탑의 바람 마력 증폭 장치를 둥지로 삼아 전 대륙에 이상 기후 폭풍을 일으키고 있어요[span_95](start_span)[span_95](end_span). 바람 원소의 힘이 와이번의 뇌전과 결합해 사나워졌어요[span_96](start_span)[span_96](end_span). 제가 바람 저항 신성 장막을 칠 테니[span_97](start_span)[span_97](end_span), 탑 정상의 야수를 하늘에서 떨어뜨려 주세요[span_98](start_span)[span_98](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>벼락을 뚫고 뇌전의 와이번 날개 축을 정확히 베어 쓰러뜨렸어[span_99](start_span)[span_99](end_span)! 휘몰아치던 먹구름과 폭풍우가 멈추고 탑 위에 맑은 천공의 하늘이 드러나는군[span_100](start_span)[span_100](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>제피로스 대마법사님도 당신의 미풍처럼 날카로운 검술에 탄성을 보내고 계세요[span_101](start_span)[span_101](end_span). 바람을 가르고 얻은 번개의 부츠 덕분에 우리의 이동 속도도 훨씬 빨라질 거예요[span_102](start_span)[span_102](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="14">
+      <Name>대지 미궁</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>시시각각 벽과 통로가 바뀌는 이 지하 미로의 규모는 입이 떡 벌어지는군[span_103](start_span)[span_103](end_span). 탐험가 호크 씨가 안내해 준 덕분에 핵심 중앙 통로까지 길을 잃지 않고 도달할 수 있었어[span_104](start_span)[span_104](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>하지만 마왕성으로 통하는 마지막 고대 지하 통로를 저 거대한 대지 바위골렘 골리앗이 막아서고 있어요[span_105](start_span)[span_105](end_span). 미궁 자체의 대지 마력을 수용하고 있어서 일반 물리 공격은 모조리 튕겨낼 거예요[span_106](start_span)[span_106](end_span). 골렘 가슴의 대지 핵 룬을 제 정화 주문으로 약화시킬 테니 그곳을 노리세요[span_107](start_span)[span_107](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>약화된 룬 지점을 향해 검기를 집중 분쇄! 골리앗이 거대한 바위 더미로 무너지며 통로가 탁 트였어[span_108](start_span)[span_108](end_span). 호크 씨도 기뻐서 어쩔 줄 몰라하네[span_109](start_span)[span_109](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>대지의 마지막 결계가 풀렸군요[span_110](start_span)[span_110](end_span). 호크 씨의 말대로 드디어 마왕의 거점 바로 밑까지 연결된 지하 고대 통로를 얻었어요[span_111](start_span)[span_111](end_span). 거인의 방패로 방어력도 보강했으니 막바지 전투 준비를 갖춰요[span_112](start_span)[span_112](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="15">
+      <Name>타락한 드래곤의 둥지</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>용의 안식처 유적 골짜기에 흩어진 수많은 고대용의 뼈들... 그리고 스멀거리는 흑마법 사기[span_113](start_span)[span_113](end_span). 드래곤 슬레이어 시그루드 씨와 함께 이 고귀한 수호룡의 안식을 위해 싸우게 될 줄이야[span_114](start_span)[span_114](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>고대 수호룡 발라카스가 마왕의 오염된 저주로 이성을 잃고 미쳐가며 고통의 브레스를 내뿜고 있어요[span_115](start_span)[span_115](end_span). 슬프지만 그를 살려두는 건 영혼을 사슬에 묶어 모독하는 것과 같아요[span_116](start_span)[span_116](end_span). 시그루드 씨와 함께 그 고결했던 영혼을 영원한 자유와 안식으로 인도해 드려요[span_117](start_span)[span_117](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>발라카스의 심장 근처에 새겨진 마왕의 주술 가시를 절단했어[span_118](start_span)[span_118](end_span). 마지막 순간, 저 거대한 용의 눈에서 맑은 눈물이 흘러내리며 이성이 돌아왔지[span_119](start_span)[span_119](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>용이 고통에서 해방되어 안식의 빛으로 승천했어요[span_120](start_span)[span_120](end_span). 시그루드 씨가 드래곤의 의지를 담아 제련해 준 용비늘 갑옷은[span_121](start_span)[span_121](end_span) 마왕의 최후 신전에서 당신을 완벽히 지켜줄 보호막이 될 거예요[span_122](start_span)[span_122](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+  </Chapter>
+
+  <!-- CHAPTER 4: 종말의 서곡 -->
+  <Chapter number="4" title="종말의 서곡">
+
+    <Dungeon id="16">
+      <Name>마왕성 외각 회랑</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>마도 요새 게이트... 핏빛 달빛 아래 무시무시한 강철과 결계로 성문 전체가 닫혀있어[span_123](start_span)[span_123](end_span). 연합군 총사령관 아서 장군이 이끄는 본대가 진격하려면 우리가 수문장을 돌파해야만 해[span_124](start_span)[span_124](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>대륙의 모든 영웅과 군사들이 당신의 등 뒤를 지켜보고 있어요. 게이트키퍼가 치고 있는 마왕의 결계는 강력하지만[span_125](start_span)[span_125](end_span), 지금까지 우리가 극복해온 수많은 시련과 기도가 당신의 칼날에 들어있어요. 용기를 내세요, 레온! 제가 연합군의 명예를 걸고 최고의 신성 축복을 내릴게요[span_126](start_span)[span_126](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>수문장 게이트키퍼의 강철 방패를 파쇄하고 거대한 마도 요새 성문을 안쪽에서 전면 개방했다[span_127](start_span)[span_127](end_span)! 아서 장군, 연합군 본대 전원에게 진격 명령을[span_128](start_span)[span_128](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>연합군의 함성 소리가 마왕성 전체를 울리고 있어요[span_129](start_span)[span_129](end_span)! 선봉장의 깃발을 높이 들고[span_130](start_span)[span_130](end_span), 거침없이 마왕의 심장부 옥좌 탑으로 진격해요, 레온!</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="17">
+      <Name>시공의 균열</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>중력이 붕괴되고 차원의 파편들이 사방에 떠다니는 기괴한 공간이야[span_131](start_span)[span_131](end_span). 시간의 현자 크로노스 님의 경고대로[span_132](start_span)[span_132](end_span), 이곳은 내 마음속 깊은 곳의 공포와 망설임을 거울처럼 비춰내고 있어[span_133](start_span)[span_133](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>섀도우의 모습이 레온, 바로 당신의 모습을 하고 있군요[span_134](start_span)[span_134](end_span). "세상을 구하지 못하고 아리아를 잃으면 어쩌나" 하는 당신의 가장 깊은 불안을 집어삼킨 환영이에요. 하지만 두려워 마세요. 저는 절대 당신 곁을 떠나지 않아요. 자신을 믿으세요!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>나의 망설임, 두려움... 모두 내 일부라는 걸 인정하겠다! 어둠의 환영 섀도우를 내 의지의 검으로 차원 너머로 베어 넘겼어[span_135](start_span)[span_135](end_span). 고마워 아리아, 네 목소리가 날 잡아줬어.</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>크로노스 님의 말씀처럼 당신은 자신의 어둠마저 넘어서서 완벽한 영혼의 구원자로 거듭났어요[span_136](start_span)[span_136](end_span). 이제 어떠한 마왕의 정신 교란이나 흑마법 유혹도 당신을 흔들 수 없을 거예요[span_137](start_span)[span_137](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="18">
+      <Name>마왕성 옥좌의 탑 1층</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>마왕성 내성의 대연회장... 핏빛 카펫 위에 잔혹한 기운이 맴도는군[span_138](start_span)[span_138](end_span). 비밀 정보원 셰이드 씨의 정보대로 마왕군 제1장군 벨리알이 1층의 길목을 가로막고 있어[span_139](start_span)[span_139](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>벨리알의 혈검(Blood Sword)은 상처를 입힐수록 자신의 생명력을 회복하는 기괴한 마검이에요[span_140](start_span)[span_140](end_span). 셰이드 씨의 조언대로 녀석의 오른 눈에 축적된 마력 핵을 노려 회복 기운을 단절시켜야 해요[span_141](start_span)[span_141](end_span). 방심하지 마세요!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>벨리알의 오른 눈을 관통하고 혈검을 산산조각 냈다[span_142](start_span)[span_142](end_span)! 잔혹했던 제1장군도 마왕성 바닥에 무릎을 꿇었군[span_143](start_span)[span_143](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>셰이드 씨의 말대로 옥좌로 올라가는 위층 계단의 결계가 완전히 해제되었어요[span_144](start_span)[span_144](end_span). 파멸의 대검을 손에 쥐었으니 이제 2층 마도 연구실로 고지를 높여요[span_145](start_span)[span_145](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="19">
+      <Name>마왕성 옥좌의 탑 2층</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>기괴한 연금술 시약과 금기된 마법서가 가득한 마도 연구실... 배신한 마도사 리리스 씨가 눈물 흘릴 만해[span_146](start_span)[span_146](end_span). 한때 존경받던 스승 메르카바가 대륙 전체를 멸망시킬 광역 주문을 캐스팅하고 있어[span_147](start_span)[span_147](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>메르카바의 궁극 멸망 마법인 '아포칼립스'의 캐스팅 마법진이 완성되기 직전이에요[span_148](start_span)[span_148](end_span)! 영생에 미쳐 마왕의 손을 잡은 광기 어린 학자의 단죄는 리리스 씨의 슬픔을 정리해 주는 길이기도 해요[span_149](start_span)[span_149](end_span). 제 신성 봉인술로 주문 완성을 방해할 테니 즉시 메르카바를 제지하세요[span_150](start_span)[span_150](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>캐스팅 마법진의 중앙을 베어 멸망 주문을 역류시켰어[span_151](start_span)[span_151](end_span). 타락한 대마도사 메르카바는 자신의 마력에 소멸했네[span_152](start_span)[span_152](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>리리스 씨가 안도와 슬픔이 섞인 절을 올리며 스승의 유물인 현자의 지팡이를 건넸어요[span_153](start_span)[span_153](end_span). 대륙을 잿더미로 만들려던 궁극 마법도 저지했으니[span_154](start_span)[span_154](end_span), 이제 마지막 최상층... 마왕 모드렉스의 옥좌만이 남았어요[span_155](start_span)[span_155](end_span).</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+    <Dungeon id="20">
+      <Name>절망의 옥좌</Name>
+      <Dialogues>
+        <Dialogue type="ProtagonistStart">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>검은 마력이 피의 제단에서 넘쳐흐르고, 여신 루시아 님의 환영이 우리를 마지막으로 감싸주는 최상층 옥좌에 도달했어[span_156](start_span)[span_156](end_span). 드디어 저곳에 모든 원흉인 절망의 마왕 모드렉스가 앉아 있군[span_157](start_span)[span_157](end_span).</Text>
+        </Dialogue>
+        <Dialogue type="HeroineStart">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>레온, 지나온 긴 모험이 스쳐 지나가네요. 영지의 작고 어두운 고블린 굴에서 시작해 전 대륙의 원소와 생명을 지나 이곳까지 왔어요[span_158](start_span)[span_158](end_span). 여신님의 축복과 온 세상 사람들의 희망이 우리와 함께해요[span_159](start_span)[span_159](end_span). 마왕의 절망에 굴하지 마세요. 당신의 곁에서 제 모든 영혼과 신성력을 바쳐 싸울게요. 세상을 구해요, 나의 영웅 레온!</Text>
+        </Dialogue>
+        <Dialogue type="ProtagonistClear">
+          <Speaker>주인공 (레온)</Speaker>
+          <Text>하하, 끝났다! 마왕 모드렉스의 절망의 핵을 베어내고 어둠의 옥좌를 완전히 산산조각 냈어[span_160](start_span)[span_160](end_span)! 마왕의 사기가 거회의 먼지가 되어 대륙 밖으로 사라져 가고 있어[span_161](start_span)[span_161](end_span)!</Text>
+        </Dialogue>
+        <Dialogue type="HeroineClear">
+          <Speaker>여자주인공 (아리아)</Speaker>
+          <Text>여신 루시아 님의 밝은 참된 빛이 온 대륙과 붉은 하늘을 정화하고 있어요[span_162](start_span)[span_162](end_span). 레온... 정말 고생 많으셨어요[span_163](start_span)[span_163](end_span). 세상을 구원한 당신의 이름은 이제 전설이 되어 영원히 기억될 거예요[span_164](start_span)[span_164](end_span). 그리고... 앞으로 당신과 함께 걸어갈 제 삶도 최고의 평화 속에서 빛날 것 같아요. 정말 사랑해요, 레온!</Text>
+        </Dialogue>
+      </Dialogues>
+    </Dungeon>
+
+  </Chapter>
+
+</DungeonGameDialogueExtension>

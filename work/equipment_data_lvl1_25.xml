@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EquipmentDatabase>
+  <Item id="1001">
+    <Name>평범한 숏소드</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>1</ReqLevel>
+    <ReqStat type="STR">5</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">10</Value>
+  </Item>
+  <Item id="1002">
+    <Name>기본 수련자 로브</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>1</ReqLevel>
+    <ReqStat type="INT">5</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">5</Value>
+  </Item>
+  <Item id="1003">
+    <Name>정교한 연습용 활</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>1</ReqLevel>
+    <ReqStat type="AGI">5</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">15</Value>
+  </Item>
+  <Item id="1004">
+    <Name>튼튼한 가죽 조끼</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>2</ReqLevel>
+    <ReqStat type="AGI">5</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">8</Value>
+  </Item>
+  <Item id="1005">
+    <Name>수호의 녹슨 판금</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>2</ReqLevel>
+    <ReqStat type="STR">5</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">12</Value>
+  </Item>
+  <Item id="1006">
+    <Name>마법사의 학도 지팡이</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>2</ReqLevel>
+    <ReqStat type="INT">5</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">18</Value>
+  </Item>
+  <Item id="1007">
+    <Name>평범한 목검</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>3</ReqLevel>
+    <ReqStat type="STR">5</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">14</Value>
+  </Item>
+  <Item id="1008">
+    <Name>날카로운 숏보우</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>3</ReqLevel>
+    <ReqStat type="AGI">5</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">20</Value>
+  </Item>
+  <Item id="1009">
+    <Name>태초의 견습 서클릿</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>3</ReqLevel>
+    <ReqStat type="INT">5</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">20</Value>
+  </Item>
+  <Item id="1010">
+    <Name>기본 천 갑옷</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>4</ReqLevel>
+    <ReqStat type="INT">6</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">10</Value>
+  </Item>
+  <Item id="1011">
+    <Name>강화된 쇠몽둥이</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>4</ReqLevel>
+    <ReqStat type="STR">6</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">23</Value>
+  </Item>
+  <Item id="1012">
+    <Name>그림자의 단검</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>4</ReqLevel>
+    <ReqStat type="AGI">6</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">30</Value>
+  </Item>
+  <Item id="1013">
+    <Name>숙련자의 연구원 로브</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>5</ReqLevel>
+    <ReqStat type="INT">6</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">15</Value>
+  </Item>
+  <Item id="1014">
+    <Name>서리발톱 가죽 흉갑</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>5</ReqLevel>
+    <ReqStat type="AGI">6</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">22</Value>
+  </Item>
+  <Item id="1015">
+    <Name>신성한 철퇴</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>5</ReqLevel>
+    <ReqStat type="STR">6</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">45</Value>
+  </Item>
+  <Item id="1016">
+    <Name>평범한 롱소드</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>6</ReqLevel>
+    <ReqStat type="STR">6</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">22</Value>
+  </Item>
+  <Item id="1017">
+    <Name>연마된 가죽 장갑</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>6</ReqLevel>
+    <ReqStat type="AGI">6</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">14</Value>
+  </Item>
+  <Item id="1018">
+    <Name>지옥화염 주문서</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>6</ReqLevel>
+    <ReqStat type="INT">6</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">50</Value>
+  </Item>
+  <Item id="1019">
+    <Name>우수한 사슬 갑옷</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>7</ReqLevel>
+    <ReqStat type="STR">7</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">20</Value>
+  </Item>
+  <Item id="1020">
+    <Name>화염의 단궁</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>7</ReqLevel>
+    <ReqStat type="AGI">7</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">40</Value>
+  </Item>
+  <Item id="1021">
+    <Name>태초의 원소 지팡이</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>7</ReqLevel>
+    <ReqStat type="INT">7</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">58</Value>
+  </Item>
+  <Item id="1022">
+    <Name>단단한 가죽 장화</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>8</ReqLevel>
+    <ReqStat type="AGI">7</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">18</Value>
+  </Item>
+  <Item id="1023">
+    <Name>상급 마법봉</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>8</ReqLevel>
+    <ReqStat type="INT">7</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">32</Value>
+  </Item>
+  <Item id="1024">
+    <Name>폭풍의 강철 방패</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>8</ReqLevel>
+    <ReqStat type="STR">7</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">30</Value>
+  </Item>
+  <Item id="1025">
+    <Name>기본 사냥용 활</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>9</ReqLevel>
+    <ReqStat type="AGI">7</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">28</Value>
+  </Item>
+  <Item id="1026">
+    <Name>정교한 청동 갑옷</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>9</ReqLevel>
+    <ReqStat type="STR">7</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">24</Value>
+  </Item>
+  <Item id="1027">
+    <Name>신멸의 학자 로브</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>9</ReqLevel>
+    <ReqStat type="INT">7</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">42</Value>
+  </Item>
+  <Item id="1028">
+    <Name>연마된 양손검</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>10</ReqLevel>
+    <ReqStat type="STR">8</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">32</Value>
+  </Item>
+  <Item id="1029">
+    <Name>그림자의 추적자 상의</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>10</ReqLevel>
+    <ReqStat type="AGI">8</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">35</Value>
+  </Item>
+  <Item id="1030">
+    <Name>불멸의 룬 각인봉</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>10</ReqLevel>
+    <ReqStat type="INT">8</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">75</Value>
+  </Item>
+  <Item id="1031">
+    <Name>기본 사호 방패</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>11</ReqLevel>
+    <ReqStat type="STR">8</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">23</Value>
+  </Item>
+  <Item id="1032">
+    <Name>날카로운 암살자 단도</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>11</ReqLevel>
+    <ReqStat type="AGI">8</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">41</Value>
+  </Item>
+  <Item id="1033">
+    <Name>번개의 마법 로브</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>11</ReqLevel>
+    <ReqStat type="INT">8</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">38</Value>
+  </Item>
+  <Item id="1034">
+    <Name>우수한 실크 모자</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>12</ReqLevel>
+    <ReqStat type="INT">8</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">30</Value>
+  </Item>
+  <Item id="1035">
+    <Name>축복받은 강호의 도끼</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>12</ReqLevel>
+    <ReqStat type="STR">8</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">62</Value>
+  </Item>
+  <Item id="1036">
+    <Name>시공의 정찰자 경갑</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>12</ReqLevel>
+    <ReqStat type="AGI">8</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">53</Value>
+  </Item>
+  <Item id="1037">
+    <Name>정제된 가죽 장화</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>13</ReqLevel>
+    <ReqStat type="AGI">9</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">27</Value>
+  </Item>
+  <Item id="1038">
+    <Name>강화된 수호 도끼</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>13</ReqLevel>
+    <ReqStat type="STR">9</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">47</Value>
+  </Item>
+  <Item id="1039">
+    <Name>용혈의 요술 지팡이</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>13</ReqLevel>
+    <ReqStat type="INT">9</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">68</Value>
+  </Item>
+  <Item id="1040">
+    <Name>기본 학자 의복</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>14</ReqLevel>
+    <ReqStat type="INT">9</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">29</Value>
+  </Item>
+  <Item id="1041">
+    <Name>상급 가죽 흉갑</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>14</ReqLevel>
+    <ReqStat type="AGI">9</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">35</Value>
+  </Item>
+  <Item id="1042">
+    <Name>신성한 대검</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>14</ReqLevel>
+    <ReqStat type="STR">9</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">94</Value>
+  </Item>
+  <Item id="1043">
+    <Name>연마된 쇠망치</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>15</ReqLevel>
+    <ReqStat type="STR">9</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">45</Value>
+  </Item>
+  <Item id="1044">
+    <Name>서리발톱 헌터 복장</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>15</ReqLevel>
+    <ReqStat type="AGI">9</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">48</Value>
+  </Item>
+  <Item id="1045">
+    <Name>파멸의 현자 마법봉</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>15</ReqLevel>
+    <ReqStat type="INT">9</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">102</Value>
+  </Item>
+  <Item id="1046">
+    <Name>견고한 털가죽 옷</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>16</ReqLevel>
+    <ReqStat type="AGI">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">32</Value>
+  </Item>
+  <Item id="1047">
+    <Name>정교한 강철 투구</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>16</ReqLevel>
+    <ReqStat type="STR">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">40</Value>
+  </Item>
+  <Item id="1048">
+    <Name>화염의 영혼 주문서</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>16</ReqLevel>
+    <ReqStat type="INT">10</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">80</Value>
+  </Item>
+  <Item id="1049">
+    <Name>기본 수호 서클릿</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>17</ReqLevel>
+    <ReqStat type="INT">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">35</Value>
+  </Item>
+  <Item id="1050">
+    <Name>날카로운 장검</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>17</ReqLevel>
+    <ReqStat type="STR">10</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">58</Value>
+  </Item>
+  <Item id="1051">
+    <Name>불멸의 용사 경갑</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>17</ReqLevel>
+    <ReqStat type="AGI">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">68</Value>
+  </Item>
+  <Item id="1052">
+    <Name>단단한 판금 장갑</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>18</ReqLevel>
+    <ReqStat type="STR">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">37</Value>
+  </Item>
+  <Item id="1053">
+    <Name>우수한 야수 활</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>18</ReqLevel>
+    <ReqStat type="AGI">10</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">62</Value>
+  </Item>
+  <Item id="1054">
+    <Name>마법의 원소 로브</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>18</ReqLevel>
+    <ReqStat type="INT">10</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">55</Value>
+  </Item>
+  <Item id="1055">
+    <Name>평범한 떡갈나무 지팡이</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>19</ReqLevel>
+    <ReqStat type="INT">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">48</Value>
+  </Item>
+  <Item id="1056">
+    <Name>튼튼한 기사 흉갑</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>19</ReqLevel>
+    <ReqStat type="STR">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">47</Value>
+  </Item>
+  <Item id="1057">
+    <Name>신멸의 그림자 단검</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>19</ReqLevel>
+    <ReqStat type="AGI">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">120</Value>
+  </Item>
+  <Item id="1058">
+    <Name>정제된 가죽 헬멧</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>20</ReqLevel>
+    <ReqStat type="AGI">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">40</Value>
+  </Item>
+  <Item id="1059">
+    <Name>축복받은 강철 대검</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>20</ReqLevel>
+    <ReqStat type="STR">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">95</Value>
+  </Item>
+  <Item id="1060">
+    <Name>지옥화염 아크메이지 지팡이</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>20</ReqLevel>
+    <ReqStat type="INT">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">128</Value>
+  </Item>
+  <Item id="1061">
+    <Name>숙련자의 철퇴</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>21</ReqLevel>
+    <ReqStat type="STR">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">70</Value>
+  </Item>
+  <Item id="1062">
+    <Name>번개의 정찰자 가죽옷</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>21</ReqLevel>
+    <ReqStat type="AGI">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">62</Value>
+  </Item>
+  <Item id="1063">
+    <Name>태초의 대마법사 사슬</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>21</ReqLevel>
+    <ReqStat type="INT">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">80</Value>
+  </Item>
+  <Item id="1064">
+    <Name>기본 로브 상의</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>22</ReqLevel>
+    <ReqStat type="INT">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">44</Value>
+  </Item>
+  <Item id="1065">
+    <Name>강화된 십자궁</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>22</ReqLevel>
+    <ReqStat type="AGI">11</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">74</Value>
+  </Item>
+  <Item id="1066">
+    <Name>폭풍의 전사 갑옷</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>22</ReqLevel>
+    <ReqStat type="STR">11</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">70</Value>
+  </Item>
+  <Item id="1067">
+    <Name>단단한 거대 망치</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>23</ReqLevel>
+    <ReqStat type="STR">12</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">58</Value>
+  </Item>
+  <Item id="1068">
+    <Name>상급 실크 로브</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>23</ReqLevel>
+    <ReqStat type="INT">12</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">55</Value>
+  </Item>
+  <Item id="1069">
+    <Name>시공의 조용한 장궁</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>23</ReqLevel>
+    <ReqStat type="AGI">12</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">142</Value>
+  </Item>
+  <Item id="1070">
+    <Name>연마된 단검</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>24</ReqLevel>
+    <ReqStat type="AGI">12</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">60</Value>
+  </Item>
+  <Item id="1071">
+    <Name>서리발톱 요새 판금</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>24</ReqLevel>
+    <ReqStat type="STR">12</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">76</Value>
+  </Item>
+  <Item id="1072">
+    <Name>신성한 현자의 지팡이</Name>
+    <Grade>Unique</Grade>
+    <ReqLevel>24</ReqLevel>
+    <ReqStat type="INT">12</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">150</Value>
+  </Item>
+  <Item id="1073">
+    <Name>기본 수호자 투구</Name>
+    <Grade>Common</Grade>
+    <ReqLevel>25</ReqLevel>
+    <ReqStat type="STR">12</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">50</Value>
+  </Item>
+  <Item id="1074">
+    <Name>날카로운 헌팅 보우</Name>
+    <Grade>Uncommon</Grade>
+    <ReqLevel>25</ReqLevel>
+    <ReqStat type="AGI">12</ReqStat>
+    <Type>Weapon</Type>
+    <Value type="Attack">85</Value>
+  </Item>
+  <Item id="1075">
+    <Name>용혈의 마법사 서클릿</Name>
+    <Grade>Rare</Grade>
+    <ReqLevel>25</ReqLevel>
+    <ReqStat type="INT">12</ReqStat>
+    <Type>Armor</Type>
+    <Value type="Defense">78</Value>
+  </Item>
+</EquipmentDatabase>

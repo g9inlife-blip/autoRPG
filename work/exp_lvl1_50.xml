@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlayerCharacterDatabase>
+  <!-- ========================================== -->
+  <!-- 1. 필요 경험치 테이블 (Lv.1 ~ Lv.50)      -->
+  <!-- ========================================== -->
+  <ExpTable>
+    <Level value="1"><ExpToNext>100</ExpToNext></Level>
+    <Level value="2"><ExpToNext>600</ExpToNext></Level>
+    <Level value="3"><ExpToNext>1700</ExpToNext></Level>
+    <Level value="4"><ExpToNext>3600</ExpToNext></Level>
+    <Level value="5"><ExpToNext>6500</ExpToNext></Level>
+    <Level value="6"><ExpToNext>10600</ExpToNext></Level>
+    <Level value="7"><ExpToNext>16000</ExpToNext></Level>
+    <Level value="8"><ExpToNext>22800</ExpToNext></Level>
+    <Level value="9"><ExpToNext>31200</ExpToNext></Level>
+    <Level value="10"><ExpToNext>41300</ExpToNext></Level>
+    <Level value="11"><ExpToNext>53200</ExpToNext></Level>
+    <Level value="12"><ExpToNext>67000</ExpToNext></Level>
+    <Level value="13"><ExpToNext>82800</ExpToNext></Level>
+    <Level value="14"><ExpToNext>100700</ExpToNext></Level>
+    <Level value="15"><ExpToNext>120900</ExpToNext></Level>
+    <Level value="16"><ExpToNext>143400</ExpToNext></Level>
+    <Level value="17"><ExpToNext>168300</ExpToNext></Level>
+    <Level value="18"><ExpToNext>195700</ExpToNext></Level>
+    <Level value="19"><ExpToNext>225700</ExpToNext></Level>
+    <Level value="20"><ExpToNext>258400</ExpToNext></Level>
+    <Level value="21"><ExpToNext>293900</ExpToNext></Level>
+    <Level value="22"><ExpToNext>332200</ExpToNext></Level>
+    <Level value="23"><ExpToNext>373500</ExpToNext></Level>
+    <Level value="24"><ExpToNext>417900</ExpToNext></Level>
+    <Level value="25"><ExpToNext>465400</ExpToNext></Level>
+    <Level value="26"><ExpToNext>516200</ExpToNext></Level>
+    <Level value="27"><ExpToNext>570300</ExpToNext></Level>
+    <Level value="28"><ExpToNext>627800</ExpToNext></Level>
+    <Level value="29"><ExpToNext>688800</ExpToNext></Level>
+    <Level value="30"><ExpToNext>753300</ExpToNext></Level>
+    <Level value="31"><ExpToNext>821500</ExpToNext></Level>
+    <Level value="32"><ExpToNext>893400</ExpToNext></Level>
+    <Level value="33"><ExpToNext>969100</ExpToNext></Level>
+    <Level value="34"><ExpToNext>1048700</ExpToNext></Level>
+    <Level value="35"><ExpToNext>1132300</ExpToNext></Level>
+    <Level value="36"><ExpToNext>1219900</ExpToNext></Level>
+    <Level value="37"><ExpToNext>1311700</ExpToNext></Level>
+    <Level value="38"><ExpToNext>1407600</ExpToNext></Level>
+    <Level value="39"><ExpToNext>1507800</ExpToNext></Level>
+    <Level value="40"><ExpToNext>1612400</ExpToNext></Level>
+    <Level value="41"><ExpToNext>1721300</ExpToNext></Level>
+    <Level value="42"><ExpToNext>1834700</ExpToNext></Level>
+    <Level value="43"><ExpToNext>1952700</ExpToNext></Level>
+    <Level value="44"><ExpToNext>2075200</ExpToNext></Level>
+    <Level value="45"><ExpToNext>2202500</ExpToNext></Level>
+    <Level value="46"><ExpToNext>2334400</ExpToNext></Level>
+    <Level value="47"><ExpToNext>2471200</ExpToNext></Level>
+    <Level value="48"><ExpToNext>2612900</ExpToNext></Level>
+    <Level value="49"><ExpToNext>2759500</ExpToNext></Level>
+    <Level value="50"><ExpToNext>0</ExpToNext></Level>
+  </ExpTable>
+</PlayerCharacterDatabase>
