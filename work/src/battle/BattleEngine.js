@@ -2,7 +2,7 @@ class BattleEngine {
   constructor({ rng, damageCalculator, maxRounds = 100, onEvent = () => {} }) { this.rng = rng; this.damageCalculator = damageCalculator; this.maxRounds = maxRounds; this.onEvent = onEvent; }
   run(players, enemies) {
     const state = { round: 0, result: 'ONGOING', players, enemies, events: [], startedAt: Date.now(), endedAt: null, cooldowns: {} };
-    this.emit(state, 'BATTLE_START');
+    this.emit(state, 'BATTLE_START', { formation: this.getFormation(players) });
     while (state.round < this.maxRounds && state.result === 'ONGOING') {
       state.round++;
       for (const id of Object.keys(state.cooldowns)) state.cooldowns[id] = Math.max(0, state.cooldowns[id] - 1);
@@ -10,7 +10,10 @@ class BattleEngine {
       for (const actor of actors) {
         if (!actor.alive || state.result !== 'ONGOING') continue;
         const targets = actor.team === 'player' ? enemies : players;
-        const target = targets.filter(t => t.alive).sort((a,b) => a.hp-b.hp)[0];
+        const aliveTargets = targets.filter(t => t.alive);
+        const target = actor.team === 'enemy'
+          ? this.selectFormationTarget(aliveTargets, state)
+          : aliveTargets.sort((a,b) => a.hp-b.hp)[0];
         if (!target) break;
         const skill = this.chooseSkill(actor, state);
         if (skill) {
@@ -26,6 +29,34 @@ class BattleEngine {
     }
     if (state.result === 'ONGOING') state.result = 'DRAW';
     state.endedAt = Date.now(); this.emit(state, 'BATTLE_END', {result:state.result}); return state;
+  }
+  getFormation(players) {
+    const positions = ['frontline', 'middle', 'backline'];
+    const weights = [60, 30, 10];
+    return players.map((character, index) => ({
+      characterId: character.id,
+      character: character.name,
+      position: positions[index] || 'backline',
+      targetWeight: weights[index] || 10
+    }));
+  }
+  selectFormationTarget(targets, state) {
+    if (!targets.length) return null;
+    const positions = ['frontline', 'middle', 'backline'];
+    const weights = [60, 30, 10];
+    const candidates = targets.map(target => {
+      const index = state.players.indexOf(target);
+      return { target, position: positions[index] || 'backline', weight: weights[index] || 10 };
+    });
+    // 살아있는 대상만 남기고 가중치를 다시 합산한다.
+    // 전열이 쓰러지면 중열/후열의 확률이 30/10 그대로가 아니라 75/25가 된다.
+    const totalWeight = candidates.reduce((sum, candidate) => sum + candidate.weight, 0);
+    let roll = this.rng.next() * totalWeight;
+    for (const candidate of candidates) {
+      roll -= candidate.weight;
+      if (roll < 0) return candidate.target;
+    }
+    return candidates[candidates.length - 1].target;
   }
   chooseSkill(actor, state) {
     const ids = Array.isArray(actor.skills) ? actor.skills : [];
