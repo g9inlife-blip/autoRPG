@@ -81,4 +81,11 @@
     wrapped._regionNavigationLock=true;window.render=wrapped;
   }
   syncControls();
+
+  if(!document.querySelector('script[data-dungeon-progress-controller]')){
+    const script=document.createElement('script');
+    script.src='src/ui/DungeonProgressController.js?v=20260903-1';
+    script.dataset.dungeonProgressController='1';
+    document.body.appendChild(script);
+  }
 })();
