@@ -6,155 +6,31 @@
   function getNextButton(){return document.getElementById('stepDungeon');}
   function isRunning(){return Boolean(window.run?.active);}
   function isBossReady(){return Boolean(window.run?.bossReady);}
-
   function ensureBossButton(){
-    const start=getStartButton();
-    if(!start)return null;
+    const start=getStartButton();if(!start)return null;
     let boss=document.getElementById('bossDungeon');
     if(!boss){
-      boss=document.createElement('button');
-      boss.id='bossDungeon';
-      boss.type='button';
-      boss.textContent='보스전';
-      boss.setAttribute('aria-label','보스전');
-      boss.className='boss-dungeon-button';
-      start.parentNode?.insertBefore(boss,start.nextSibling);
-      boss.addEventListener('click',event=>{
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        if(!isRunning()||!isBossReady())return;
-        fightBoss();
-      },true);
+      boss=document.createElement('button');boss.id='bossDungeon';boss.type='button';boss.textContent='보스전';boss.setAttribute('aria-label','보스전');boss.className='boss-dungeon-button';start.parentNode?.insertBefore(boss,start.nextSibling);
+      boss.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();if(isRunning()&&isBossReady())fightBoss();},true);
     }
     return boss;
   }
-
-  function clearAuto(){
-    if(autoTimer!==null){clearInterval(autoTimer);autoTimer=null;}
-  }
-
-  function rememberBossArea(r){
-    const event=r?.events?.slice().reverse().find(e=>e.type==='BOSS_READY');
-    const area=Number(r?.bossReadyArea||event?.data?.bossArea||event?.data?.area||0);
-    if(area>0)r.bossReadyArea=area;
-    return area;
-  }
-
-  function loopBackToFirstArea(r){
-    const bossArea=rememberBossArea(r);
-    if(!bossArea)return;
-    if(Number(r.floor)+1===bossArea){
-      r.floor=1;
-      r.encounterIndex=0;
-    }
-  }
-
-  function scheduleAuto(){
-    clearAuto();
-    if(!isRunning())return;
-    autoTimer=setInterval(()=>{
-      const r=window.run;
-      if(!r?.active){clearAuto();sync();return;}
-      if(typeof window.stepDungeon==='function')window.stepDungeon();
-      const current=window.run;
-      if(!current?.active){clearAuto();sync();return;}
-      if(current.bossReady)loopBackToFirstArea(current);
-      if(typeof window.render==='function')window.render();
-      sync();
-    },AUTO_MS);
-  }
-
+  function clearAuto(){if(autoTimer!==null){clearInterval(autoTimer);autoTimer=null;}}
+  function rememberBossArea(r){const e=r?.events?.slice().reverse().find(x=>x.type==='BOSS_READY');const area=Number(r?.bossReadyArea||e?.data?.bossArea||e?.data?.area||0);if(area>0)r.bossReadyArea=area;return area;}
+  function loopBackToFirstArea(r){const bossArea=rememberBossArea(r);if(bossArea&&Number(r.floor)+1===bossArea){r.floor=1;r.encounterIndex=0;}}
+  function scheduleAuto(){clearAuto();if(!isRunning())return;autoTimer=setInterval(()=>{const r=window.run;if(!r?.active){clearAuto();sync();return;}if(typeof window.stepDungeon==='function')window.stepDungeon();const current=window.run;if(!current?.active){clearAuto();sync();return;}if(current.bossReady)loopBackToFirstArea(current);window.render?.();sync();},AUTO_MS);}
   function fightBoss(){
-    const r=window.run;
-    if(!r?.active||!r.bossReady||typeof r.fightBoss!=='function')return;
-    clearAuto();
-    const before=r.events.length;
-    const bossArea=rememberBossArea(r);
-    if(bossArea>0)r.floor=bossArea-1;
-    const result=r.fightBoss();
-    const added=r.events.slice(before);
-    const battle=added.find(e=>e.type==='BATTLE_END');
-    if(typeof window.render==='function')window.render();
-    if(battle){
-      const b=battle.data||{};
-      const battleEl=document.getElementById('battle');
-      if(battleEl)battleEl.innerHTML=`<p>결과: <b>${b.result||'?'}</b> / ${Math.round(Number(b.round)||0)} Round</p><p>보스전 · 상세 로그 ${Array.isArray(b.events)?b.events.length:0}건</p>`;
-      if(typeof window.showLogDetail==='function')window.showLogDetail(battle);
-    }
-    if(result?.failed||r.failed){
-      if(typeof window.showLogDetail==='function'){
-        const failed=added.find(e=>e.type==='RUN_FAILED');
-        if(failed)window.showLogDetail(failed);
-      }
-    }else if(result?.done||r.complete){
-      if(typeof window.showLogDetail==='function'){
-        const complete=added.find(e=>e.type==='RUN_COMPLETE');
-        if(complete)window.showLogDetail(complete);
-      }
-    }
+    const r=window.run;if(!r?.active||!r.bossReady||typeof r.fightBoss!=='function')return;
+    clearAuto();const before=r.events.length;const bossArea=rememberBossArea(r);if(bossArea>0)r.floor=bossArea-1;
+    const result=r.fightBoss();const added=r.events.slice(before);const battle=added.find(e=>e.type==='BATTLE_END');window.render?.();
+    if(battle){const b=battle.data||{};const battleEl=document.getElementById('battle');if(battleEl)battleEl.innerHTML=`<p>결과: <b>${b.result||'?'}</b> / ${Math.round(Number(b.round)||0)} Round</p><p>보스전 · 상세 로그 ${Array.isArray(b.events)?b.events.length:0}건</p>`;window.showLogDetail?.(battle);}
+    if(result?.failed||r.failed){const failed=added.find(e=>e.type==='RUN_FAILED');if(failed)window.showLogDetail?.(failed);}
+    else if(result?.done||r.complete){const complete=added.find(e=>e.type==='RUN_COMPLETE');if(complete)window.showLogDetail?.(complete);}
+    else if(r.active) scheduleAuto();
     sync();
   }
-
-  function stop(){
-    clearAuto();
-    const r=window.run;
-    if(!r?.active)return;
-    r.active=false;
-    const status=document.getElementById('status');
-    if(status)status.textContent='탐험을 중지했습니다.';
-    window.render?.();
-    sync();
-  }
-
-  function sync(){
-    const start=getStartButton();
-    const next=getNextButton();
-    const boss=ensureBossButton();
-    const running=isRunning();
-    const ready=isBossReady();
-    if(start){
-      start.textContent=running?'탐험중지':'탐험시작';
-      start.classList.toggle('exploration-stop',running);
-      start.setAttribute('aria-label',running?'탐험중지':'탐험시작');
-    }
-    if(next)next.hidden=true;
-    if(boss){
-      boss.hidden=!running;
-      boss.disabled=!ready;
-      boss.classList.toggle('boss-ready',ready);
-      boss.title=ready?'보스전에 돌입합니다.':'보스전 준비 중';
-    }
-  }
-
-  function install(){
-    const start=getStartButton();
-    if(!start)return;
-    if(!start.dataset.explorationControl){
-      start.dataset.explorationControl='1';
-      start.addEventListener('click',event=>{
-        if(isRunning()){
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          stop();
-          return;
-        }
-        setTimeout(()=>{
-          sync();
-          if(isRunning())scheduleAuto();
-        },0);
-      },true);
-    }
-    ensureBossButton();
-    sync();
-    if(!document.getElementById('exploration-control-style')){
-      const style=document.createElement('style');
-      style.id='exploration-control-style';
-      style.textContent='.exploration-stop{background:#fff!important;color:#111!important;border:1px solid #111!important;} .exploration-stop:hover{background:#f5f5f5!important;color:#111!important;} #bossDungeon.boss-ready{font-weight:700;} #bossDungeon:disabled{opacity:.55;cursor:default;}';
-      document.head.appendChild(style);
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded',install);
-  window.addEventListener('regions:ready',install);
-  install();
+  function stop(){clearAuto();const r=window.run;if(!r?.active)return;r.active=false;const status=document.getElementById('status');if(status)status.textContent='탐험을 중지했습니다.';window.render?.();sync();}
+  function sync(){const start=getStartButton(),next=getNextButton(),boss=ensureBossButton(),running=isRunning(),ready=isBossReady();if(start){start.textContent=running?'탐험중지':'탐험시작';start.classList.toggle('exploration-stop',running);start.setAttribute('aria-label',running?'탐험중지':'탐험시작');}if(next)next.hidden=true;if(boss){boss.hidden=!running;boss.disabled=!ready;boss.classList.toggle('boss-ready',ready);boss.title=ready?'보스전에 돌입합니다.':'보스전 준비 중';}}
+  function install(){const start=getStartButton();if(!start)return;if(!start.dataset.explorationControl){start.dataset.explorationControl='1';start.addEventListener('click',event=>{if(isRunning()){event.preventDefault();event.stopImmediatePropagation();stop();return;}setTimeout(()=>{sync();if(isRunning())scheduleAuto();},0);},true);}ensureBossButton();sync();if(!document.getElementById('exploration-control-style')){const style=document.createElement('style');style.id='exploration-control-style';style.textContent='.exploration-stop{background:#fff!important;color:#111!important;border:1px solid #111!important}.exploration-stop:hover{background:#f5f5f5!important;color:#111!important}#bossDungeon.boss-ready{font-weight:700}#bossDungeon:disabled{opacity:.55;cursor:default}';document.head.appendChild(style);}}
+  document.addEventListener('DOMContentLoaded',install);window.addEventListener('regions:ready',install);install();
 })();
