@@ -8,7 +8,14 @@ class ExplorationLogPanel {
     events.slice().reverse().forEach(e=>{
       const row=document.createElement('button'); row.type='button'; row.className='exploration-log-row';
       const data=e.data||{}; let summary='';
-      if(e.type==='BATTLE_END'){const enemies=(data.enemies||[]).join(', ')||'적';const downs=(data.events||[]).filter(x=>x?.type==='DEFEAT'||x?.action==='DEFEAT').map(x=>x.actor||x.name).filter(Boolean);summary=`[${e.floor}층] ${enemies}와 전투`+(downs.length?` (${downs.join(', ')} 기절)`:` · ${data.result||'전투 종료'}`);}
+      if(e.type==='BATTLE_END'){
+        const enemies=Array.isArray(data.enemies)?data.enemies:[];
+        const names=enemies.map(x=>typeof x==='string'?x:(x?.name||x?.Name||x?.monsterName||x?.id||'적')).filter(Boolean);
+        const label=names.join(', ')||'적';
+        const downs=(data.events||[]).filter(x=>x?.type==='DEFEAT'||x?.action==='DEFEAT').map(x=>x.data?.character||x.data?.defeatedName||x.actor||x.name).filter(Boolean);
+        summary=`[${e.floor}층] ${label}와 전투`+(downs.length?` (${downs.join(', ')} 기절)`:` · ${data.result||'전투 종료'}`);
+      }
+      else if(e.type==='HEALING_SPRING')summary=`[${e.floor}층] 치유샘물을 발견했다 · HP/MP 30% 회복`;
       else if(e.type==='LOOT')summary=`[${e.floor}층] ${data.itemName||data.itemId||'아이템'} 획득 ×${data.quantity||1}`;
       else if(e.type==='FLOOR_REACHED')summary=`[${e.floor}층] ${e.floor}층 도착`;
       else if(e.type==='RUN_START')summary='탐험 시작';
