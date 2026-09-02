@@ -1,8 +1,7 @@
 (() => {
   const originalStep = DungeonRun.prototype.step;
   DungeonRun.prototype.step = function(...args) {
-    const totalAreas = typeof this.areaCount === 'function' ? this.areaCount() : Number(this.dungeon?.areaCount || this.dungeon?.floors || 0);
-    if (this.active && this.floor > 0 && this.rng.int(1,100) <= 2) {
+    if (this.active && this.floor > 0 && !this._skipRandomEventOnce && this.rng.int(1,100) <= 2) {
       for (const c of this.party || []) {
         if (!c) continue;
         c.hp = Math.min(c.maxHp, c.hp + Math.ceil(c.maxHp * 0.30));
@@ -12,10 +11,12 @@
         hpPercent:30, mpPercent:30,
         characters:(this.party||[]).map(c=>({id:c.id,name:c.name,hp:c.hp,maxHp:c.maxHp,mp:c.mp,maxMp:c.maxMp}))
       });
-      if (this.floor === totalAreas) {
-        this.complete=true; this.active=false; this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:totalAreas});
-      } else this.nextFloor();
-      return {done:this.complete,battle:null};
+      this._skipRandomEventOnce = true;
+      try {
+        return originalStep.apply(this,args);
+      } finally {
+        delete this._skipRandomEventOnce;
+      }
     }
     return originalStep.apply(this,args);
   };
