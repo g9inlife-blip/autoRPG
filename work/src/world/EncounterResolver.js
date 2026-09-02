@@ -40,5 +40,24 @@
     const usable=normalPool.length?normalPool:pool;
     return usable.length?[rng.pick(usable)]:[];
   }
+  function dungeonRunActive(){return !!window.run?.active;}
+  function notifyLocked(){const s=document.getElementById('status');if(s)s.textContent='던전 진행 중에는 상점 이용 및 장비 변경을 할 수 없습니다.';}
+  document.addEventListener('click',e=>{
+    if(!dungeonRunActive())return;
+    const target=e.target?.closest?.('[data-buy-item],[data-sell-instance],.character-formation [data-move]');
+    if(!target)return;
+    e.preventDefault();e.stopImmediatePropagation();notifyLocked();
+  },true);
+  document.addEventListener('focusin',e=>{
+    if(!dungeonRunActive())return;
+    if(e.target?.matches?.('.character-equipment select'))e.target.dataset.dungeonPreviousValue=e.target.value;
+  },true);
+  document.addEventListener('change',e=>{
+    if(!dungeonRunActive())return;
+    if(!e.target?.matches?.('.character-equipment select'))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    if(e.target.dataset.dungeonPreviousValue!==undefined)e.target.value=e.target.dataset.dungeonPreviousValue;
+    notifyLocked();
+  },true);
   window.EncounterResolver={resolve,resolveSpecial,isBoss,isSpecialMonster,areaHasSpecial};
 })();
