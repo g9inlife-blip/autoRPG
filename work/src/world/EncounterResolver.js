@@ -11,13 +11,17 @@
   }
   function isBoss(monsters){return (Array.isArray(monsters)?monsters:[]).some(m=>String(m?.placement||'').toLowerCase()==='boss'||String(m?.grade||m?.monsterGrade||'').toLowerCase()==='boss'||String(m?.form||m?.monsterForm||'').toLowerCase()==='boss');}
   function getArea(dungeon,area){return Array.isArray(dungeon?.areas)?dungeon.areas.find(x=>Number(x.area)===Number(area)):null;}
-  function areaHasSpecial(dungeon, area){
+  // 중간보스/엘리트는 일반 구역에 포함한다. 보스 구역 판정은 진짜 boss만 사용한다.
+  function areaHasBoss(dungeon, area){
     const a=getArea(dungeon,area); const encounters=Array.isArray(a?.encounters)?a.encounters:[];
     for(const e of encounters){
       const list=[...(Array.isArray(e?.enemies)?e.enemies:[]),...(Array.isArray(e?.monsters)?e.monsters:[])];
-      if(list.some(x=>isSpecialMonster(typeof x==='string'?xmlMonster(dungeon,x):x)))return true;
+      if(list.some(x=>isBoss([typeof x==='string'?xmlMonster(dungeon,x):x])))return true;
     }
     return false;
+  }
+  function areaHasSpecial(dungeon, area){
+    return areaHasBoss(dungeon,area);
   }
   function encounterToMonsters(dungeon,e){
     if(e?.enemies?.length)return e.enemies.map(x=>typeof x==='string'?xmlMonster(dungeon,x):x).filter(Boolean);
@@ -26,7 +30,7 @@
   }
   function resolveSpecial(dungeon, area){
     const a=getArea(dungeon,area); const encounters=Array.isArray(a?.encounters)?a.encounters:[];
-    for(const e of encounters){const monsters=encounterToMonsters(dungeon,e);if(monsters.length&&monsters.some(isSpecialMonster))return monsters;}
+    for(const e of encounters){const monsters=encounterToMonsters(dungeon,e);if(monsters.length&&isBoss(monsters))return monsters;}
     return [];
   }
   function resolve(dungeon, area, rng){
@@ -59,5 +63,5 @@
     if(e.target.dataset.dungeonPreviousValue!==undefined)e.target.value=e.target.dataset.dungeonPreviousValue;
     notifyLocked();
   },true);
-  window.EncounterResolver={resolve,resolveSpecial,isBoss,isSpecialMonster,areaHasSpecial};
+  window.EncounterResolver={resolve,resolveSpecial,isBoss,isSpecialMonster,areaHasSpecial,areaHasBoss};
 })();
