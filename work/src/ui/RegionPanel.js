@@ -38,6 +38,20 @@
     const inn=document.getElementById('regionInnContext');if(inn)inn.innerHTML=`<b>${region?.name||'지역'}</b> · 던전 ${dungeons.length}개 · 권장 범위 ${range}`;
     const shop=document.getElementById('regionShopContext');if(shop)shop.innerHTML=`<b>${region?.name||'지역'}</b> · 지역 상점 데이터 ${Object.keys(region?.shop||{}).length?'설정됨':'기본 목록 사용'}`;
   }
+  function updateEncounterProgress(){
+    const line=document.querySelector('#dungeon .dungeon-info-line');
+    if(!line)return;
+    line.querySelector('[data-encounter-progress]')?.remove();
+    const r=window.run;
+    if(!r?.active)return;
+    const max=typeof r.getAreaMaxEncounters==='function'?r.getAreaMaxEncounters(r.floor):5;
+    const current=Math.min(Number(r.encounterIndex)||0,max);
+    const span=document.createElement('span');
+    span.dataset.encounterProgress='1';
+    span.innerHTML=`전투 ${current}/${max}`;
+    const sep=document.createElement('i');sep.className='sep';sep.textContent='·';
+    line.appendChild(sep);line.appendChild(span);
+  }
   function lockMessage(message){const status=document.getElementById('status');if(status)status.textContent=message;}
   window.regionUiSync=sync;
   window.regionUiUpdateContext=updateContext;
@@ -59,6 +73,7 @@
   const syncControls=()=>{
     const active=runActive();
     ['regionSelect','dungeonSelect','seed'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=active;});
+    updateEncounterProgress();
   };
   const originalRender=window.render;
   if(typeof originalRender==='function'&&!originalRender._regionNavigationLock){
