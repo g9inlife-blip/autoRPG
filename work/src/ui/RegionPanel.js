@@ -32,5 +32,5 @@
   window.regionUiSync=sync;
   window.regionUiUpdateContext=updateContext;
   window.addEventListener('regions:ready',sync);
-  document.addEventListener('DOMContentLoaded',()=>{sync();document.getElementById('regionSelect')?.addEventListener('change',()=>{sync();window.shopRender?.();window.render?.();});document.getElementById('dungeonSelect')?.addEventListener('change',updateContext);});
+  document.addEventListener('DOMContentLoaded',()=>{sync();document.getElementById('regionSelect')?.addEventListener('change',updateContext);document.getElementById('dungeonSelect')?.addEventListener('change',updateContext);});
 })();
