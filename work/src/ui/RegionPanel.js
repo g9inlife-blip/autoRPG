@@ -62,7 +62,7 @@
     const target=event.target?.closest?.('.tabs [data-tab],#regionSelect,#dungeonSelect,#startDungeon,#reset');
     if(!target)return;
     if(target.matches('.tabs [data-tab]')){event.preventDefault();event.stopImmediatePropagation();lockMessage('던전 진행 중에는 다른 화면으로 이동할 수 없습니다.');return;}
-    if(target.matches('#startDungeon')){event.preventDefault();event.stopImmediatePropagation();lockMessage('던전 진행 중에는 다른 던전을 시작할 수 없습니다.');return;}
+    if(target.matches('#startDungeon')){event.preventDefault();event.stopImmediatePropagation();return;}
     if(target.matches('#reset')){event.preventDefault();event.stopImmediatePropagation();lockMessage('던전 진행 중에는 초기화할 수 없습니다.');return;}
   },true);
   document.addEventListener('pointerdown',event=>{
@@ -81,4 +81,10 @@
     wrapped._regionNavigationLock=true;window.render=wrapped;
   }
   syncControls();
+  if(!document.querySelector('script[data-exploration-control]')){
+    const script=document.createElement('script');
+    script.src='src/ui/ExplorationControl.js?v=20260903-1';
+    script.dataset.explorationControl='1';
+    document.body.appendChild(script);
+  }
 })();
