@@ -2,40 +2,40 @@
   let timer = null;
   let started = false;
 
-  function clearTimer(){
-    if(timer){clearTimeout(timer);timer=null;}
-  }
-
+  function clearTimer(){if(timer){clearTimeout(timer);timer=null;}}
+  function startButton(){return document.getElementById('startDungeon');}
   function button(){return document.getElementById('stepDungeon');}
 
-  function syncButton(){
-    const b=button();
-    if(!b)return;
-    const r=window.run;
+  function syncButtons(){
+    const start=startButton(),boss=button(),r=window.run;
     const active=Boolean(r?.active);
-    b.textContent='보스전';
-    b.disabled=!active || !r?.bossReady;
-    b.hidden=!active;
+    if(start){start.textContent='던전 진행';start.disabled=active;}
+    if(boss){boss.textContent='보스전';boss.disabled=!active||!r?.bossReady;boss.hidden=!active;}
   }
 
   function schedule(){
     clearTimer();
     const r=window.run;
-    if(!r?.active || r.complete || r.failed){syncButton();return;}
+    if(!r?.active||r.complete||r.failed){syncButtons();return;}
     timer=setTimeout(()=>{
       timer=null;
       const current=window.run;
-      if(!current?.active || current.complete || current.failed){syncButton();return;}
-      if(current.bossReady){syncButton();return;}
+      if(!current?.active||current.complete||current.failed){syncButtons();return;}
       window.stepDungeon?.();
-      syncButton();
-      if(window.run?.active && !window.run?.complete && !window.run?.failed) schedule();
+      syncButtons();
+      if(window.run?.active&&!window.run?.complete&&!window.run?.failed)schedule();
     },1000);
+  }
+
+  function renderBossBattle(battle){
+    if(!battle)return;
+    const panel=document.getElementById('battle');
+    if(panel)panel.innerHTML=`<p>결과: <b>${battle.data?.result||'?'}</b> / ${Math.round(Number(battle.data?.round)||0)} Round</p><p>전투시간 ${Math.max(1,Math.round((battle.data?.events?.length||0)/10))}초 · 상세 로그 ${(battle.data?.events||[]).length}건</p>`;
   }
 
   function runBossBattle(){
     const r=window.run;
-    if(!r?.active || !r.bossReady)return;
+    if(!r?.active||!r.bossReady)return;
     clearTimer();
     try{
       const before=r.events.length;
@@ -43,13 +43,11 @@
       const added=r.events.slice(before);
       if(typeof window.recordQuestEvents==='function')window.recordQuestEvents(added);
       const battle=added.find(e=>e.type==='BATTLE_END');
-      if(battle){
-        window.lastBattle={result:{result:battle.data.result,round:battle.data.round},events:battle.data.events,seconds:Math.max(.1,battle.data.events.length/10)};
-        window.updateDialogue?.(battle.data.events);
-      } else window.updateDialogue?.(added);
-      window.state&&(window.state.adventure={active:r.active,currentEvent:r.events.at(-1)?.type||null});
+      if(battle){renderBossBattle(battle);window.updateDialogue?.(battle.data.events);}
+      else window.updateDialogue?.(added);
       window.renderQuests?.();
       window.render?.();
+      if(battle)renderBossBattle(battle);
       if(added.some(e=>e.type==='RUN_FAILED'))window.showRunResult?.(false);
       else if(added.some(e=>e.type==='RUN_COMPLETE')||result?.done)window.showRunResult?.(true);
     }catch(error){
@@ -57,8 +55,8 @@
       if(status)status.textContent='보스전 오류: '+error.message;
       console.error(error);
     }
-    syncButton();
-    if(window.run?.active && !window.run?.complete && !window.run?.failed) schedule();
+    syncButtons();
+    if(window.run?.active&&!window.run?.complete&&!window.run?.failed)schedule();
   }
 
   function install(){
@@ -68,22 +66,20 @@
         clearTimer();
         const result=originalStart.apply(this,args);
         started=true;
-        syncButton();
+        syncButtons();
         schedule();
         return result;
       };
       wrappedStart._autoDungeonProgress=true;
       window.startDungeon=wrappedStart;
     }
-
     const b=button();
     if(b&&!b._bossButtonBound){
       b._bossButtonBound=true;
       b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();runBossBattle();},true);
     }
-
-    if(window.run?.active&&!started) schedule();
-    syncButton();
+    if(window.run?.active&&!started)schedule();
+    syncButtons();
   }
 
   document.addEventListener('DOMContentLoaded',install);
