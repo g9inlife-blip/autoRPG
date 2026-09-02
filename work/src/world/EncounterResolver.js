@@ -10,32 +10,29 @@
     return grade==='boss'||grade==='midboss'||grade==='mini-boss'||grade==='miniboss'||grade==='elite'||form==='boss'||form==='midboss'||form==='mini-boss'||form==='miniboss'||form==='elite'||placement==='boss'||placement==='midboss'||placement==='mini-boss'||placement==='miniboss'||placement==='elite';
   }
   function isBoss(monsters){return (Array.isArray(monsters)?monsters:[]).some(m=>String(m?.placement||'').toLowerCase()==='boss'||String(m?.grade||m?.monsterGrade||'').toLowerCase()==='boss'||String(m?.form||m?.monsterForm||'').toLowerCase()==='boss');}
+  function isMidboss(monsters){return (Array.isArray(monsters)?monsters:[]).some(m=>{const grade=String(m?.grade||m?.monsterGrade||'').toLowerCase();const form=String(m?.form||m?.monsterForm||'').toLowerCase();const placement=String(m?.placement||'').toLowerCase();return grade==='midboss'||grade==='mini-boss'||grade==='miniboss'||grade==='elite'||form==='midboss'||form==='mini-boss'||form==='miniboss'||form==='elite'||placement==='midboss'||placement==='mini-boss'||placement==='miniboss'||placement==='elite';});}
   function getArea(dungeon,area){return Array.isArray(dungeon?.areas)?dungeon.areas.find(x=>Number(x.area)===Number(area)):null;}
-  // 중간보스/엘리트는 일반 구역에 포함한다. 보스 구역 판정은 진짜 boss만 사용한다.
-  function areaHasBoss(dungeon, area){
+  function areaHasBoss(dungeon,area){
     const a=getArea(dungeon,area); const encounters=Array.isArray(a?.encounters)?a.encounters:[];
-    for(const e of encounters){
-      const list=[...(Array.isArray(e?.enemies)?e.enemies:[]),...(Array.isArray(e?.monsters)?e.monsters:[])];
-      if(list.some(x=>isBoss([typeof x==='string'?xmlMonster(dungeon,x):x])))return true;
-    }
+    for(const e of encounters){const list=[...(Array.isArray(e?.enemies)?e.enemies:[]),...(Array.isArray(e?.monsters)?e.monsters:[])];if(list.some(x=>isBoss([typeof x==='string'?xmlMonster(dungeon,x):x])))return true;}
     return false;
   }
-  function areaHasSpecial(dungeon, area){
-    return areaHasBoss(dungeon,area);
-  }
+  function areaHasSpecial(dungeon,area){return areaHasBoss(dungeon,area);}
   function encounterToMonsters(dungeon,e){
     if(e?.enemies?.length)return e.enemies.map(x=>typeof x==='string'?xmlMonster(dungeon,x):x).filter(Boolean);
     if(e?.monsters?.length)return e.monsters.map(x=>xmlMonster(dungeon,x.name)||x).filter(Boolean);
     return [];
   }
-  function resolveSpecial(dungeon, area){
+  function resolveSpecial(dungeon,area){
     const a=getArea(dungeon,area); const encounters=Array.isArray(a?.encounters)?a.encounters:[];
     for(const e of encounters){const monsters=encounterToMonsters(dungeon,e);if(monsters.length&&isBoss(monsters))return monsters;}
     return [];
   }
-  function resolve(dungeon, area, rng){
+  function resolve(dungeon,area,rng,options={}){
     const a=getArea(dungeon,area); const encounters=Array.isArray(a?.encounters)?a.encounters:[];
-    const e=encounters.length?encounters[rng.int(0,encounters.length-1)]:null;
+    const excludeMidboss=Boolean(options?.excludeMidboss);
+    const candidates=encounters.filter(e=>{const monsters=encounterToMonsters(dungeon,e);return monsters.length&&(!excludeMidboss||!isMidboss(monsters));});
+    const e=candidates.length?candidates[rng.int(0,candidates.length-1)]:null;
     const explicit=encounterToMonsters(dungeon,e);
     if(explicit.length)return explicit;
     const target=Math.max(1,Math.min(50,Number(dungeon?.levelMap?.[Number(area)-1])||Number(area)||1));
@@ -63,5 +60,5 @@
     if(e.target.dataset.dungeonPreviousValue!==undefined)e.target.value=e.target.dataset.dungeonPreviousValue;
     notifyLocked();
   },true);
-  window.EncounterResolver={resolve,resolveSpecial,isBoss,isSpecialMonster,areaHasSpecial,areaHasBoss};
+  window.EncounterResolver={resolve,resolveSpecial,isBoss,isMidboss,isSpecialMonster,areaHasSpecial,areaHasBoss};
 })();
