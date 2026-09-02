@@ -30,9 +30,13 @@ window.syncXmlDungeons = function(){
         })
       }))
     }));
+    const declaredAreaCount=Number(g.place?.areaCount)||0;
+    const actualAreaCount=areas.reduce((max,area)=>Math.max(max,Number(area.area)||0),0);
+    const areaCount=Math.max(declaredAreaCount,actualAreaCount);
     data[id]={
       id,name:g.name,monsterDungeonName:g.name,regionName:'',
-      floors:areas.length||g.levels.length,
+      areaCount,
+      floors:areaCount||g.levels.length,
       areas,
       levelStart:g.minLevel,levelEnd:g.maxLevel,
       levelMap:g.levels,encounters:[],xml:true,source:'monster_lvl1_50.xml',
@@ -43,7 +47,7 @@ window.syncXmlDungeons = function(){
 
   window.DUNGEON_DATA=data;window.DUNGEONS=data;window.XML_DUNGEON_DATA=data;window.MONSTER_DATABASE=loader.state.items;
   const select=document.getElementById('dungeonSelect');
-  if(select){const old=select.value;select.innerHTML='';Object.values(data).forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=`${d.name} (${d.levelStart}~${d.levelEnd}Lv / ${d.floors}구역)`;select.appendChild(o);});if(data[old])select.value=old;}
+  if(select){const old=select.value;select.innerHTML='';Object.values(data).forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=`${d.name} (${d.levelStart}~${d.levelEnd}Lv / ${d.areaCount}구역)`;select.appendChild(o);});if(data[old])select.value=old;}
 
   const proto=window.DungeonRun?.prototype;
   if(proto&&!proto._xmlDungeonPatch){
