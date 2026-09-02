@@ -46,8 +46,7 @@
     return equipByMode(c, level, 'max');
   }
 
-  // Build a fixed level profile from XML equipment data. This never reads the
-  // player's current inventory/equipment, so runtime upgrades cannot rescale monsters.
+  // Build a fixed level profile from XML equipment data. Runtime equipment never rescales monsters.
   function equipByMode(c, level, mode = 'max') {
     const loader = window.EquipmentXmlLoader;
     if (!loader?.state?.loaded) return c;
@@ -103,7 +102,9 @@
     });
     return {
       level, mode, defense: defenderDefense, characters,
-      partyDpr: characters.reduce((sum, c) => sum + c.expectedDpr, 0)
+      partyDpr: characters.reduce((sum, c) => sum + c.expectedDpr, 0),
+      totalHp: characters.reduce((sum, c) => sum + c.hp, 0),
+      averageDefense: characters.length ? characters.reduce((sum, c) => sum + c.defense, 0) / characters.length : 0
     };
   }
 
@@ -112,14 +113,11 @@
     const max = partyProfile(level, defenderDefense, 'max');
     const balancedDpr = (min.partyDpr + max.partyDpr) / 2;
     return {
-      level,
-      defense: defenderDefense,
-      min,
-      max,
-      partyDpr: balancedDpr,
-      partyDamage: balancedDpr,
-      minDpr: min.partyDpr,
-      maxDpr: max.partyDpr
+      level, defense: defenderDefense, min, max,
+      partyDpr: balancedDpr, partyDamage: balancedDpr,
+      minDpr: min.partyDpr, maxDpr: max.partyDpr,
+      minHp: min.totalHp, maxHp: max.totalHp,
+      minDefense: min.averageDefense, maxDefense: max.averageDefense
     };
   }
 
@@ -127,25 +125,73 @@
     return CONFIG.difficulty[gradeKey(monster)];
   }
 
-  function solveAttackForSurvival(monster, party, targetRounds) {
-    const desiredSurvival = targetRounds * targetForMonster(monster).survivalMultiplier;
-    const weakest = party.reduce((a, b) => (a.hp < b.hp ? a : b));
-    const desiredDpr = weakest.hp / Math.max(1, desiredSurvival);
-    const defense = Number(weakest.defense) || 0;
+  // Solve one monster ATK against a whole fixed level party. Both the minimum
+  // and maximum equipment profiles are evaluated; HP and DEF are therefore
+  // part of the equation rather than using only the weakest member.
+  function solveAttackForProfile(party, targetRounds) {
+    const target = Math.max(1, Number(targetRounds) || 1);
+    const totalHp = party.reduce((sum, c) => sum + (Number(c.hp) || 0), 0);
     let lo = 1, hi = CONFIG.maxAttack;
     while (lo < hi) {
       const mid = Math.floor((lo + hi + 1) / 2);
-      if (expectedDamagePerAttack(mid, defense) <= desiredDpr) lo = mid;
+      const incomingDpr = party.reduce(
+        (sum, c) => sum + expectedDamagePerAttack(mid, Number(c.defense) || 0), 0
+      );
+      const survivalRounds = totalHp / Math.max(0.0001, incomingDpr);
+      if (survivalRounds >= target) lo = mid;
       else hi = mid - 1;
     }
+    const attack = Math.max(1, lo);
+    const incomingDpr = party.reduce(
+      (sum, c) => sum + expectedDamagePerAttack(attack, Number(c.defense) || 0), 0
+    );
     return {
-      attack: Math.max(1, lo),
+      attack,
+      totalHp,
+      totalDefense: party.reduce((sum, c) => sum + (Number(c.defense) || 0), 0),
+      averageDefense: party.length ? party.reduce((sum, c) => sum + (Number(c.defense) || 0), 0) / party.length : 0,
+      expectedIncomingDpr: incomingDpr,
+      estimatedSurvivalRounds: totalHp / Math.max(0.0001, incomingDpr)
+    };
+  }
+
+  function solveAttackForSurvival(monster, party, targetRounds) {
+    const desiredSurvival = targetRounds * targetForMonster(monster).survivalMultiplier;
+    const min = solveAttackForProfile(party, desiredSurvival);
+    const max = solveAttackForProfile(
+      party.map(c => ({ ...c, hp: Number(c.hp) || 0, defense: Number(c.defense) || 0 })),
+      desiredSurvival
+    );
+    // party is normally the min profile here; retain a profile-oriented API.
+    return {
+      attack: min.attack,
       desiredSurvivalRounds: desiredSurvival,
-      weakestClassId: weakest.classId,
-      weakestHp: weakest.hp,
-      weakestDefense: defense,
-      expectedIncomingDpr: expectedDamagePerAttack(Math.max(1, lo), defense),
-      estimatedSurvivalRounds: weakest.hp / Math.max(0.0001, expectedDamagePerAttack(Math.max(1, lo), defense))
+      expectedIncomingDpr: min.expectedIncomingDpr,
+      estimatedSurvivalRounds: min.estimatedSurvivalRounds,
+      totalHp: min.totalHp,
+      averageDefense: min.averageDefense,
+      profile: min,
+      maxProfile: max
+    };
+  }
+
+  function solveAttackFromMinMax(minParty, maxParty, targetRounds, survivalMultiplier = 1) {
+    const desired = Math.max(1, Number(targetRounds) || 1) * Math.max(1, Number(survivalMultiplier) || 1);
+    const min = solveAttackForProfile(minParty, desired);
+    const max = solveAttackForProfile(maxParty, desired);
+    // Midpoint attack prevents either equipment extreme from making combat
+    // effectively immortal while avoiding an excessively punishing low-end hit.
+    const attack = Math.max(1, Math.round((min.attack + max.attack) / 2));
+    const evaluate = party => {
+      const incomingDpr = party.reduce((sum, c) => sum + expectedDamagePerAttack(attack, Number(c.defense) || 0), 0);
+      const totalHp = party.reduce((sum, c) => sum + (Number(c.hp) || 0), 0);
+      return { totalHp, expectedIncomingDpr: incomingDpr, estimatedSurvivalRounds: totalHp / Math.max(0.0001, incomingDpr) };
+    };
+    return {
+      attack, desiredSurvivalRounds: desired,
+      minAttack: min.attack, maxAttack: max.attack,
+      minProfile: min, maxProfile: max,
+      minResult: evaluate(minParty), maxResult: evaluate(maxParty)
     };
   }
 
@@ -156,12 +202,16 @@
     const rule = CONFIG.difficulty[kind];
     const party = partyReference(level, Number(monster.defense) || 0);
     const targetRounds = Math.max(1, Number(options.targetRounds) || rule.ttkRounds);
-    // HP is fixed from the level's canonical min/max party DPS, not from the
-    // currently equipped player. Midpoint keeps the target reachable by both ends.
+    // HP uses the fixed level min/max offensive profiles, never the current player.
     const hp = Math.max(1, Math.round(party.partyDpr * targetRounds));
-    // Incoming damage is likewise solved from the fixed minimum-performance
-    // level profile. A stronger player therefore simply clears this monster faster.
-    const survival = solveAttackForSurvival(monster, party.min.characters, targetRounds);
+    // ATK uses both fixed level defensive extremes: minimum and maximum
+    // equipment HP/DEF are solved independently, then their attack midpoint is used.
+    const survival = solveAttackFromMinMax(
+      party.min.characters,
+      party.max.characters,
+      targetRounds,
+      rule.survivalMultiplier
+    );
     const result = {
       id: monster.id, name: monster.name, level,
       grade: monster.grade, form: monster.form, kind,
@@ -176,15 +226,21 @@
         minPartyDpr: party.minDpr,
         maxPartyDpr: party.maxDpr,
         midpointPartyDpr: party.partyDpr,
-        minExpectedClearRounds: party.partyDpr > 0 ? hp / party.maxDpr : Infinity,
-        maxExpectedClearRounds: party.partyDpr > 0 ? hp / party.minDpr : Infinity,
+        minHp: party.minHp,
+        maxHp: party.maxHp,
+        minDefense: party.minDefense,
+        maxDefense: party.maxDefense,
+        minExpectedClearRounds: party.maxDpr > 0 ? hp / party.maxDpr : Infinity,
+        maxExpectedClearRounds: party.minDpr > 0 ? hp / party.minDpr : Infinity,
         expectedClearRounds: party.partyDpr > 0 ? hp / party.partyDpr : Infinity,
         desiredSurvivalRounds: survival.desiredSurvivalRounds,
-        estimatedSurvivalRounds: survival.estimatedSurvivalRounds,
-        weakestClassId: survival.weakestClassId,
-        weakestHp: survival.weakestHp,
-        weakestDefense: survival.weakestDefense,
-        survivalMarginRounds: survival.estimatedSurvivalRounds - targetRounds
+        minAttackForTarget: survival.minAttack,
+        maxAttackForTarget: survival.maxAttack,
+        estimatedSurvivalRoundsMinProfile: survival.minResult.estimatedSurvivalRounds,
+        estimatedSurvivalRoundsMaxProfile: survival.maxResult.estimatedSurvivalRounds,
+        expectedIncomingDprMinProfile: survival.minResult.expectedIncomingDpr,
+        expectedIncomingDprMaxProfile: survival.maxResult.expectedIncomingDpr,
+        survivalMarginRounds: ((survival.minResult.estimatedSurvivalRounds + survival.maxResult.estimatedSurvivalRounds) / 2) - targetRounds
       },
       profileSource: 'fixed-level-min-max-equipment'
     };
@@ -301,8 +357,8 @@
   window.BattleBalanceCalculator = {
     CONFIG, gradeKey, leveledCharacter, equipBest, equipByMode,
     expectedDamagePerAttack, expectedDamagePerRound, partyProfile, partyReference,
-    targetForMonster, calculateMonsterStats, calculateDungeonMonsters,
-    dungeonBoss, levelForDungeon, makeParty, survivalReference,
-    calculateBossHp, calculateAll, simulateBoss, findBossHp90
+    targetForMonster, solveAttackForProfile, solveAttackForSurvival, solveAttackFromMinMax,
+    calculateMonsterStats, calculateDungeonMonsters, dungeonBoss, levelForDungeon,
+    makeParty, survivalReference, calculateBossHp, calculateAll, simulateBoss, findBossHp90
   };
 })();
