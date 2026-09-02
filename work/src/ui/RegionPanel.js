@@ -59,10 +59,9 @@
   document.addEventListener('DOMContentLoaded',()=>{sync();document.getElementById('regionSelect')?.addEventListener('change',updateContext);document.getElementById('dungeonSelect')?.addEventListener('change',updateContext);});
   document.addEventListener('click',event=>{
     if(!runActive())return;
-    const target=event.target?.closest?.('.tabs [data-tab],#regionSelect,#dungeonSelect,#startDungeon,#reset');
+    const target=event.target?.closest?.('.tabs [data-tab],#regionSelect,#dungeonSelect,#reset');
     if(!target)return;
     if(target.matches('.tabs [data-tab]')){event.preventDefault();event.stopImmediatePropagation();lockMessage('던전 진행 중에는 다른 화면으로 이동할 수 없습니다.');return;}
-    if(target.matches('#startDungeon')){event.preventDefault();event.stopImmediatePropagation();return;}
     if(target.matches('#reset')){event.preventDefault();event.stopImmediatePropagation();lockMessage('던전 진행 중에는 초기화할 수 없습니다.');return;}
   },true);
   document.addEventListener('pointerdown',event=>{
@@ -83,7 +82,7 @@
   syncControls();
   if(!document.querySelector('script[data-exploration-control]')){
     const script=document.createElement('script');
-    script.src='src/ui/ExplorationControl.js?v=20260903-1';
+    script.src='src/ui/ExplorationControl.js?v=20260903-2';
     script.dataset.explorationControl='1';
     document.body.appendChild(script);
   }
