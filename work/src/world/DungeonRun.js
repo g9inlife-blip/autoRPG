@@ -22,7 +22,6 @@ class DungeonRun {
   fightBoss(){if(!this.active||!this.bossReady)return{done:false,bossReady:false};const bossArea=this.floor+1;if(bossArea>this.areaCount()){this.complete=true;this.active=false;this.bossReady=false;this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:this.areaCount()});return{done:true};}this.floor=bossArea;this.encounterIndex=0;this.bossReady=false;this.emit('FLOOR_REACHED',{floor:this.floor,area:this.floor,areaCount:this.areaCount(),maxEncounters:1,bossBattle:true});const enemies=this.getXmlEnemies();if(!enemies?.length){this.active=false;this.failed=true;this.emit('RUN_FAILED',{floor:this.floor,area:this.floor,encounter:1,round:0,result:'NO_BOSS',enemies:[]});return{done:true,failed:true};}const battle=this.fight(enemies);const result=battle?.result?.result||battle?.result||'DRAW';if(result!=='WIN'){this.active=false;this.complete=false;this.failed=true;this.emit('RUN_FAILED',{floor:this.floor,area:this.floor,encounter:1,round:Number(battle?.round)||0,result,enemies:enemies.map(e=>({id:e.monsterId||e.id,name:e.name,level:e.monsterLevel||e.level||null,grade:e.monsterGrade||e.grade||null}))});return{done:true,battle:this.currentBattle,failed:true,bossBattle:true};}this.encounterIndex=1;this.emit('AREA_ENCOUNTER',{area:this.floor,encounter:1,maxEncounters:1,remaining:0});this.addEquipmentLoot({boss:true,level:this.currentAreaLevel(enemies)});this.addLoot('boss-cache','수호자의 보물',1,500);if(this.floor===this.areaCount()){this.complete=true;this.active=false;this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:this.areaCount()});}return{done:this.complete,battle:this.currentBattle,bossBattle:true,area:this.floor,encounter:1,maxEncounters:1};}
   step(){
     if(!this.active)return{done:true,battle:null};
-    if(this.bossReady)return{done:false,bossReady:true,battle:null};
     const totalAreas=this.areaCount();
     if(totalAreas<=0){this.complete=true;this.active=false;this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:0});return{done:true,battle:null};}
     if(this.floor===0)this.nextFloor();
@@ -30,19 +29,19 @@ class DungeonRun {
     if(this.encounterIndex>=maxEncounters){
       if(this.floor===totalAreas){this.complete=true;this.active=false;this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:totalAreas});return{done:true,battle:null};}
       const nextArea=this.floor+1;
-      if(this.isBossArea(nextArea)){this.bossReady=true;this.emit('BOSS_READY',{area:nextArea,bossArea:nextArea,previousArea:this.floor});return{done:false,bossReady:true,battle:null};}
-      this.nextFloor();
+      if(this.isBossArea(nextArea)){this.bossReady=true;this.encounterIndex=0;this.emit('BOSS_READY',{area:nextArea,bossArea:nextArea,previousArea:this.floor});}
+      else this.nextFloor();
     }
     let enemies=this.createXmlEncounter();
     if(!enemies?.length){const area=Array.isArray(this.dungeon.areas)?this.dungeon.areas.find(x=>Number(x.area)===Number(this.floor)):null;const encounters=Array.isArray(area?.encounters)?area.encounters:[];const encounter=encounters.length?encounters[this.rng.int(0,encounters.length-1)]:null;if(encounter?.type==='treasure'){if(encounter.itemId&&window.EQUIPMENT?.[encounter.itemId])this.addEquipmentLoot({baseId:encounter.itemId,force:true});else this.addLoot(encounter.itemId,encounter.itemName,encounter.quantity,encounter.gold);}else if(encounter?.type==='battle'&&Array.isArray(encounter.enemies))enemies=encounter.enemies.map(e=>new Character({...e,team:'enemy'}));}
     if(enemies?.length){const isBoss=window.EncounterResolver?.isBoss?window.EncounterResolver.isBoss(enemies):Boolean(enemies.some(e=>e.placement==='boss'||e.monsterGrade==='boss'||e.monsterForm==='boss'));const battle=this.fight(enemies);const result=battle?.result?.result||battle?.result||'DRAW';if(result!=='WIN'){this.active=false;this.complete=false;this.failed=true;this.emit('RUN_FAILED',{floor:this.floor,area:this.floor,encounter:this.encounterIndex+1,round:Number(battle?.round)||0,result,enemies:enemies.map(e=>({id:e.monsterId||e.id,name:e.name,level:e.monsterLevel||e.level||null,grade:e.monsterGrade||e.grade||null}))});return{done:true,battle:this.currentBattle,failed:true,area:this.floor,encounter:this.encounterIndex+1,maxEncounters};}if(isBoss){this.addEquipmentLoot({boss:true,level:this.currentAreaLevel(enemies)});this.addLoot('boss-cache','수호자의 보물',1,500);}}
     this.encounterIndex++;
-    this.emit('AREA_ENCOUNTER',{area:this.floor,encounter:this.encounterIndex,maxEncounters,remaining:Math.max(0,maxEncounters-this.encounterIndex)});
-    if(this.active&&this.encounterIndex>=maxEncounters){
+    this.emit('AREA_ENCOUNTER',{area:this.floor,encounter:this.encounterIndex,maxEncounters:this.bossReady?0:maxEncounters,remaining:Math.max(0,maxEncounters-this.encounterIndex)});
+    if(this.active&&!this.bossReady&&this.encounterIndex>=maxEncounters){
       if(this.floor===totalAreas){this.complete=true;this.active=false;this.emit('RUN_COMPLETE',{floor:this.floor,areaCount:totalAreas});}
-      else if(this.isBossArea(this.floor+1)){this.bossReady=true;this.emit('BOSS_READY',{area:this.floor+1,bossArea:this.floor+1,previousArea:this.floor});}
+      else if(this.isBossArea(this.floor+1)){this.bossReady=true;this.encounterIndex=0;this.emit('BOSS_READY',{area:this.floor+1,bossArea:this.floor+1,previousArea:this.floor});}
       else this.nextFloor();
-    }
+    } else if(this.active&&this.bossReady&&this.encounterIndex>=maxEncounters){this.encounterIndex=0;}
     return{done:this.complete,battle:this.currentBattle,area:this.floor,encounter:this.encounterIndex,maxEncounters,bossReady:this.bossReady};
   }
   getDps(id){const s=this.stats[id];return s&&s.activeSeconds?Math.round(s.damage/s.activeSeconds):0;}
