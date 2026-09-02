@@ -1,6 +1,11 @@
 (() => {
   const TRIALS_DEFAULT=100;
-  function createParty(){if(typeof window.makeParty==='function')return window.makeParty();const factory=new CharacterFactory();return (window.DUMMY_PARTY||[]).map(x=>factory.create({...x,team:'player'}));}
+  function createParty(level){
+    if(window.BattleBalanceCalculator?.makeParty)return window.BattleBalanceCalculator.makeParty(level,'max');
+    if(typeof window.makeParty==='function')return window.makeParty();
+    const factory=new CharacterFactory();
+    return (window.DUMMY_PARTY||[]).map(x=>factory.create({...x,team:'player'}));
+  }
   function getEncounter(dungeon,area,rng){
     const placements=dungeon?.areas?.find(x=>x.area===area);
     const encounter=placements?.encounters?.length?placements.encounters[rng.int(0,placements.encounters.length-1)]:null;
@@ -8,7 +13,22 @@
     const name=dungeon?.monsterDungeonName||dungeon?.name;const level=Number(dungeon?.levelMap?.[area-1]||dungeon?.levelStart||area);const pool=window.MonsterXmlLoader?.getForDungeon(name,level)||window.MonsterXmlLoader?.getForDungeon(name)||[];return pool.length?[rng.pick(pool)]:[];
   }
   function balanceMonster(m){return window.BattleBalanceCalculator?.calculateMonsterStats?.(m)||m;}
-  function battle(dungeon,area,seed){const rng=new SeededRandom(seed);const party=createParty();const monsters=getEncounter(dungeon,area,rng);if(!monsters.length)return null;const enemies=monsters.map((m,i)=>{const b=balanceMonster(m);return new Character({id:`balance-${m.id}-${seed}-${i}`,name:m.name,hp:b.hp,maxHp:b.maxHp,attack:b.attack,defense:b.defense,speed:10,team:'enemy',exp:m.exp,level:m.level,monsterId:m.id,monsterGrade:m.grade,monsterForm:m.form,placement:m.placement,balanceSource:b});});const engine=new BattleEngine({rng,damageCalculator:new DamageCalculator(rng)});const result=engine.run(party,enemies);return{win:result.result==='WIN',dead:!party.some(c=>c.alive),rounds:result.round,enemies};}
-  function runDungeonBalanceTest(id,runs=TRIALS_DEFAULT,seed=12345){const dungeon=window.DUNGEONS?.[id]||Object.values(window.DUNGEONS||{}).find(d=>d.id===id)||Object.values(window.DUNGEONS||{})[0];if(!dungeon)return null;const floors=[];let fullClear=0;const areaCount=Number(dungeon.floors)||dungeon.areas?.length||0;for(let i=0;i<runs;i++){let clear=true;for(let area=1;area<=areaCount;area++){const r=battle(dungeon,area,Number(seed)+i*10000+area);if(!r){clear=false;continue;}if(!floors[area-1])floors[area-1]={floor:area,level:Math.max(...r.enemies.map(e=>Number(e.level)||0)),name:r.enemies.map(e=>e.name).join(', '),grade:r.enemies.map(e=>e.monsterGrade||e.grade).join('/'),hp:r.enemies.reduce((n,e)=>n+Number(e.maxHp)||0,0),attack:r.enemies.reduce((n,e)=>n+Number(e.attack)||0,0),defense:r.enemies.reduce((n,e)=>n+Number(e.defense)||0,0),exp:r.enemies.reduce((n,e)=>n+Number(e.exp)||0,0),sourceHp:r.enemies.reduce((n,e)=>n+Number(e.balanceSource?.sourceHp)||0,0),sourceAttack:r.enemies.reduce((n,e)=>n+Number(e.balanceSource?.sourceAttack)||0,0),wins:0,deaths:0,rounds:0,count:0};const x=floors[area-1];x.wins+=r.win?1:0;x.deaths+=r.dead?1:0;x.rounds+=r.rounds;x.count++;if(!r.win){clear=false;break;}}if(clear)fullClear++;}floors.forEach(x=>{x.winRate=Math.round(x.wins/x.count*100);x.deathRate=Math.round(x.deaths/x.count*100);x.avgRounds=Math.round(x.rounds/x.count*10)/10;delete x.wins;delete x.deaths;delete x.rounds;delete x.count;});return{dungeon,runs,clearRate:Math.round(fullClear/runs*100),floors};}
+  function battle(dungeon,area,seed){
+    const rng=new SeededRandom(seed);const monsters=getEncounter(dungeon,area,rng);if(!monsters.length)return null;
+    const level=Math.max(...monsters.map(m=>Number(m.level)||1));const party=createParty(level);
+    const enemies=monsters.map((m,i)=>{const b=balanceMonster(m);return new Character({id:`balance-${m.id}-${seed}-${i}`,name:m.name,hp:b.hp,maxHp:b.maxHp,attack:b.attack,defense:b.defense,speed:10,team:'enemy',exp:m.exp,level:m.level,monsterId:m.id,monsterGrade:m.grade,monsterForm:m.form,placement:m.placement,balanceSource:b});});
+    const result=new BattleEngine({rng,damageCalculator:new DamageCalculator(rng)}).run(party,enemies);
+    return{win:result.result==='WIN',dead:!party.some(c=>c.alive),rounds:result.round,enemies};
+  }
+  function runDungeonBalanceTest(id,runs=TRIALS_DEFAULT,seed=12345){
+    const dungeon=window.DUNGEONS?.[id]||Object.values(window.DUNGEONS||{}).find(d=>d.id===id)||Object.values(window.DUNGEONS||{})[0];if(!dungeon)return null;
+    const floors=[];let fullClear=0;const areaCount=Number(dungeon.floors)||dungeon.areas?.length||0;
+    for(let i=0;i<runs;i++){let clear=true;for(let area=1;area<=areaCount;area++){const r=battle(dungeon,area,Number(seed)+i*10000+area);if(!r){clear=false;continue;}
+      if(!floors[area-1])floors[area-1]={floor:area,level:Math.max(...r.enemies.map(e=>Number(e.level)||0)),name:r.enemies.map(e=>e.name).join(', '),grade:r.enemies.map(e=>e.monsterGrade||e.grade).join('/'),hp:r.enemies.reduce((n,e)=>n+(Number(e.maxHp)||0),0),attack:r.enemies.reduce((n,e)=>n+(Number(e.attack)||0),0),defense:r.enemies.reduce((n,e)=>n+(Number(e.defense)||0),0),exp:r.enemies.reduce((n,e)=>n+(Number(e.exp)||0),0),sourceHp:r.enemies.reduce((n,e)=>n+(Number(e.balanceSource?.sourceHp)||0),0),sourceAttack:r.enemies.reduce((n,e)=>n+(Number(e.balanceSource?.sourceAttack)||0),0),wins:0,deaths:0,rounds:0,count:0};
+      const x=floors[area-1];x.wins+=r.win?1:0;x.deaths+=r.dead?1:0;x.rounds+=r.rounds;x.count++;if(!r.win){clear=false;break;}}
+      if(clear)fullClear++;}
+    floors.forEach(x=>{x.winRate=Math.round(x.wins/x.count*100);x.deathRate=Math.round(x.deaths/x.count*100);x.avgRounds=Math.round(x.rounds/x.count*10)/10;delete x.wins;delete x.deaths;delete x.rounds;delete x.count;});
+    return{dungeon,runs,clearRate:Math.round(fullClear/runs*100),floors};
+  }
   window.runDungeonBalanceTest=runDungeonBalanceTest;
 })();
