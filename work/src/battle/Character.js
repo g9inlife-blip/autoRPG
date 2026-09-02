@@ -1,6 +1,6 @@
 class Character {
-  constructor({ id, name, hp, maxHp, attack, defense, speed = 10, team, classId=null, stats=null, attributes=null, level=1, exp=0, monsterId=null, monsterGrade=null, monsterForm=null }) {
-    this.id=id; this.name=name; this.maxHp=maxHp ?? hp; this.hp=hp ?? this.maxHp; this.classId=classId;
+  constructor({ id, name, hp, maxHp, mp=null, maxMp=null, attack, defense, speed = 10, team, classId=null, stats=null, attributes=null, level=1, exp=0, monsterId=null, monsterGrade=null, monsterForm=null }) {
+    this.id=id; this.name=name; this.maxHp=maxHp ?? hp; this.hp=hp ?? this.maxHp; this.maxMp=Number(maxMp ?? 100); this.mp=Math.max(0,Math.min(this.maxMp,Number(mp ?? this.maxMp))); this.classId=classId;
     this.baseStats={hp:this.maxHp,attack:Number(attack)||0,defense:Number(defense)||0,speed:Number(speed)||0};
     this.attributes={STR:Number(attributes?.STR??attributes?.str??10),INT:Number(attributes?.INT??attributes?.int??10),AGI:Number(attributes?.AGI??attributes?.agi??10),VIT:Number(attributes?.VIT??attributes?.vit??10)};
     this.attack=this.baseStats.attack; this.defense=this.baseStats.defense; this.speed=this.baseStats.speed; this.team=team;
@@ -9,24 +9,15 @@ class Character {
     this.monsterId=monsterId; this.monsterGrade=monsterGrade; this.monsterForm=monsterForm;
   }
   get alive(){return this.hp>0;}
-  canEquip(item){
-    if(!item||!item.slot)return{ok:false,reason:'장비 정보가 없습니다.'};
-    const classes=item.requirements?.classes||item.classes;
-    if(Array.isArray(classes)&&classes.length&&!classes.includes(this.classId))return{ok:false,reason:'직업 제한'};
-    const req=item.requirements?.stats||{};
-    for(const key of ['STR','INT','AGI','VIT'])if(Number(req[key]||0)>Number(this.attributes[key]||0))return{ok:false,reason:`${key} ${req[key]} 필요`};
-    const reqLevel=Number(item.reqLevel||item.requirements?.level||0);
-    if(reqLevel>this.level)return{ok:false,reason:`Lv.${reqLevel} 필요`};
-    return{ok:true};
-  }
+  canEquip(item){if(!item||!item.slot)return{ok:false,reason:'장비 정보가 없습니다.'};const classes=item.requirements?.classes||item.classes;if(Array.isArray(classes)&&classes.length&&!classes.includes(this.classId))return{ok:false,reason:'직업 제한'};const req=item.requirements?.stats||{};for(const key of ['STR','INT','AGI','VIT'])if(Number(req[key]||0)>Number(this.attributes[key]||0))return{ok:false,reason:`${key} ${req[key]} 필요`};const reqLevel=Number(item.reqLevel||item.requirements?.level||0);if(reqLevel>this.level)return{ok:false,reason:`Lv.${reqLevel} 필요`};return{ok:true};}
   equip(item){const check=this.canEquip(item);if(!check.ok)return false;this.equipment[item.slot]=item;this.recalculateStats();return true;}
   unequip(slot){const old=this.equipment[slot];if(!old)return null;this.equipment[slot]=null;this.recalculateStats();return old;}
   getEquipmentBonuses(){return Object.values(this.equipment).filter(Boolean).reduce((a,x)=>({hp:a.hp+Number(x.hp||0),attack:a.attack+Number(x.attack||0),defense:a.defense+Number(x.defense||0),speed:a.speed+Number(x.speed||0)}),{hp:0,attack:0,defense:0,speed:0});}
-  recalculateStats(){const oldMax=this.maxHp;const bonus=this.getEquipmentBonuses();this.maxHp=this.baseStats.hp+bonus.hp;this.attack=this.baseStats.attack+bonus.attack;this.defense=this.baseStats.defense+bonus.defense;this.speed=Math.max(1,this.baseStats.speed+bonus.speed);if(oldMax!==this.maxHp)this.hp=Math.min(this.maxHp,this.hp+(this.maxHp-oldMax));}
+  recalculateStats(){const oldMax=this.maxHp;const bonus=this.getEquipmentBonuses();this.maxHp=this.baseStats.hp+bonus.hp;this.attack=this.baseStats.attack+bonus.attack;this.defense=this.baseStats.defense+bonus.defense;this.speed=Math.max(1,this.baseStats.speed+bonus.speed);if(oldMax!==this.maxHp)this.hp=Math.min(this.maxHp,this.hp+(this.maxHp-oldMax));this.mp=Math.min(this.maxMp,this.mp);}
   getBaseCombatStats(){return{hp:this.baseStats.hp,attack:this.baseStats.attack,defense:this.baseStats.defense,speed:this.baseStats.speed};}
-  getCurrentCombatStats(){return{hp:this.maxHp,attack:this.attack,defense:this.defense,speed:this.speed};}
+  getCurrentCombatStats(){return{hp:this.maxHp,mp:this.maxMp,attack:this.attack,defense:this.defense,speed:this.speed};}
   expToNextLevel(){return window.CharacterProgression?.expRequired?.(this.level)||Math.max(100,this.level*100);}
   gainExp(amount){if(window.CharacterProgression?.gainExp)return window.CharacterProgression.gainExp(this,amount);const gained=Math.max(0,Number(amount)||0);this.exp+=gained;return{gained,levels:0,level:this.level,exp:this.exp,next:this.expToNextLevel()};}
 }
-function cloneCharacter(character){const c=new Character({id:character.id,name:character.name,hp:character.maxHp,maxHp:character.maxHp,attack:character.baseStats?.attack??character.attack,defense:character.baseStats?.defense??character.defense,speed:character.baseStats?.speed??character.speed,team:character.team,classId:character.classId,attributes:{...(character.attributes||{})},level:character.level,exp:character.exp});c.personality=character.personality;c.bonds={...(character.bonds||{})};c.skills=[...(character.skills||[])];c.appearance={...(character.appearance||{})};Object.entries(character.equipment||{}).forEach(([slot,item])=>{if(item)c.equip(item);});return c;}
+function cloneCharacter(character){const c=new Character({id:character.id,name:character.name,hp:character.maxHp,maxHp:character.maxHp,mp:character.maxMp,maxMp:character.maxMp,attack:character.baseStats?.attack??character.attack,defense:character.baseStats?.defense??character.defense,speed:character.baseStats?.speed??character.speed,team:character.team,classId:character.classId,attributes:{...(character.attributes||{})},level:character.level,exp:character.exp});c.personality=character.personality;c.bonds={...(character.bonds||{})};c.skills=[...(character.skills||[])];c.appearance={...(character.appearance||{})};Object.entries(character.equipment||{}).forEach(([slot,item])=>{if(item)c.equip(item);});return c;}
 window.Character=Character;window.cloneCharacter=cloneCharacter;
