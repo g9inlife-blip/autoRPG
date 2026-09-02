@@ -22,8 +22,15 @@
   function fightBoss(){
     const r=window.run;if(!r?.active||!r.bossReady||typeof r.fightBoss!=='function')return;
     clearAuto();const before=r.events.length;const bossArea=rememberBossArea(r);if(bossArea>0)r.floor=bossArea-1;
-    const result=r.fightBoss();const added=r.events.slice(before);const battle=added.find(e=>e.type==='BATTLE_END');window.render?.();
-    if(battle){const b=battle.data||{};const battleEl=document.getElementById('battle');if(battleEl)battleEl.innerHTML=`<p>결과: <b>${b.result||'?'}</b> / ${Math.round(Number(b.round)||0)} Round</p><p>보스전 · 상세 로그 ${Array.isArray(b.events)?b.events.length:0}건</p>`;window.showLogDetail?.(battle);}
+    const result=r.fightBoss();const added=r.events.slice(before);const battle=added.find(e=>e.type==='BATTLE_END');
+    window.render?.();
+    if(battle){
+      const b=battle.data||{};
+      const battleEl=document.getElementById('battle');
+      if(battleEl)battleEl.innerHTML=`<p>결과: <b>${b.result||'?'}</b> / ${Math.round(Number(b.round)||0)} Round</p><p>보스전 · 상세 로그 ${Array.isArray(b.events)?b.events.length:0}건</p>`;
+      // 일반 전투와 동일한 BATTLE_END 이벤트 형태로 넘겨야 상세 전투 로그가 렌더링된다.
+      window.showLogDetail?.(battle);
+    }
     if(result?.failed||r.failed){const failed=added.find(e=>e.type==='RUN_FAILED');if(failed)window.showLogDetail?.(failed);}
     else if(result?.done||r.complete){const complete=added.find(e=>e.type==='RUN_COMPLETE');if(complete)window.showLogDetail?.(complete);}
     else if(r.active) scheduleAuto();
