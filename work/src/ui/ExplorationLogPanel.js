@@ -1,7 +1,7 @@
 class ExplorationLogPanel {
   constructor({ root, eventsProvider, onDetail=()=>{} }) { this.root=root; this.eventsProvider=eventsProvider; this.onDetail=onDetail; }
   render(){
-    const hiddenTypes=new Set(['EXP_GAIN','LEVEL_UP','EXP_GAINED','LEVELUP','EXP_GAIN_LOG','LEVEL_UP_LOG']);
+    const hiddenTypes=new Set(['EXP_GAIN','LEVEL_UP','EXP_GAINED','LEVELUP','EXP_GAIN_LOG','LEVEL_UP_LOG','AREA_ENCOUNTER']);
     const events=(typeof this.eventsProvider==='function'?this.eventsProvider():[]).filter(e=>!hiddenTypes.has(String(e?.type||'').toUpperCase())&&!hiddenTypes.has(String(e?.action||'').toUpperCase()));
     if(!this.root)return;this.root.innerHTML='';
     events.slice().reverse().forEach(e=>{
@@ -12,6 +12,7 @@ class ExplorationLogPanel {
       else if(e.type==='FLOOR_REACHED')summary=`[${e.floor}구역] ${e.floor}구역 도착`;
       else if(e.type==='RUN_START')summary='탐험 시작';
       else if(e.type==='RUN_COMPLETE')summary=`[${e.floor}구역] 던전 탐험 완료`;
+      else if(e.type==='RUN_FAILED')summary=`[${e.floor}구역] 던전 탐험 실패 · 파티 전멸`;
       else summary=`[${e.floor}구역] ${e.type}`;
       row.innerHTML=`<span>${summary}</span><b>›</b>`;row.addEventListener('click',()=>this.onDetail(e));this.root.appendChild(row);
     });
