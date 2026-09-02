@@ -33,24 +33,34 @@
     if(autoTimer!==null){clearInterval(autoTimer);autoTimer=null;}
   }
 
+  function rememberBossArea(r){
+    const event=r?.events?.slice().reverse().find(e=>e.type==='BOSS_READY');
+    const area=Number(r?.bossReadyArea||event?.data?.bossArea||event?.data?.area||0);
+    if(area>0)r.bossReadyArea=area;
+    return area;
+  }
+
+  function loopBackToFirstArea(r){
+    const bossArea=rememberBossArea(r);
+    if(!bossArea)return;
+    if(Number(r.floor)+1===bossArea){
+      r.floor=1;
+      r.encounterIndex=0;
+    }
+  }
+
   function scheduleAuto(){
     clearAuto();
-    if(!isRunning()||isBossReady())return;
+    if(!isRunning())return;
     autoTimer=setInterval(()=>{
-      if(!isRunning()||isBossReady()){clearAuto();sync();return;}
-      if(typeof window.stepDungeon==='function')window.stepDungeon();
       const r=window.run;
       if(!r?.active){clearAuto();sync();return;}
-      if(r.bossReady){
-        const bossArea=Number(r.bossReadyArea||r.events?.slice().reverse().find(e=>e.type==='BOSS_READY')?.data?.bossArea||r.events?.slice().reverse().find(e=>e.type==='BOSS_READY')?.data?.area||0);
-        if(bossArea>0)r.bossReadyArea=bossArea;
-        if(Number(r.floor)+1===Number(r.bossReadyArea||bossArea)){
-          r.floor=1;
-          r.encounterIndex=0;
-          if(typeof window.render==='function')window.render();
-        }
-        scheduleAuto();
-      }
+      if(typeof window.stepDungeon==='function')window.stepDungeon();
+      const current=window.run;
+      if(!current?.active){clearAuto();sync();return;}
+      if(current.bossReady)loopBackToFirstArea(current);
+      if(typeof window.render==='function')window.render();
+      sync();
     },AUTO_MS);
   }
 
@@ -59,23 +69,28 @@
     if(!r?.active||!r.bossReady||typeof r.fightBoss!=='function')return;
     clearAuto();
     const before=r.events.length;
-    const bossArea=Number(r.bossReadyArea||r.events?.slice().reverse().find(e=>e.type==='BOSS_READY')?.data?.bossArea||r.events?.slice().reverse().find(e=>e.type==='BOSS_READY')?.data?.area||0);
+    const bossArea=rememberBossArea(r);
     if(bossArea>0)r.floor=bossArea-1;
     const result=r.fightBoss();
     const added=r.events.slice(before);
-    if(typeof window.recordQuestEvents==='function')window.recordQuestEvents(added);
     const battle=added.find(e=>e.type==='BATTLE_END');
-    if(battle){
-      window.lastBattle={result:{result:battle.data.result,round:battle.data.round},events:battle.data.events,seconds:Math.max(.1,battle.data.events.length/10)};
-      if(typeof window.updateDialogue==='function')window.updateDialogue(battle.data.events);
-    }
-    window.state && (window.state.adventure={active:r.active,currentEvent:r.events.at(-1)?.type||null});
-    if(typeof window.renderQuests==='function')window.renderQuests();
     if(typeof window.render==='function')window.render();
+    if(battle){
+      const b=battle.data||{};
+      const battleEl=document.getElementById('battle');
+      if(battleEl)battleEl.innerHTML=`<p>결과: <b>${b.result||'?'}</b> / ${Math.round(Number(b.round)||0)} Round</p><p>보스전 · 상세 로그 ${Array.isArray(b.events)?b.events.length:0}건</p>`;
+      if(typeof window.showLogDetail==='function')window.showLogDetail(battle);
+    }
     if(result?.failed||r.failed){
-      if(typeof window.showRunResult==='function')window.showRunResult(false);
+      if(typeof window.showLogDetail==='function'){
+        const failed=added.find(e=>e.type==='RUN_FAILED');
+        if(failed)window.showLogDetail(failed);
+      }
     }else if(result?.done||r.complete){
-      if(typeof window.showRunResult==='function')window.showRunResult(true);
+      if(typeof window.showLogDetail==='function'){
+        const complete=added.find(e=>e.type==='RUN_COMPLETE');
+        if(complete)window.showLogDetail(complete);
+      }
     }
     sync();
   }
@@ -85,7 +100,6 @@
     const r=window.run;
     if(!r?.active)return;
     r.active=false;
-    if(window.state?.adventure)window.state.adventure.active=false;
     const status=document.getElementById('status');
     if(status)status.textContent='탐험을 중지했습니다.';
     window.render?.();
