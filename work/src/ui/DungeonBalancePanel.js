@@ -49,10 +49,10 @@
   window.DungeonBalancePanel={render};
 })();
 
-// 전투 스킬 확장: 기존 공격 스킬 구조를 유지하면서 마법사 전용 파티 힐을 추가한다.
+// 전투 스킬 확장: 탐험 이벤트 '치유의 샘'과 분리된 마법사 전용 HEAL 스킬.
 (() => {
   const registry = window.SKILL_REGISTRY || {};
-  registry['party-heal'] = { id:'party-heal', name:'치유의 샘', classId:'mage', cooldown:3, healPercent:0.15, target:'party', description:'전투 중 아군 전체의 최대 HP 15%를 회복합니다.' };
+  registry['party-heal'] = { id:'party-heal', name:'HEAL', classId:'mage', cooldown:3, healPercent:0.15, target:'party', description:'전투 중 아군 전체의 최대 HP 15%를 회복합니다.' };
   window.SKILL_REGISTRY = registry;
   if (window.CHARACTER_CLASSES?.mage) {
     window.CHARACTER_CLASSES.mage.skills = Array.from(new Set([...(window.CHARACTER_CLASSES.mage.skills || []), 'party-heal']));
