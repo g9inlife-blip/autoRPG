@@ -1,5 +1,12 @@
 (() => {
   function currentRegionId(){ return document.getElementById('regionSelect')?.value || Object.keys(window.REGIONS || {})[0] || null; }
+  function areaCount(d){
+    if(!d)return 0;
+    const declared=Number(d.areaCount);
+    if(Number.isFinite(declared)&&declared>0)return Math.floor(declared);
+    const max=(d.areas||[]).reduce((n,a)=>Math.max(n,Number(a?.area)||0),0);
+    return max||Number(d.floors)||0;
+  }
   function sync(){
     const regionSelect=document.getElementById('regionSelect');
     const dungeonSelect=document.getElementById('dungeonSelect');
@@ -15,7 +22,7 @@
       const oldDungeon=dungeonSelect.value;
       const list=(region?.dungeons || []).map(id=>window.DUNGEONS?.[id]).filter(Boolean);
       dungeonSelect.innerHTML='';
-      list.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=`${d.name} (${d.levelStart}~${d.levelEnd}Lv / ${d.floors}층)`;dungeonSelect.appendChild(o);});
+      list.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=`${d.name} (${d.levelStart}~${d.levelEnd}Lv / ${areaCount(d)}구역)`;dungeonSelect.appendChild(o);});
       if(list.some(d=>d.id===oldDungeon))dungeonSelect.value=oldDungeon;
       else if(list[0])dungeonSelect.value=list[0].id;
     }
