@@ -61,6 +61,8 @@
     window.REGION_DATA = regions;
     window.REGIONS = regions;
     window.REGION_STATE = state;
+    window.regionUiSync?.();
+    window.dispatchEvent(new CustomEvent('regions:ready'));
     return state;
   }
 
