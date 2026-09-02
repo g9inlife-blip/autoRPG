@@ -2,10 +2,12 @@
   const REGION_CONFIG = window.REGION_CONFIG || {};
   const state = { loaded:false, regions:{}, dungeonToRegion:{}, errors:[] };
 
-  const slug = (text, index) => {
+  const slug = text => {
     const raw = String(text || '').trim();
     const ascii = raw.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    return ascii ? `region-${ascii}` : `region-${String(index + 1).padStart(2,'0')}`;
+    if (ascii) return `region-${ascii}`;
+    let hash=0;for(const ch of raw)hash=((hash<<5)-hash)+ch.charCodeAt(0)|0;
+    return `region-${Math.abs(hash)}`;
   };
 
   function buildRegions() {
@@ -25,8 +27,8 @@
     const regions = {};
     const dungeonToRegion = {};
 
-    names.forEach((name, index) => {
-      const id = slug(name,index);
+    names.forEach(name => {
+      const id = slug(name);
       const config = REGION_CONFIG[id] || REGION_CONFIG[name] || {};
       const members = groups.get(name).slice().sort((a,b) => a.levelStart-b.levelStart || a.name.localeCompare(b.name,'ko'));
       regions[id] = {
