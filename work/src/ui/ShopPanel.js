@@ -1,17 +1,63 @@
 (() => {
-  const SHOP_PRICES={iron_sword:60,oak_staff:70,hunter_dagger:65,leather_armor:80,adventurer_ring:120,iron_armor:180}; const SELL_RATE=0.5; const starter=new Set(window.STARTER_EQUIPMENT||[]); const owned=new Map(); let nextInstanceNo=1;
-  const makeInstanceId=baseId=>`itm_${baseId}_${Date.now().toString(36)}_${nextInstanceNo++}`; const createInstance=(base,instanceId,extra={})=>({...base,instanceId:instanceId||makeInstanceId(base.id),baseId:base.id,enhancement:0,options:[],...extra});
+  const SHOP_PRICES={iron_sword:60,oak_staff:70,hunter_dagger:65,leather_armor:80,adventurer_ring:120,iron_armor:180};
+  const SELL_RATE=0.5;
+  const starter=new Set(window.STARTER_EQUIPMENT||[]);
+  const owned=new Map(); let nextInstanceNo=1;
+  const makeInstanceId=baseId=>`itm_${baseId}_${Date.now().toString(36)}_${nextInstanceNo++}`;
+  const createInstance=(base,instanceId,extra={})=>({...base,instanceId:instanceId||makeInstanceId(base.id),baseId:base.id,enhancement:0,options:[],...extra});
   for(const id of starter)if(window.EQUIPMENT?.[id]){const item=createInstance(window.EQUIPMENT[id],`starter_${id}`);owned.set(item.instanceId,item);}
+
   function currentRegion(){return window.RegionRegistry?.get(document.getElementById('regionSelect')?.value)||null;}
-  function getItems(){const region=currentRegion(),configured=region?.shop?.items;if(Array.isArray(configured)&&configured.length){return configured.map(id=>window.EQUIPMENT?.[id]).filter(Boolean).filter(x=>SHOP_PRICES[x.id]!=null);}return Object.values(window.EQUIPMENT||{}).filter(x=>SHOP_PRICES[x.id]!=null);}
+  function regionLevelRange(region){
+    const dungeons=region?window.RegionRegistry?.getDungeons(region.id)||[]:[];
+    const levels=dungeons.flatMap(d=>[Number(d.levelStart),Number(d.levelEnd)]).filter(Number.isFinite);
+    return levels.length?{min:Math.min(...levels),max:Math.max(...levels)}:null;
+  }
+  function getItems(){
+    const region=currentRegion();
+    const range=regionLevelRange(region);
+    if(window.EquipmentXmlLoader?.state?.loaded&&range){
+      return window.EquipmentXmlLoader.state.items.filter(item=>
+        ['common','uncommon'].includes(String(item.rarity||'').toLowerCase()) &&
+        Number(item.reqLevel)>=range.min && Number(item.reqLevel)<=range.max
+      );
+    }
+    return Object.values(window.EQUIPMENT||{}).filter(item=>['common','uncommon'].includes(String(item.rarity||'').toLowerCase()));
+  }
   function getInventory(){return [...owned.values()];}
-  function currentRun(){const r=window.run||window.activePartyPanel?.run||null;if(r&&!r.__shopGoldInitialized){if(Number(r.gold)===0)r.gold=100;r.__shopGoldInitialized=true;}return r;} function getGold(){return Number(currentRun()?.gold??0);} function syncInventory(){window.playerInventory=getInventory();}
-  function findEquipped(instanceId){const run=currentRun(); if(!run?.party)return null; for(const c of run.party){for(const [slot,item] of Object.entries(c.equipment||{})){if(item?.instanceId===instanceId)return {character:c,slot};}} return null;}
-  function isEquipped(instanceId){return !!findEquipped(instanceId);} function formatItem(item){const opts=(item.options||[]).map(o=>`${o.name} +${o.value}`).join(', ');return `${item.name}${item.enhancement?` +${item.enhancement}`:''}${item.rarityName?` · ${item.rarityName}`:''}${opts?` · ${opts}`:''}`;}
+  function currentRun(){const r=window.run||window.activePartyPanel?.run||null;if(r&&!r.__shopGoldInitialized){if(Number(r.gold)===0)r.gold=100;r.__shopGoldInitialized=true;}return r;}
+  function getGold(){return Number(currentRun()?.gold??0);}
+  function syncInventory(){window.playerInventory=getInventory();}
+  function findEquipped(instanceId){const run=currentRun();if(!run?.party)return null;for(const c of run.party){for(const [slot,item] of Object.entries(c.equipment||{})){if(item?.instanceId===instanceId)return {character:c,slot};}}return null;}
+  function isEquipped(instanceId){return !!findEquipped(instanceId);}
+  function formatItem(item){const opts=(item.options||[]).map(o=>`${o.name} +${o.value}`).join(', ');return `${item.name}${item.enhancement?` +${item.enhancement}`:''}${item.rarityName?` · ${item.rarityName}`:''}${opts?` · ${opts}`:''}`;}
   function rarityMultiplier(item){return ({common:1,uncommon:1.15,rare:1.35,unique:1.7,legendary:2.2})[String(item?.rarity||'common').toLowerCase()]||1;}
-  function getSellPrice(item){if(!item)return 0;const configured=SHOP_PRICES[item.baseId]??SHOP_PRICES[item.id];if(configured!=null)return Math.max(1,Math.floor(configured*SELL_RATE));if(Number(item.sellPrice)>0)return Math.max(1,Math.floor(Number(item.sellPrice)));const value=(Number(item.attack)||0)+(Number(item.defense)||0)+(Number(item.speed)||0)+(Number(item.hp)||0)*0.1+(Number(item.reqLevel||item.dropLevel||1)||1)*2;const enhancementMult=({0:1,1:1.08,2:1.18})[Number(item.enhancement)||0]||1;return Math.max(1,Math.floor(value*rarityMultiplier(item)*enhancementMult*SELL_RATE));}
-  function renderShop(){const root=document.getElementById('shop');if(!root)return;syncInventory();const gold=getGold(),region=currentRegion();const shopHtml=getItems().map(item=>{const qty=getInventory().filter(x=>x.baseId===item.id).length,price=SHOP_PRICES[item.id],stats=[`공 ${item.attack||0}`,`방 ${item.defense||0}`,`속 ${item.speed||0}`].join(' · ');return `<div class="shop-item"><div class="shop-item-main"><b>${item.name}${qty?` ×${qty}`:''}</b><small>${stats} · ${item.rarity||'common'} · ${price}G</small></div><button type="button" data-buy-item="${item.id}" ${gold<price?'disabled':''}>구매</button></div>`;}).join('');const invHtml=getInventory().map(item=>{const price=getSellPrice(item),equipped=isEquipped(item.instanceId),sellable=price>0;return `<div class="shop-item"><div class="shop-item-main"><b>${formatItem(item)}</b><small>#${item.instanceId} · 공 ${item.attack||0} · 방 ${item.defense||0} · 속 ${item.speed||0}${equipped?' · 장착 중':' '} · 판매가 ${price}G</small></div><button type="button" data-sell-instance="${item.instanceId}" ${!sellable?'disabled':''}>${equipped?'장착 해제 후 매각':'매각'}</button></div>`;}).join('')||'<p class="muted">보유 장비가 없습니다.</p>';root.innerHTML=`<div class="currency-line">${region?.name||'지역'} · 보유 골드 <b>${gold.toLocaleString()} G</b></div><h3>장비 구매</h3>${shopHtml||'<p>현재 지역에서 판매하는 장비가 없습니다.</p>'}<h3>보유 장비 · 매각</h3>${invHtml}`;root.querySelectorAll('[data-buy-item]').forEach(btn=>btn.addEventListener('click',()=>buyItem(btn.dataset.buyItem)));root.querySelectorAll('[data-sell-instance]').forEach(btn=>btn.addEventListener('click',()=>sellInstance(btn.dataset.sellInstance)));window.regionUiUpdateContext?.();}
-  function buyItem(id){const item=window.EQUIPMENT?.[id],price=SHOP_PRICES[id],run=currentRun(),gold=getGold();if(!item||price==null||!run||gold<price||!getItems().some(x=>x.id===id))return;run.gold=gold-price;const instance=createInstance(item);owned.set(instance.instanceId,instance);syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 구매 완료 · ${price}G · #${instance.instanceId}`;}
+  function getBuyPrice(item){
+    if(!item)return 0;
+    const key=item.sourceId||item.id;
+    if(SHOP_PRICES[key]!=null)return SHOP_PRICES[key];
+    const power=(Number(item.attack)||0)+(Number(item.defense)||0)+(Number(item.speed)||0)+(Number(item.hp)||0)*0.1;
+    return Math.max(10,Math.floor((20+(Number(item.reqLevel)||1)*8+power*3)*rarityMultiplier(item)));
+  }
+  function getSellPrice(item){if(!item)return 0;const configured=SHOP_PRICES[item.baseId]??SHOP_PRICES[item.sourceId]??SHOP_PRICES[item.id];if(configured!=null)return Math.max(1,Math.floor(configured*SELL_RATE));if(Number(item.sellPrice)>0)return Math.max(1,Math.floor(Number(item.sellPrice)));const value=(Number(item.attack)||0)+(Number(item.defense)||0)+(Number(item.speed)||0)+(Number(item.hp)||0)*0.1+(Number(item.reqLevel||item.dropLevel||1)||1)*2;const enhancementMult=({0:1,1:1.08,2:1.18})[Number(item.enhancement)||0]||1;return Math.max(1,Math.floor(value*rarityMultiplier(item)*enhancementMult*SELL_RATE));}
+
+  function renderShop(){
+    const root=document.getElementById('shop');if(!root)return;
+    syncInventory();
+    const gold=getGold(),region=currentRegion(),range=regionLevelRange(region),items=getItems();
+    const rangeText=range?`Lv.${range.min}~${range.max}`:'지역 레벨 미정';
+    const shopHtml=items.map(item=>{
+      const qty=getInventory().filter(x=>x.baseId===item.id).length,price=getBuyPrice(item);
+      const stats=[`공 ${item.attack||0}`,`방 ${item.defense||0}`,`속 ${item.speed||0}`].join(' · ');
+      return `<div class="shop-item"><div class="shop-item-main"><b>${item.name}${qty?` ×${qty}`:''}</b><small>Req Lv.${item.reqLevel} · ${stats} · ${String(item.rarity||'common').toUpperCase()} · ${price}G</small></div><button type="button" data-buy-item="${item.id}" ${gold<price?'disabled':''}>구매</button></div>`;
+    }).join('');
+    const invHtml=getInventory().map(item=>{const price=getSellPrice(item),equipped=isEquipped(item.instanceId),sellable=price>0;return `<div class="shop-item"><div class="shop-item-main"><b>${formatItem(item)}</b><small>#${item.instanceId} · 공 ${item.attack||0} · 방 ${item.defense||0} · 속 ${item.speed||0}${equipped?' · 장착 중':' '} · 판매가 ${price}G</small></div><button type="button" data-sell-instance="${item.instanceId}" ${!sellable?'disabled':''}>${equipped?'장착 해제 후 매각':'매각'}</button></div>`;}).join('')||'<p class="muted">보유 장비가 없습니다.</p>';
+    root.innerHTML=`<div class="currency-line">${region?.name||'지역'} · 판매 범위 <b>${rangeText}</b> · 등급 <b>COMMON~UNCOMMON</b> · 보유 골드 <b>${gold.toLocaleString()} G</b></div><h3>지역 장비 상점</h3>${shopHtml||'<p>현재 지역 레벨에 맞는 장비가 없습니다.</p>'}<h3>보유 장비 · 매각</h3>${invHtml}`;
+    root.querySelectorAll('[data-buy-item]').forEach(btn=>btn.addEventListener('click',()=>buyItem(btn.dataset.buyItem)));
+    root.querySelectorAll('[data-sell-instance]').forEach(btn=>btn.addEventListener('click',()=>sellInstance(btn.dataset.sellInstance)));
+    window.regionUiUpdateContext?.();
+  }
+  function buyItem(id){const item=getItems().find(x=>x.id===id),price=getBuyPrice(item),run=currentRun(),gold=getGold();if(!item||!run||gold<price)return;run.gold=gold-price;const instance=createInstance(item);owned.set(instance.instanceId,instance);syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name} 구매 완료 · ${price}G · #${instance.instanceId}`;}
   function addLootInstance(item){if(!item?.instanceId)return false;owned.set(item.instanceId,item);syncInventory();renderShop();window.activePartyPanel?.render?.();return true;}
   function sellInstance(instanceId){const item=owned.get(instanceId),price=getSellPrice(item),run=currentRun();if(!item||price<=0||!run)return;const equipped=findEquipped(instanceId);if(equipped){equipped.character.unequip?.(equipped.slot);if(equipped.character.equipment?.[equipped.slot])equipped.character.equipment[equipped.slot]=null;equipped.character.recalculateStats?.();}owned.delete(instanceId);run.gold=getGold()+price;syncInventory();renderShop();window.activePartyPanel?.render?.();const s=document.getElementById('status');if(s)s.textContent=`${item.name}${equipped?' · 장착 해제':' '} 매각 완료 · +${price}G`;}
   function openLootTest(){let modal=document.getElementById('lootTestModal');if(!modal){modal=document.createElement('div');modal.id='lootTestModal';modal.className='modal';modal.hidden=true;modal.innerHTML=`<div class="modal-card" style="max-width:430px"><button class="close" type="button" data-close-loot>×</button><h2>Loot 테스트</h2><div style="font-size:11px;line-height:1.5">등급 언커먼 60% · 커먼 25% · 레어 10% · 유니크 4% · 전설 1%<br>강화 +0 80% · +1 15% · +2 5%</div><label style="display:block;margin:8px 0">장비 레벨 <input id="lootTestLevel" type="number" min="1" value="50" style="width:100%;min-height:36px"></label><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px"><button type="button" data-loot-count="1">1회</button><button type="button" data-loot-count="100">100회</button><button type="button" data-loot-count="1000">1,000회</button></div><pre id="lootTestResult" style="white-space:pre-wrap;overflow:auto;max-height:55vh;font-size:11px;line-height:1.4"></pre></div>`;document.body.appendChild(modal);modal.addEventListener('click',e=>{if(e.target===modal||e.target.closest('[data-close-loot]'))modal.hidden=true;if(e.target.matches('[data-loot-count]'))runLootTest(Number(e.target.dataset.lootCount));});}modal.hidden=false;}
