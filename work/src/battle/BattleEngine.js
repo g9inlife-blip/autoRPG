@@ -1,5 +1,5 @@
 class BattleEngine {
-  constructor({ rng, damageCalculator, maxRounds = 100, onEvent = () => {} }) { this.rng = rng; this.damageCalculator = damageCalculator; this.maxRounds = maxRounds; this.onEvent = onEvent; }
+  constructor({ rng, damageCalculator, maxRounds = 60, onEvent = () => {} }) { this.rng = rng; this.damageCalculator = damageCalculator; this.maxRounds = maxRounds; this.onEvent = onEvent; }
   run(players, enemies) {
     const state = { round: 0, result: 'ONGOING', players, enemies, events: [], startedAt: Date.now(), endedAt: null, cooldowns: {} };
     this.emit(state, 'BATTLE_START', { formation: this.getFormation(players) });
@@ -27,35 +27,22 @@ class BattleEngine {
         this.checkResult(state);
       }
     }
-    if (state.result === 'ONGOING') state.result = 'DRAW';
-    state.endedAt = Date.now(); this.emit(state, 'BATTLE_END', {result:state.result}); return state;
+    if (state.result === 'ONGOING') { state.result = 'LOSE'; state.endReason = 'TIMEOUT'; this.emit(state, 'BATTLE_TIMEOUT', { maxRounds: this.maxRounds, message: '전투가 60턴 이상 지속되어 이탈했습니다.' }); }
+    state.endedAt = Date.now(); this.emit(state, 'BATTLE_END', {result:state.result, reason:state.endReason||null, maxRounds:this.maxRounds}); return state;
   }
   getFormation(players) {
     const positions = ['frontline', 'middle', 'backline'];
     const weights = [60, 30, 10];
-    return players.map((character, index) => ({
-      characterId: character.id,
-      character: character.name,
-      position: positions[index] || 'backline',
-      targetWeight: weights[index] || 10
-    }));
+    return players.map((character, index) => ({ characterId: character.id, character: character.name, position: positions[index] || 'backline', targetWeight: weights[index] || 10 }));
   }
   selectFormationTarget(targets, state) {
     if (!targets.length) return null;
     const positions = ['frontline', 'middle', 'backline'];
     const weights = [60, 30, 10];
-    const candidates = targets.map(target => {
-      const index = state.players.indexOf(target);
-      return { target, position: positions[index] || 'backline', weight: weights[index] || 10 };
-    });
-    // 살아있는 대상만 남기고 가중치를 다시 합산한다.
-    // 전열이 쓰러지면 중열/후열의 확률이 30/10 그대로가 아니라 75/25가 된다.
+    const candidates = targets.map(target => { const index = state.players.indexOf(target); return { target, position: positions[index] || 'backline', weight: weights[index] || 10 }; });
     const totalWeight = candidates.reduce((sum, candidate) => sum + candidate.weight, 0);
     let roll = this.rng.next() * totalWeight;
-    for (const candidate of candidates) {
-      roll -= candidate.weight;
-      if (roll < 0) return candidate.target;
-    }
+    for (const candidate of candidates) { roll -= candidate.weight; if (roll < 0) return candidate.target; }
     return candidates[candidates.length - 1].target;
   }
   chooseSkill(actor, state) {
@@ -71,8 +58,7 @@ class BattleEngine {
     if (skill && result.hit) result.damage = Math.max(1, Math.floor(result.damage * (skill.multiplier || 1)));
     if (result.hit) {
       attacker.stats.hits++; if (result.critical) attacker.stats.criticals++;
-      const beforeHp = defender.hp;
-      defender.hp = Math.max(0, defender.hp-result.damage);
+      const beforeHp = defender.hp; defender.hp = Math.max(0, defender.hp-result.damage);
       attacker.stats.damageDealt += result.damage; defender.stats.damageTaken += result.damage;
       this.emit(state, 'DAMAGE', {attackerId:attacker.id,attacker:attacker.name,defenderId:defender.id,defender:defender.name,beforeHp,afterHp:defender.hp,critical:!!result.critical,damage:result.damage,result,skillId:skill?.id||null,skill:skill?.name||null});
       if (!defender.alive) { attacker.stats.kills++; this.emit(state, 'DEFEAT', {characterId:defender.id,character:defender.name,defeatedId:defender.id,defeatedTarget:defender.id,defeatedName:defender.name,side:defender.team,defeatedBy:attacker.name,skillId:skill?.id||null}); }
