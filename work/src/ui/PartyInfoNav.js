@@ -2,13 +2,13 @@
   const $=id=>document.getElementById(id);
   function ensurePartyBar(){
     if($('globalPartyInfo'))return;
-    const toolbar=document.querySelector('.toolbar');
-    if(!toolbar)return;
+    const tabs=document.querySelector('.tabs');
+    if(!tabs)return;
     const bar=document.createElement('section');
     bar.id='globalPartyInfo';
     bar.className='global-party-info';
     bar.innerHTML='<div class="global-party-title">파티 정보</div><div id="globalPartyCharacters" class="global-party-characters"></div>';
-    toolbar.after(bar);
+    tabs.before(bar);
   }
   function render(){
     ensurePartyBar();
