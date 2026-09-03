@@ -1,5 +1,5 @@
 (() => {
-  const AUTO_MS = 5000;
+  const AUTO_MS = 1000;
   let autoTimer = null;
   function getStartButton(){return document.getElementById('startDungeon');}
   function getNextButton(){return document.getElementById('stepDungeon');}
