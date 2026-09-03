@@ -1,226 +1,26 @@
 (() => {
-  const CONFIG = {
-    difficulty: {
-      // 공격 TTK 완화: 기존 기준의 4배. 일반 20R / 희귀 24R / 보스 45R.
-      normal: { ttkRounds: 2.5, survivalMultiplier: 8.0 },
-      rare: { ttkRounds: 4.0, survivalMultiplier: 6.0 },
-      boss: { ttkRounds: 9.0, survivalMultiplier: 5.0 }
-    },
-    formationWeights: [0.60, 0.30, 0.10],
-    validationRuns: 1000,
-    maxAttack: 100000,
-    maxHp: 5000000
-  };
-
-  function gradeKey(monster) {
-    const grade = String(monster?.grade || '').toLowerCase();
-    const form = String(monster?.form || '').toLowerCase();
-    if (grade === 'boss' || form === 'boss') return 'boss';
-    if (grade === 'rare' || grade === 'elite' || form === 'rare' || form === 'elite') return 'rare';
-    return 'normal';
-  }
-
-  function leveledCharacter(level, classId) {
-    const f = new CharacterFactory();
-    const base = window.CHARACTER_CLASSES?.[classId] || {};
-    const c = f.create({ id: `balance-${classId}-${level}`, name: classId, team: 'player', classId, hp: base.hp, maxHp: base.hp, attack: base.attack, defense: base.defense, speed: base.speed, attributes: { ...(base.attributes || {}) } });
-    const target = Math.max(1, Math.min(50, Number(level) || 1));
-    for (let n = 1; n < target; n++) window.CharacterProgression?.applyLevel?.(c);
-    c.level = target;
-    c.hp = c.maxHp;
-    return c;
-  }
-
-  function equipmentScore(item, slot) {
-    if (slot === 'weapon') return Number(item?.attack) || 0;
-    if (slot === 'armor') return Number(item?.defense) || 0;
-    return (Number(item?.attack) || 0) + (Number(item?.defense) || 0);
-  }
-
-  function equipBest(c, level) { return equipByMode(c, level, 'max'); }
-  function equipByMode(c, level, mode = 'max') {
-    const loader = window.EquipmentXmlLoader;
-    if (!loader?.state?.loaded) return c;
-    for (const slot of ['weapon', 'armor', 'accessory']) {
-      const pool = loader.pool(level, { slot }).filter(i => c.canEquip(i).ok);
-      if (!pool.length) continue;
-      pool.sort((a, b) => {
-        const delta = equipmentScore(a, slot) - equipmentScore(b, slot);
-        return mode === 'min' ? delta : -delta;
-      });
-      c.equip(pool[0]);
-    }
-    return c;
-  }
-
-  function expectedDamagePerAttack(attack, defense, multiplier = 1) {
-    let total = 0;
-    for (let d1 = 1; d1 <= 6; d1++) for (let d2 = 1; d2 <= 6; d2++) {
-      const roll = d1 + d2;
-      if (roll === 2) continue;
-      const raw = Math.max(1, Number(attack) + roll - Number(defense));
-      total += roll === 12 ? raw * 2 * multiplier : raw * 0.85 * multiplier;
-    }
-    return total / 36;
-  }
-
-  function expectedDamagePerRound(character, defenderDefense) {
-    const base = expectedDamagePerAttack(character.attack, defenderDefense, 1);
-    const skillId = character.skills?.[0];
-    const skill = window.SKILL_REGISTRY?.[skillId];
-    if (!skill) return base;
-    const cooldown = Math.max(0, Number(skill.cooldown) || 0);
-    const skillHits = skill.extraHit ? 2 : 1;
-    const skillDamage = expectedDamagePerAttack(character.attack, defenderDefense, Number(skill.multiplier) || 1) * skillHits;
-    return (skillDamage + base * cooldown) / (cooldown + 1);
-  }
-
-  function partyProfile(level, defenderDefense = 0, mode = 'max') {
-    const characters = ['warrior', 'mage', 'rogue'].map(classId => {
-      const c = equipByMode(leveledCharacter(level, classId), level, mode);
-      return { id: classId, classId, attack: Number(c.attack) || 0, defense: Number(c.defense) || 0, hp: Number(c.maxHp) || Number(c.hp) || 0, skills: Array.isArray(c.skills) ? c.skills : [], expectedDpr: expectedDamagePerRound(c, defenderDefense) };
-    });
-    return { level, mode, defense: defenderDefense, characters, partyDpr: characters.reduce((sum, c) => sum + c.expectedDpr, 0), totalHp: characters.reduce((sum, c) => sum + c.hp, 0), averageDefense: characters.length ? characters.reduce((sum, c) => sum + c.defense, 0) / characters.length : 0 };
-  }
-
-  function partyReference(level, defenderDefense = 0) {
-    const min = partyProfile(level, defenderDefense, 'min');
-    const max = partyProfile(level, defenderDefense, 'max');
-    const balancedDpr = (min.partyDpr + max.partyDpr) / 2;
-    return { level, defense: defenderDefense, min, max, partyDpr: balancedDpr, partyDamage: balancedDpr, minDpr: min.partyDpr, maxDpr: max.partyDpr, minHp: min.totalHp, maxHp: max.totalHp, minDefense: min.averageDefense, maxDefense: max.averageDefense };
-  }
-
-  function targetForMonster(monster) { return CONFIG.difficulty[gradeKey(monster)]; }
-
-  function normalizedFormationWeights(partyLength) {
-    const count = Math.max(1, Number(partyLength) || 1);
-    const raw = CONFIG.formationWeights.slice(0, count);
-    while (raw.length < count) raw.push(CONFIG.formationWeights[CONFIG.formationWeights.length - 1]);
-    const total = raw.reduce((sum, weight) => sum + weight, 0);
-    return raw.map(weight => weight / Math.max(0.0001, total));
-  }
-
-  function expectedIncomingDamagePerRound(attack, party) {
-    const members = Array.isArray(party) ? party : [];
-    if (!members.length) return 0;
-    const weights = normalizedFormationWeights(members.length);
-    return members.reduce((sum, c, index) => sum + weights[index] * expectedDamagePerAttack(attack, Number(c.defense) || 0), 0);
-  }
-
-  function solveAttackForProfile(party, targetRounds) {
-    const members = Array.isArray(party) ? party : [];
-    const target = Math.max(1, Number(targetRounds) || 1);
-    const totalHp = members.reduce((sum, c) => sum + (Number(c.hp) || 0), 0);
-    const weights = normalizedFormationWeights(members.length);
-    let lo = 1, hi = CONFIG.maxAttack;
-    while (lo < hi) {
-      const mid = Math.floor((lo + hi + 1) / 2);
-      const incomingDpr = expectedIncomingDamagePerRound(mid, members);
-      const survivalRounds = totalHp / Math.max(0.0001, incomingDpr);
-      if (survivalRounds >= target) lo = mid;
-      else hi = mid - 1;
-    }
-    const attack = Math.max(1, lo);
-    const incomingDpr = expectedIncomingDamagePerRound(attack, members);
-    return { attack, totalHp, totalDefense: members.reduce((sum, c) => sum + (Number(c.defense) || 0), 0), averageDefense: members.length ? members.reduce((sum, c) => sum + (Number(c.defense) || 0), 0) / members.length : 0, formationWeights: weights, expectedIncomingDpr: incomingDpr, estimatedSurvivalRounds: totalHp / Math.max(0.0001, incomingDpr) };
-  }
-
-  function solveAttackForSurvival(monster, party, targetRounds) {
-    const desiredSurvival = targetRounds * targetForMonster(monster).survivalMultiplier;
-    const result = solveAttackForProfile(party, desiredSurvival);
-    return { attack: result.attack, desiredSurvivalRounds: desiredSurvival, expectedIncomingDpr: result.expectedIncomingDpr, estimatedSurvivalRounds: result.estimatedSurvivalRounds, totalHp: result.totalHp, averageDefense: result.averageDefense, profile: result };
-  }
-
-  function solveAttackFromMinMax(minParty, maxParty, targetRounds, survivalMultiplier = 1) {
-    const desired = Math.max(1, Number(targetRounds) || 1) * Math.max(1, Number(survivalMultiplier) || 1);
-    const min = solveAttackForProfile(minParty, desired);
-    const max = solveAttackForProfile(maxParty, desired);
-    const attack = Math.max(1, Math.round((min.attack + max.attack) / 2));
-    const evaluate = party => {
-      const members = Array.isArray(party) ? party : [];
-      const incomingDpr = expectedIncomingDamagePerRound(attack, members);
-      const totalHp = members.reduce((sum, c) => sum + (Number(c.hp) || 0), 0);
-      return { totalHp, expectedIncomingDpr: incomingDpr, estimatedSurvivalRounds: totalHp / Math.max(0.0001, incomingDpr) };
-    };
-    return { attack, desiredSurvivalRounds: desired, minAttack: min.attack, maxAttack: max.attack, minProfile: min, maxProfile: max, minResult: evaluate(minParty), maxResult: evaluate(maxParty) };
-  }
-
-  function calculateMonsterStats(monster, options = {}) {
-    if (!monster) return null;
-    const level = Math.max(1, Math.min(50, Number(monster.level) || 1));
-    const kind = gradeKey(monster);
-    const rule = CONFIG.difficulty[kind];
-    const party = partyReference(level, Number(monster.defense) || 0);
-    const targetRounds = Math.max(1, Number(options.targetRounds) || rule.ttkRounds);
-    const hp = Math.max(1, Math.round(party.partyDpr * targetRounds));
-    const survival = solveAttackFromMinMax(party.min.characters, party.max.characters, targetRounds, rule.survivalMultiplier);
-    return { id: monster.id, name: monster.name, level, grade: monster.grade, form: monster.form, kind, targetRounds, survivalMultiplier: rule.survivalMultiplier, hp: Math.min(CONFIG.maxHp, hp), maxHp: Math.min(CONFIG.maxHp, hp), attack: survival.attack, defense: Number(monster.defense) || 0, exp: Number(monster.exp) || 0, sourceHp: Number(monster.maxHp ?? monster.hp) || 0, sourceAttack: Number(monster.attack) || 0, balance: { minPartyDpr: party.minDpr, maxPartyDpr: party.maxDpr, midpointPartyDpr: party.partyDpr, minHp: party.minHp, maxHp: party.maxHp, minDefense: party.minDefense, maxDefense: party.maxDefense, minExpectedClearRounds: party.maxDpr > 0 ? hp / party.maxDpr : Infinity, maxExpectedClearRounds: party.minDpr > 0 ? hp / party.minDpr : Infinity, expectedClearRounds: party.partyDpr > 0 ? hp / party.partyDpr : Infinity, desiredSurvivalRounds: survival.desiredSurvivalRounds, minAttackForTarget: survival.minAttack, maxAttackForTarget: survival.maxAttack, estimatedSurvivalRoundsMinProfile: survival.minResult.estimatedSurvivalRounds, estimatedSurvivalRoundsMaxProfile: survival.maxResult.estimatedSurvivalRounds, expectedIncomingDprMinProfile: survival.minResult.expectedIncomingDpr, expectedIncomingDprMaxProfile: survival.maxResult.expectedIncomingDpr, formationWeights: CONFIG.formationWeights, survivalMarginRounds: ((survival.minResult.estimatedSurvivalRounds + survival.maxResult.estimatedSurvivalRounds) / 2) - survival.desiredSurvivalRounds }, profileSource: 'fixed-level-min-max-equipment-formation-weighted' };
-  }
-
-  function calculateDungeonMonsters(dungeon) {
-    const name = dungeon?.monsterDungeonName || dungeon?.name;
-    const items = window.MonsterXmlLoader?.state?.items || [];
-    return items.filter(m => m.dungeonName === name).map(m => calculateMonsterStats(m));
-  }
-
-  function dungeonBoss(dungeon) {
-    const name = dungeon?.monsterDungeonName || dungeon?.name;
-    return (window.MonsterXmlLoader?.state?.items || []).filter(m => m.dungeonName === name).find(m => gradeKey(m) === 'boss') || null;
-  }
-
-  function levelForDungeon(dungeon) { return Math.max(1, Math.min(50, Number(dungeon?.levelEnd || dungeon?.levelStart || dungeon?.levelMap?.slice(-1)[0] || 1))); }
-  function makeParty(level, mode = 'max') { return ['warrior', 'mage', 'rogue'].map(classId => equipByMode(leveledCharacter(level, classId), level, mode)); }
-
-  function survivalReference(dungeon, party) {
-    const boss = dungeonBoss(dungeon);
-    if (!boss) return null;
-    const b = calculateMonsterStats(boss);
-    return { members: party.map(c => { const incomingDpr = expectedDamagePerAttack(b.attack, Number(c.defense) || 0); return { classId: c.classId, hp: Number(c.maxHp) || Number(c.hp) || 1, defense: Number(c.defense) || 0, incomingDpr, estimatedSurvivalRounds: incomingDpr > 0 ? (Number(c.maxHp) || Number(c.hp) || 1) / incomingDpr : Infinity }; }) };
-  }
-
-  function calculateBossHp(dungeon, options = {}) {
-    const boss = dungeonBoss(dungeon);
-    if (!boss) return null;
-    const result = calculateMonsterStats(boss, options);
-    const party = makeParty(result.level, 'max');
-    const survival = survivalReference(dungeon, party);
-    return { dungeon: dungeon.name, level: result.level, targetRounds: result.targetRounds, boss: { id: boss.id, name: boss.name, oldHp: Number(boss.maxHp) || 0, oldAttack: Number(boss.attack) || 0, oldDefense: Number(boss.defense) || 0, hp: result.hp, attack: result.attack, defense: result.defense }, reference: partyReference(result.level, result.defense), survival, modelHp: result.hp, modelAttack: result.attack, modelDefense: result.defense, balance: result.balance };
-  }
-
-  function calculateAll(dungeons, options = {}) { return (Array.isArray(dungeons) ? dungeons : Object.values(dungeons || {})).filter(Boolean).sort((a, b) => levelForDungeon(a) - levelForDungeon(b)).map(d => calculateBossHp(d, options)); }
-
-  function simulateBoss(dungeon, bossHp, runs = CONFIG.validationRuns, seed = 12345, attack = null) {
-    const boss = dungeonBoss(dungeon);
-    if (!boss) return null;
-    const model = calculateMonsterStats(boss);
-    const results = { wins: 0, losses: 0, draws: 0, rounds: 0 };
-    for (let i = 0; i < runs; i++) {
-      const rng = new SeededRandom(Number(seed) + i * 1009);
-      const party = makeParty(model.level, 'max');
-      const enemies = [{ ...boss, hp: bossHp ?? model.hp, maxHp: bossHp ?? model.hp, attack: attack ?? model.attack, team: 'enemy' }];
-      let round = 0;
-      while (round < 1000 && party.some(c => c.alive) && enemies.some(e => e.hp > 0)) {
-        round++;
-        const order = [...party, ...enemies].sort((a, b) => (Number(b.speed) || 0) - (Number(a.speed) || 0));
-        for (const actor of order) {
-          if (actor.hp <= 0) continue;
-          const targets = actor.team === 'enemy' ? party.filter(c => c.hp > 0) : enemies.filter(e => e.hp > 0);
-          if (!targets.length) break;
-          const target = actor.team === 'enemy' ? targets[Math.floor(rng.next() * targets.length)] : targets[0];
-          const roll = rng.int(2, 12);
-          if (roll === 2) continue;
-          const raw = Math.max(1, (Number(actor.attack) || 0) + roll - (Number(target.defense) || 0));
-          const damage = roll === 12 ? raw * 2 : raw * 0.85;
-          target.hp = Math.max(0, target.hp - damage);
-        }
-      }
-      if (enemies.every(e => e.hp <= 0)) results.wins++; else if (party.every(c => c.hp <= 0)) results.losses++; else results.draws++;
-      results.rounds += round;
-    }
-    results.averageRounds = results.rounds / Math.max(1, runs);
-    results.winRate = results.wins / Math.max(1, runs);
-    return results;
-  }
-
-  window.BattleBalanceCalculator = { CONFIG, gradeKey, leveledCharacter, equipBest, equipByMode, expectedDamagePerAttack, expectedDamagePerRound, partyProfile, partyReference, targetForMonster, normalizedFormationWeights, expectedIncomingDamagePerRound, solveAttackForProfile, solveAttackForSurvival, solveAttackFromMinMax, calculateMonsterStats, calculateDungeonMonsters, dungeonBoss, levelForDungeon, makeParty, survivalReference, calculateBossHp, calculateAll, simulateBoss };
+  const CONFIG={difficulty:{normal:{ttkRounds:20,survivalMultiplier:1},rare:{ttkRounds:24,survivalMultiplier:1},boss:{ttkRounds:45,survivalMultiplier:1}},formationWeights:[.60,.30,.10],validationRuns:1000,maxAttack:100000,maxHp:5000000};
+  function gradeKey(m){const g=String(m?.grade||'').toLowerCase(),f=String(m?.form||'').toLowerCase();if(g==='boss'||f==='boss')return'boss';if(g==='rare'||g==='elite'||f==='rare'||f==='elite')return'rare';return'normal';}
+  function leveledCharacter(level,classId){const f=new CharacterFactory(),base=window.CHARACTER_CLASSES?.[classId]||{};const c=f.create({id:`balance-${classId}-${level}`,name:classId,team:'player',classId,hp:base.hp,maxHp:base.hp,attack:base.attack,defense:base.defense,speed:base.speed,attributes:{...(base.attributes||{})}});const target=Math.max(1,Math.min(50,Number(level)||1));for(let n=1;n<target;n++)window.CharacterProgression?.applyLevel?.(c);c.level=target;c.hp=c.maxHp;return c;}
+  function equipmentScore(item,slot){if(slot==='weapon')return Number(item?.attack)||0;if(slot==='armor')return Number(item?.defense)||0;return(Number(item?.attack)||0)+(Number(item?.defense)||0);}
+  function equipByMode(c,level,mode='max'){const loader=window.EquipmentXmlLoader;if(!loader?.state?.loaded)return c;for(const slot of['weapon','armor','accessory']){const pool=loader.pool(level,{slot}).filter(i=>c.canEquip(i).ok);if(!pool.length)continue;pool.sort((a,b)=>{const d=equipmentScore(a,slot)-equipmentScore(b,slot);return mode==='min'?d:-d;});c.equip(pool[0]);}return c;}
+  const equipBest=(c,level)=>equipByMode(c,level,'max');
+  function expectedDamagePerAttack(attack,defense,multiplier=1){let total=0;for(let d1=1;d1<=6;d1++)for(let d2=1;d2<=6;d2++){const roll=d1+d2;if(roll===2)continue;const raw=Math.max(1,Number(attack)+roll-Number(defense));total+=roll===12?raw*2*multiplier:raw*.85*multiplier;}return total/36;}
+  function expectedDamagePerRound(character,defenderDefense){const base=expectedDamagePerAttack(character.attack,defenderDefense,1),skill=window.SKILL_REGISTRY?.[character.skills?.[0]];if(!skill)return base;const cooldown=Math.max(0,Number(skill.cooldown)||0),hits=skill.extraHit?2:1,skillDamage=expectedDamagePerAttack(character.attack,defenderDefense,Number(skill.multiplier)||1)*hits;return(skillDamage+base*cooldown)/(cooldown+1);}
+  function partyProfile(level,defenderDefense=0,mode='max'){const characters=['warrior','mage','rogue'].map(classId=>{const c=equipByMode(leveledCharacter(level,classId),level,mode);return{id:classId,classId,attack:Number(c.attack)||0,defense:Number(c.defense)||0,hp:Number(c.maxHp)||Number(c.hp)||0,skills:Array.isArray(c.skills)?c.skills:[],expectedDpr:expectedDamagePerRound(c,defenderDefense)};});return{level,mode,defense:defenderDefense,characters,partyDpr:characters.reduce((s,c)=>s+c.expectedDpr,0),totalHp:characters.reduce((s,c)=>s+c.hp,0),averageDefense:characters.length?characters.reduce((s,c)=>s+c.defense,0)/characters.length:0};}
+  function partyReference(level,defenderDefense=0){const min=partyProfile(level,defenderDefense,'min'),max=partyProfile(level,defenderDefense,'max'),partyDpr=(min.partyDpr+max.partyDpr)/2;return{level,defense:defenderDefense,min,max,partyDpr,partyDamage:partyDpr,minDpr:min.partyDpr,maxDpr:max.partyDpr,minHp:min.totalHp,maxHp:max.totalHp,minDefense:min.averageDefense,maxDefense:max.averageDefense};}
+  function normalizedFormationWeights(n){const count=Math.max(1,Number(n)||1),raw=CONFIG.formationWeights.slice(0,count);while(raw.length<count)raw.push(CONFIG.formationWeights.at(-1));const total=raw.reduce((s,x)=>s+x,0);return raw.map(x=>x/Math.max(.0001,total));}
+  function expectedIncomingDamagePerRound(attack,party){const members=Array.isArray(party)?party:[];if(!members.length)return 0;const w=normalizedFormationWeights(members.length);return members.reduce((s,c,i)=>s+w[i]*expectedDamagePerAttack(attack,Number(c.defense)||0),0);}
+  function solveAttackForProfile(party,targetRounds){const members=Array.isArray(party)?party:[],target=Math.max(1,Number(targetRounds)||1),totalHp=members.reduce((s,c)=>s+(Number(c.hp)||0),0);let lo=1,hi=CONFIG.maxAttack;while(lo<hi){const mid=Math.floor((lo+hi+1)/2),dpr=expectedIncomingDamagePerRound(mid,members),survival=totalHp/Math.max(.0001,dpr);if(survival>=target)lo=mid;else hi=mid-1;}const attack=Math.max(1,lo),dpr=expectedIncomingDamagePerRound(attack,members);return{attack,totalHp,totalDefense:members.reduce((s,c)=>s+(Number(c.defense)||0),0),averageDefense:members.length?members.reduce((s,c)=>s+(Number(c.defense)||0),0)/members.length:0,formationWeights:normalizedFormationWeights(members.length),expectedIncomingDpr:dpr,estimatedSurvivalRounds:totalHp/Math.max(.0001,dpr)};}
+  function solveAttackFromMinMax(minParty,maxParty,targetRounds){const desired=Math.max(1,Number(targetRounds)||1),min=solveAttackForProfile(minParty,desired),max=solveAttackForProfile(maxParty,desired),attack=Math.max(1,Math.round((min.attack+max.attack)/2));const evaluate=party=>{const dpr=expectedIncomingDamagePerRound(attack,party),totalHp=party.reduce((s,c)=>s+(Number(c.hp)||0),0);return{totalHp,expectedIncomingDpr:dpr,estimatedSurvivalRounds:totalHp/Math.max(.0001,dpr)};};return{attack,desiredSurvivalRounds:desired,minAttack:min.attack,maxAttack:max.attack,minProfile:min,maxProfile:max,minResult:evaluate(minParty),maxResult:evaluate(maxParty)};}
+  function calculateMonsterStats(monster,options={}){if(!monster)return null;const level=Math.max(1,Math.min(50,Number(monster.level)||1)),kind=gradeKey(monster),rule=CONFIG.difficulty[kind],party=partyReference(level,Number(monster.defense)||0),targetRounds=Math.max(1,Number(options.targetRounds)||rule.ttkRounds),hp=Math.max(1,Math.round(party.partyDpr*targetRounds)),survival=solveAttackFromMinMax(party.min.characters,party.max.characters,targetRounds);return{id:monster.id,name:monster.name,level,grade:monster.grade,form:monster.form,kind,targetRounds,survivalMultiplier:1,hp:Math.min(CONFIG.maxHp,hp),maxHp:Math.min(CONFIG.maxHp,hp),attack:survival.attack,defense:Number(monster.defense)||0,exp:Number(monster.exp)||0,sourceHp:Number(monster.maxHp??monster.hp)||0,sourceAttack:Number(monster.attack)||0,balance:{minPartyDpr:party.minDpr,maxPartyDpr:party.maxDpr,midpointPartyDpr:party.partyDpr,minHp:party.minHp,maxHp:party.maxHp,minDefense:party.minDefense,maxDefense:party.maxDefense,expectedClearRounds:party.partyDpr>0?hp/party.partyDpr:Infinity,desiredSurvivalRounds:survival.desiredSurvivalRounds,minAttackForTarget:survival.minAttack,maxAttackForTarget:survival.maxAttack,estimatedSurvivalRoundsMinProfile:survival.minResult.estimatedSurvivalRounds,estimatedSurvivalRoundsMaxProfile:survival.maxResult.estimatedSurvivalRounds,expectedIncomingDprMinProfile:survival.minResult.expectedIncomingDpr,expectedIncomingDprMaxProfile:survival.maxResult.expectedIncomingDpr,formationWeights:CONFIG.formationWeights,survivalMarginRounds:((survival.minResult.estimatedSurvivalRounds+survival.maxResult.estimatedSurvivalRounds)/2)-survival.desiredSurvivalRounds},profileSource:'fixed-level-min-max-equipment-formation-weighted'};}
+  function calculateDungeonMonsters(dungeon){const name=dungeon?.monsterDungeonName||dungeon?.name;return(window.MonsterXmlLoader?.state?.items||[]).filter(m=>m.dungeonName===name).map(calculateMonsterStats);}
+  function dungeonBoss(dungeon){const name=dungeon?.monsterDungeonName||dungeon?.name;return(window.MonsterXmlLoader?.state?.items||[]).filter(m=>m.dungeonName===name).find(m=>gradeKey(m)==='boss')||null;}
+  function levelForDungeon(dungeon){return Math.max(1,Math.min(50,Number(dungeon?.levelEnd||dungeon?.levelStart||dungeon?.levelMap?.at(-1)||1)));}
+  function makeParty(level,mode='max'){return['warrior','mage','rogue'].map(classId=>equipByMode(leveledCharacter(level,classId),level,mode));}
+  function survivalReference(dungeon,party){const boss=dungeonBoss(dungeon);if(!boss)return null;const b=calculateMonsterStats(boss);return{members:party.map(c=>{const dpr=expectedDamagePerAttack(b.attack,Number(c.defense)||0),hp=Number(c.maxHp)||Number(c.hp)||1;return{classId:c.classId,hp,defense:Number(c.defense)||0,incomingDpr:dpr,estimatedSurvivalRounds:dpr>0?hp/dpr:Infinity};})};}
+  function calculateBossHp(dungeon,options={}){const boss=dungeonBoss(dungeon);if(!boss)return null;const result=calculateMonsterStats(boss,options),party=makeParty(result.level,'max');return{dungeon:dungeon.name,level:result.level,targetRounds:result.targetRounds,boss:{id:boss.id,name:boss.name,oldHp:Number(boss.maxHp)||0,oldAttack:Number(boss.attack)||0,oldDefense:Number(boss.defense)||0,hp:result.hp,attack:result.attack,defense:result.defense},reference:partyReference(result.level,result.defense),survival:survivalReference(dungeon,party),modelHp:result.hp,modelAttack:result.attack,modelDefense:result.defense,balance:result.balance};}
+  function calculateAll(dungeons,options={}){return(Array.isArray(dungeons)?dungeons:Object.values(dungeons||{})).filter(Boolean).sort((a,b)=>levelForDungeon(a)-levelForDungeon(b)).map(d=>calculateBossHp(d,options));}
+  function simulateBoss(dungeon,bossHp=null,runs=CONFIG.validationRuns,seed=12345,attack=null){const boss=dungeonBoss(dungeon);if(!boss)return null;const model=calculateMonsterStats(boss),results={wins:0,losses:0,draws:0,rounds:0};for(let i=0;i<runs;i++){const rng=new SeededRandom(Number(seed)+i*1009),party=makeParty(model.level,'max'),hp=bossHp??model.hp,enemies=[new Character({id:`sim-${boss.id}-${i}`,name:boss.name,hp,maxHp:hp,attack:attack??model.attack,defense:model.defense,speed:10,team:'enemy',skills:[],level:model.level,monsterId:boss.id,monsterGrade:boss.grade,monsterForm:boss.form})],result=new BattleEngine({rng,damageCalculator:new DamageCalculator(rng)}).run(party,enemies);if(result.result==='WIN')results.wins++;else if(result.result==='LOSE')results.losses++;else results.draws++;results.rounds+=result.round;}results.winRate=runs?results.wins/runs:0;results.avgRounds=runs?results.rounds/runs:0;return{...results,model,boss};}
+  window.BattleBalanceCalculator={CONFIG,gradeKey,leveledCharacter,equipBest,equipByMode,partyProfile,partyReference,expectedDamagePerAttack,expectedDamagePerRound,calculateMonsterStats,calculateDungeonMonsters,dungeonBoss,calculateBossHp,calculateAll,makeParty,survivalReference,simulateBoss};
 })();
