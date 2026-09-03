@@ -6,7 +6,7 @@
     <ReqLevel>26</ReqLevel>
     <ReqStat type="INT">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">116</Value>
+    <Value type="Attack">348</Value>
   </Item>
   <Item id="1177">
     <Name>시공의 사슬 갑옷</Name>
@@ -22,7 +22,7 @@
     <ReqLevel>26</ReqLevel>
     <ReqStat type="AGI">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">68</Value>
+    <Value type="Attack">204</Value>
   </Item>
   <Item id="1179">
     <Name>날카로운 실크 로브</Name>
@@ -38,7 +38,7 @@
     <ReqLevel>26</ReqLevel>
     <ReqStat type="STR">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">116</Value>
+    <Value type="Attack">348</Value>
   </Item>
   <Item id="1181">
     <Name>불멸의 암살자 복장</Name>
@@ -54,7 +54,7 @@
     <ReqLevel>26</ReqLevel>
     <ReqStat type="INT">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">68</Value>
+    <Value type="Attack">204</Value>
   </Item>
   <Item id="1183">
     <Name>신성한 파괴퇴</Name>
@@ -62,7 +62,7 @@
     <ReqLevel>27</ReqLevel>
     <ReqStat type="STR">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">155</Value>
+    <Value type="Attack">465</Value>
   </Item>
   <Item id="1184">
     <Name>단단한 바람의 경갑</Name>
@@ -78,7 +78,7 @@
     <ReqLevel>27</ReqLevel>
     <ReqStat type="INT">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">92</Value>
+    <Value type="Attack">276</Value>
   </Item>
   <Item id="1186">
     <Name>번개의 판금 갑옷</Name>
@@ -94,7 +94,7 @@
     <ReqLevel>27</ReqLevel>
     <ReqStat type="AGI">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">155</Value>
+    <Value type="Attack">465</Value>
   </Item>
   <Item id="1188">
     <Name>정제된 성운의 로브</Name>
@@ -110,7 +110,7 @@
     <ReqLevel>27</ReqLevel>
     <ReqStat type="STR">13</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">92</Value>
+    <Value type="Attack">276</Value>
   </Item>
   <Item id="1190">
     <Name>기본 표창</Name>
@@ -118,7 +118,7 @@
     <ReqLevel>28</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">73</Value>
+    <Value type="Attack">219</Value>
   </Item>
   <Item id="1191">
     <Name>숙련자의 대마법사 로브</Name>
@@ -134,7 +134,7 @@
     <ReqLevel>28</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">124</Value>
+    <Value type="Attack">372</Value>
   </Item>
   <Item id="1193">
     <Name>신멸의 가죽 갑옷</Name>
@@ -150,7 +150,7 @@
     <ReqLevel>28</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">73</Value>
+    <Value type="Attack">219</Value>
   </Item>
   <Item id="1195">
     <Name>상급 판금 갑옷</Name>
@@ -166,7 +166,7 @@
     <ReqLevel>28</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">124</Value>
+    <Value type="Attack">372</Value>
   </Item>
   <Item id="1197">
     <Name>우수한 오브</Name>
@@ -174,7 +174,7 @@
     <ReqLevel>29</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">98</Value>
+    <Value type="Attack">294</Value>
   </Item>
   <Item id="1198">
     <Name>용혈의 스케일 메일</Name>
@@ -190,7 +190,7 @@
     <ReqLevel>29</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">166</Value>
+    <Value type="Attack">498</Value>
   </Item>
   <Item id="1200">
     <Name>기본 실크 로브</Name>
@@ -206,7 +206,7 @@
     <ReqLevel>29</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">98</Value>
+    <Value type="Attack">294</Value>
   </Item>
   <Item id="1202">
     <Name>서리발톱 야수 가죽 갑옷</Name>
@@ -222,7 +222,7 @@
     <ReqLevel>29</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">166</Value>
+    <Value type="Attack">498</Value>
   </Item>
   <Item id="1204">
     <Name>번개의 워해머</Name>
@@ -230,7 +230,7 @@
     <ReqLevel>30</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">133</Value>
+    <Value type="Attack">399</Value>
   </Item>
   <Item id="1205">
     <Name>신성한 강화 가죽 자켓</Name>
@@ -246,7 +246,7 @@
     <ReqLevel>30</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">78</Value>
+    <Value type="Attack">234</Value>
   </Item>
   <Item id="1207">
     <Name>숙련자의 기사 흉갑</Name>
@@ -262,7 +262,7 @@
     <ReqLevel>30</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">133</Value>
+    <Value type="Attack">399</Value>
   </Item>
   <Item id="1209">
     <Name>지옥화염 실크 로브</Name>
@@ -278,7 +278,7 @@
     <ReqLevel>30</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">78</Value>
+    <Value type="Attack">234</Value>
   </Item>
   <Item id="1211">
     <Name>신멸의 단검</Name>
@@ -286,7 +286,7 @@
     <ReqLevel>31</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">177</Value>
+    <Value type="Attack">531</Value>
   </Item>
   <Item id="1212">
     <Name>단단한 성운의 로브</Name>
@@ -302,7 +302,7 @@
     <ReqLevel>31</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">105</Value>
+    <Value type="Attack">315</Value>
   </Item>
   <Item id="1214">
     <Name>그림자의 가죽 갑옷</Name>
@@ -318,7 +318,7 @@
     <ReqLevel>31</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">177</Value>
+    <Value type="Attack">531</Value>
   </Item>
   <Item id="1216">
     <Name>정제된 수호자의 판금</Name>
@@ -334,7 +334,7 @@
     <ReqLevel>31</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">105</Value>
+    <Value type="Attack">315</Value>
   </Item>
   <Item id="1218">
     <Name>연마된 성검</Name>
@@ -342,7 +342,7 @@
     <ReqLevel>32</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">83</Value>
+    <Value type="Attack">249</Value>
   </Item>
   <Item id="1219">
     <Name>튼튼한 용비늘 갑옷</Name>
@@ -358,7 +358,7 @@
     <ReqLevel>32</ReqLevel>
     <ReqStat type="AGI">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">141</Value>
+    <Value type="Attack">423</Value>
   </Item>
   <Item id="1221">
     <Name>태초의 성운의 로브</Name>
@@ -374,7 +374,7 @@
     <ReqLevel>32</ReqLevel>
     <ReqStat type="STR">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">83</Value>
+    <Value type="Attack">249</Value>
   </Item>
   <Item id="1223">
     <Name>우수한 야수 가죽 갑옷</Name>
@@ -390,7 +390,7 @@
     <ReqLevel>32</ReqLevel>
     <ReqStat type="INT">14</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">141</Value>
+    <Value type="Attack">423</Value>
   </Item>
   <Item id="1225">
     <Name>정교한 거대도끼</Name>
@@ -398,7 +398,7 @@
     <ReqLevel>33</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">111</Value>
+    <Value type="Attack">333</Value>
   </Item>
   <Item id="1226">
     <Name>번개의 야수 가죽 갑옷</Name>
@@ -414,7 +414,7 @@
     <ReqLevel>33</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">188</Value>
+    <Value type="Attack">564</Value>
   </Item>
   <Item id="1228">
     <Name>정제된 기사 흉갑</Name>
@@ -430,7 +430,7 @@
     <ReqLevel>33</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">111</Value>
+    <Value type="Attack">333</Value>
   </Item>
   <Item id="1230">
     <Name>그림자의 성도복</Name>
@@ -446,7 +446,7 @@
     <ReqLevel>33</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">188</Value>
+    <Value type="Attack">564</Value>
   </Item>
   <Item id="1232">
     <Name>서리발톱 크로스보우</Name>
@@ -454,7 +454,7 @@
     <ReqLevel>34</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">150</Value>
+    <Value type="Attack">450</Value>
   </Item>
   <Item id="1233">
     <Name>태초의 성운의 로브</Name>
@@ -470,7 +470,7 @@
     <ReqLevel>34</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">88</Value>
+    <Value type="Attack">264</Value>
   </Item>
   <Item id="1235">
     <Name>강화된 강화 가죽 자켓</Name>
@@ -486,7 +486,7 @@
     <ReqLevel>34</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">150</Value>
+    <Value type="Attack">450</Value>
   </Item>
   <Item id="1237">
     <Name>전설의 거룡의 갑옷</Name>
@@ -502,7 +502,7 @@
     <ReqLevel>34</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">88</Value>
+    <Value type="Attack">264</Value>
   </Item>
   <Item id="1239">
     <Name>신성한 오브</Name>
@@ -510,7 +510,7 @@
     <ReqLevel>35</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">199</Value>
+    <Value type="Attack">597</Value>
   </Item>
   <Item id="1240">
     <Name>기본 스케일 메일</Name>
@@ -526,7 +526,7 @@
     <ReqLevel>35</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">118</Value>
+    <Value type="Attack">354</Value>
   </Item>
   <Item id="1242">
     <Name>화염의 성운의 로브</Name>
@@ -542,7 +542,7 @@
     <ReqLevel>35</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">199</Value>
+    <Value type="Attack">597</Value>
   </Item>
   <Item id="1244">
     <Name>단단한 강화 가죽 자켓</Name>
@@ -558,7 +558,7 @@
     <ReqLevel>35</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">118</Value>
+    <Value type="Attack">354</Value>
   </Item>
   <Item id="1246">
     <Name>기본 대검</Name>
@@ -566,7 +566,7 @@
     <ReqLevel>36</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">93</Value>
+    <Value type="Attack">279</Value>
   </Item>
   <Item id="1247">
     <Name>날카로운 암살자 복장</Name>
@@ -582,7 +582,7 @@
     <ReqLevel>36</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">158</Value>
+    <Value type="Attack">474</Value>
   </Item>
   <Item id="1249">
     <Name>지옥화염 용비늘 갑옷</Name>
@@ -598,7 +598,7 @@
     <ReqLevel>36</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">93</Value>
+    <Value type="Attack">279</Value>
   </Item>
   <Item id="1251">
     <Name>우수한 현자의 예복</Name>
@@ -614,7 +614,7 @@
     <ReqLevel>36</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">158</Value>
+    <Value type="Attack">474</Value>
   </Item>
   <Item id="1253">
     <Name>숙련자의 단검</Name>
@@ -622,7 +622,7 @@
     <ReqLevel>37</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">124</Value>
+    <Value type="Attack">372</Value>
   </Item>
   <Item id="1254">
     <Name>그림자의 대마법사 로브</Name>
@@ -638,7 +638,7 @@
     <ReqLevel>37</ReqLevel>
     <ReqStat type="STR">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">210</Value>
+    <Value type="Attack">630</Value>
   </Item>
   <Item id="1256">
     <Name>기본 가죽 갑옷</Name>
@@ -654,7 +654,7 @@
     <ReqLevel>37</ReqLevel>
     <ReqStat type="INT">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">124</Value>
+    <Value type="Attack">372</Value>
   </Item>
   <Item id="1258">
     <Name>축복받은 용비늘 갑옷</Name>
@@ -670,7 +670,7 @@
     <ReqLevel>37</ReqLevel>
     <ReqStat type="AGI">15</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">210</Value>
+    <Value type="Attack">630</Value>
   </Item>
   <Item id="1260">
     <Name>서리발톱 현자의 봉</Name>
@@ -678,7 +678,7 @@
     <ReqLevel>38</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">167</Value>
+    <Value type="Attack">501</Value>
   </Item>
   <Item id="1261">
     <Name>불멸의 거룡의 갑옷</Name>
@@ -694,7 +694,7 @@
     <ReqLevel>38</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">98</Value>
+    <Value type="Attack">294</Value>
   </Item>
   <Item id="1263">
     <Name>우수한 마법사 로브</Name>
@@ -710,7 +710,7 @@
     <ReqLevel>38</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">167</Value>
+    <Value type="Attack">501</Value>
   </Item>
   <Item id="1265">
     <Name>파멸의 그림자 흉갑</Name>
@@ -726,7 +726,7 @@
     <ReqLevel>38</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">98</Value>
+    <Value type="Attack">294</Value>
   </Item>
   <Item id="1267">
     <Name>시공의 워해머</Name>
@@ -734,7 +734,7 @@
     <ReqLevel>39</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">221</Value>
+    <Value type="Attack">663</Value>
   </Item>
   <Item id="1268">
     <Name>단단한 바람의 경갑</Name>
@@ -750,7 +750,7 @@
     <ReqLevel>39</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">131</Value>
+    <Value type="Attack">393</Value>
   </Item>
   <Item id="1270">
     <Name>축복받은 용비늘 갑옷</Name>
@@ -766,7 +766,7 @@
     <ReqLevel>39</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">221</Value>
+    <Value type="Attack">663</Value>
   </Item>
   <Item id="1272">
     <Name>견고한 달빛 로브</Name>
@@ -782,7 +782,7 @@
     <ReqLevel>39</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">131</Value>
+    <Value type="Attack">393</Value>
   </Item>
   <Item id="1274">
     <Name>견고한 바람활</Name>
@@ -790,7 +790,7 @@
     <ReqLevel>40</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">103</Value>
+    <Value type="Attack">309</Value>
   </Item>
   <Item id="1275">
     <Name>우수한 마법사 로브</Name>
@@ -806,7 +806,7 @@
     <ReqLevel>40</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">175</Value>
+    <Value type="Attack">525</Value>
   </Item>
   <Item id="1277">
     <Name>신멸의 가죽 갑옷</Name>
@@ -822,7 +822,7 @@
     <ReqLevel>40</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">103</Value>
+    <Value type="Attack">309</Value>
   </Item>
   <Item id="1279">
     <Name>튼튼한 수호자의 판금</Name>
@@ -838,7 +838,7 @@
     <ReqLevel>40</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">175</Value>
+    <Value type="Attack">525</Value>
   </Item>
   <Item id="1281">
     <Name>상급 주문서</Name>
@@ -846,7 +846,7 @@
     <ReqLevel>41</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">137</Value>
+    <Value type="Attack">411</Value>
   </Item>
   <Item id="1282">
     <Name>축복받은 거룡의 갑옷</Name>
@@ -862,7 +862,7 @@
     <ReqLevel>41</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">232</Value>
+    <Value type="Attack">696</Value>
   </Item>
   <Item id="1284">
     <Name>정제된 실크 로브</Name>
@@ -878,7 +878,7 @@
     <ReqLevel>41</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">137</Value>
+    <Value type="Attack">411</Value>
   </Item>
   <Item id="1286">
     <Name>축복받은 환영의 경갑</Name>
@@ -894,7 +894,7 @@
     <ReqLevel>41</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">232</Value>
+    <Value type="Attack">696</Value>
   </Item>
   <Item id="1288">
     <Name>축복받은 대검</Name>
@@ -902,7 +902,7 @@
     <ReqLevel>42</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">184</Value>
+    <Value type="Attack">552</Value>
   </Item>
   <Item id="1289">
     <Name>신멸의 환영의 경갑</Name>
@@ -918,7 +918,7 @@
     <ReqLevel>42</ReqLevel>
     <ReqStat type="INT">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">108</Value>
+    <Value type="Attack">324</Value>
   </Item>
   <Item id="1291">
     <Name>튼튼한 수호자의 판금</Name>
@@ -934,7 +934,7 @@
     <ReqLevel>42</ReqLevel>
     <ReqStat type="AGI">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">184</Value>
+    <Value type="Attack">552</Value>
   </Item>
   <Item id="1293">
     <Name>불멸의 성운의 로브</Name>
@@ -950,7 +950,7 @@
     <ReqLevel>42</ReqLevel>
     <ReqStat type="STR">16</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">108</Value>
+    <Value type="Attack">324</Value>
   </Item>
   <Item id="1295">
     <Name>태초의 표창</Name>
@@ -958,7 +958,7 @@
     <ReqLevel>43</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">243</Value>
+    <Value type="Attack">729</Value>
   </Item>
   <Item id="1296">
     <Name>연마된 마법사 로브</Name>
@@ -974,7 +974,7 @@
     <ReqLevel>43</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">144</Value>
+    <Value type="Attack">432</Value>
   </Item>
   <Item id="1298">
     <Name>화염의 가죽 갑옷</Name>
@@ -990,7 +990,7 @@
     <ReqLevel>43</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">243</Value>
+    <Value type="Attack">729</Value>
   </Item>
   <Item id="1300">
     <Name>견고한 요새 흉갑</Name>
@@ -1006,7 +1006,7 @@
     <ReqLevel>43</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">144</Value>
+    <Value type="Attack">432</Value>
   </Item>
   <Item id="1302">
     <Name>평범한 원소 마법봉</Name>
@@ -1014,7 +1014,7 @@
     <ReqLevel>44</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">113</Value>
+    <Value type="Attack">339</Value>
   </Item>
   <Item id="1303">
     <Name>튼튼한 판금 갑옷</Name>
@@ -1030,7 +1030,7 @@
     <ReqLevel>44</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">192</Value>
+    <Value type="Attack">576</Value>
   </Item>
   <Item id="1305">
     <Name>신성한 성운의 로브</Name>
@@ -1046,7 +1046,7 @@
     <ReqLevel>44</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">113</Value>
+    <Value type="Attack">339</Value>
   </Item>
   <Item id="1307">
     <Name>숙련자의 강화 가죽 자켓</Name>
@@ -1062,7 +1062,7 @@
     <ReqLevel>44</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">192</Value>
+    <Value type="Attack">576</Value>
   </Item>
   <Item id="1309">
     <Name>정교한 할버드</Name>
@@ -1070,7 +1070,7 @@
     <ReqLevel>45</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">150</Value>
+    <Value type="Attack">450</Value>
   </Item>
   <Item id="1310">
     <Name>마법의 환영의 경갑</Name>
@@ -1086,7 +1086,7 @@
     <ReqLevel>45</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">254</Value>
+    <Value type="Attack">762</Value>
   </Item>
   <Item id="1312">
     <Name>기본 기사 흉갑</Name>
@@ -1102,7 +1102,7 @@
     <ReqLevel>45</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">150</Value>
+    <Value type="Attack">450</Value>
   </Item>
   <Item id="1314">
     <Name>용혈의 달빛 로브</Name>
@@ -1118,7 +1118,7 @@
     <ReqLevel>45</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">254</Value>
+    <Value type="Attack">762</Value>
   </Item>
   <Item id="1316">
     <Name>마법의 크로스보우</Name>
@@ -1126,7 +1126,7 @@
     <ReqLevel>46</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">201</Value>
+    <Value type="Attack">603</Value>
   </Item>
   <Item id="1317">
     <Name>신성한 실크 로브</Name>
@@ -1142,7 +1142,7 @@
     <ReqLevel>46</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">118</Value>
+    <Value type="Attack">354</Value>
   </Item>
   <Item id="1319">
     <Name>숙련자의 암살자 복장</Name>
@@ -1158,7 +1158,7 @@
     <ReqLevel>46</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">201</Value>
+    <Value type="Attack">603</Value>
   </Item>
   <Item id="1321">
     <Name>신멸의 수호자의 판금</Name>
@@ -1174,7 +1174,7 @@
     <ReqLevel>46</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">118</Value>
+    <Value type="Attack">354</Value>
   </Item>
   <Item id="1323">
     <Name>파멸의 현자의 봉</Name>
@@ -1182,7 +1182,7 @@
     <ReqLevel>47</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">265</Value>
+    <Value type="Attack">795</Value>
   </Item>
   <Item id="1324">
     <Name>평범한 스케일 메일</Name>
@@ -1198,7 +1198,7 @@
     <ReqLevel>47</ReqLevel>
     <ReqStat type="AGI">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">157</Value>
+    <Value type="Attack">471</Value>
   </Item>
   <Item id="1326">
     <Name>폭풍의 성도복</Name>
@@ -1214,7 +1214,7 @@
     <ReqLevel>47</ReqLevel>
     <ReqStat type="STR">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">265</Value>
+    <Value type="Attack">795</Value>
   </Item>
   <Item id="1328">
     <Name>기본 바람의 경갑</Name>
@@ -1230,7 +1230,7 @@
     <ReqLevel>47</ReqLevel>
     <ReqStat type="INT">17</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">157</Value>
+    <Value type="Attack">471</Value>
   </Item>
   <Item id="1330">
     <Name>단단한 워해머</Name>
@@ -1238,7 +1238,7 @@
     <ReqLevel>48</ReqLevel>
     <ReqStat type="STR">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">123</Value>
+    <Value type="Attack">369</Value>
   </Item>
   <Item id="1331">
     <Name>우수한 환영의 경갑</Name>
@@ -1254,7 +1254,7 @@
     <ReqLevel>48</ReqLevel>
     <ReqStat type="INT">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">209</Value>
+    <Value type="Attack">627</Value>
   </Item>
   <Item id="1333">
     <Name>불멸의 스케일 메일</Name>
@@ -1270,7 +1270,7 @@
     <ReqLevel>48</ReqLevel>
     <ReqStat type="AGI">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">123</Value>
+    <Value type="Attack">369</Value>
   </Item>
   <Item id="1335">
     <Name>튼튼한 실크 로브</Name>
@@ -1286,7 +1286,7 @@
     <ReqLevel>48</ReqLevel>
     <ReqStat type="STR">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">209</Value>
+    <Value type="Attack">627</Value>
   </Item>
   <Item id="1337">
     <Name>숙련자의 암살도</Name>
@@ -1294,7 +1294,7 @@
     <ReqLevel>49</ReqLevel>
     <ReqStat type="AGI">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">163</Value>
+    <Value type="Attack">489</Value>
   </Item>
   <Item id="1338">
     <Name>화염의 마법사 로브</Name>
@@ -1310,7 +1310,7 @@
     <ReqLevel>49</ReqLevel>
     <ReqStat type="STR">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">276</Value>
+    <Value type="Attack">828</Value>
   </Item>
   <Item id="1340">
     <Name>정제된 강화 가죽 자켓</Name>
@@ -1326,7 +1326,7 @@
     <ReqLevel>49</ReqLevel>
     <ReqStat type="INT">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">163</Value>
+    <Value type="Attack">489</Value>
   </Item>
   <Item id="1342">
     <Name>화염의 판금 갑옷</Name>
@@ -1342,7 +1342,7 @@
     <ReqLevel>49</ReqLevel>
     <ReqStat type="AGI">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">276</Value>
+    <Value type="Attack">828</Value>
   </Item>
   <Item id="1344">
     <Name>폭풍의 성검</Name>
@@ -1350,7 +1350,7 @@
     <ReqLevel>50</ReqLevel>
     <ReqStat type="INT">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">218</Value>
+    <Value type="Attack">654</Value>
   </Item>
   <Item id="1345">
     <Name>태초의 판금 갑옷</Name>
@@ -1366,7 +1366,7 @@
     <ReqLevel>50</ReqLevel>
     <ReqStat type="AGI">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">128</Value>
+    <Value type="Attack">384</Value>
   </Item>
   <Item id="1347">
     <Name>숙련자의 실크 로브</Name>
@@ -1382,7 +1382,7 @@
     <ReqLevel>50</ReqLevel>
     <ReqStat type="STR">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">218</Value>
+    <Value type="Attack">654</Value>
   </Item>
   <Item id="1349">
     <Name>불멸의 바람의 경갑</Name>
@@ -1398,6 +1398,6 @@
     <ReqLevel>50</ReqLevel>
     <ReqStat type="INT">18</ReqStat>
     <Type>Weapon</Type>
-    <Value type="Attack">128</Value>
+    <Value type="Attack">384</Value>
   </Item>
 </EquipmentDatabase>
